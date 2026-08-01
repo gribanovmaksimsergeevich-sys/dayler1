@@ -1068,8 +1068,6 @@
         activeReasonBtn.classList.remove('bg-white', 'text-emerald-800');
         activeReasonBtn.classList.add('bg-emerald-600', 'text-white');
       }
-
-      showToast(`Выбрано: Дозвон (${reason})`);
     }
 
     function selectMainStatus(status) {
@@ -1098,8 +1096,6 @@
       if (activeBtn) {
         activeBtn.classList.add('ring-2', 'ring-offset-1', 'ring-[#e20613]');
       }
-
-      showToast(`Выбран статус: ${status}`);
     }
 
     async function submitCallResult() {
@@ -1315,7 +1311,8 @@
     // Modal Helpers
     function openIncomeModal() {
       const calls = currentShift?.callsCount || 0;
-      const hours = 1;
+      const elapsedMs = currentShift ? (Date.now() - currentShift.startTime) : 0;
+      const hours = elapsedMs / (1000 * 60 * 60);
       const isWeekend = (new Date().getDay() === 0 || new Date().getDay() === 6);
       const coeff = isWeekend ? 1.5 : 1.0;
       const income = Math.round((hours * 150 + calls * 20) * coeff);
@@ -1327,8 +1324,12 @@
 
     function openStatsModal() {
       const calls = currentShift?.callsCount || 0;
+      const elapsedMs = currentShift ? (Date.now() - currentShift.startTime) : 0;
+      const hours = elapsedMs / (1000 * 60 * 60);
+      const callsPerHour = hours > 0 ? (calls / hours).toFixed(1) : '0.0';
+
       document.getElementById('statsCallsCount').innerText = calls;
-      document.getElementById('statsCallsPerHour').innerText = (calls / 1).toFixed(1);
+      document.getElementById('statsCallsPerHour').innerText = callsPerHour;
       document.getElementById('statsModal').classList.remove('hidden');
     }
     function closeStatsModal() { document.getElementById('statsModal').classList.add('hidden'); }
