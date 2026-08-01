@@ -217,7 +217,6 @@
     .db-tag { background: #fff8e1; color: #f57f17; border: 1px solid #ffe082; padding: 6px 12px; border-radius: 100px; font-size: 12px; font-weight: 700; white-space: nowrap; }
     .btn-tariff-open { background: #e20613; color: white; border: none; padding: 8px 16px; border-radius: 100px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 8px rgba(226, 6, 19, 0.25); }
 
-    /* Поле телефона */
     .phone-box { background: #f8f9fa; padding: 16px; border-radius: 20px; border: 1px solid #e9ecef; text-align: center; }
     .phone-num { font-size: 26px; font-weight: 900; color: #212121; display: block; margin-bottom: 12px; letter-spacing: 0.5px; }
     .phone-actions { display: flex; gap: 10px; }
@@ -300,7 +299,6 @@
     .admin-table th, .admin-table td { padding: 10px; border-bottom: 1px solid #e0e0e0; text-align: left; }
     .admin-table th { background: #f8f9fa; color: #757575; font-weight: 700; }
 
-    /* Доходы */
     .income-box { background: #e20613; color: white; padding: 22px; border-radius: 24px; text-align: center; margin-bottom: 18px; box-shadow: 0 4px 16px rgba(226, 6, 19, 0.25); }
     .income-val { font-size: 34px; font-weight: 900; margin: 6px 0; }
     .income-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
@@ -349,7 +347,6 @@
 
       <button id="btn-end-shift-bar" class="btn-end-shift-bar hidden" onclick="endShiftAndLogout()">🛑 Завершить смену</button>
 
-      <!-- Плашка таймера и количества звонков -->
       <div id="shift-stats-bar" class="shift-stats-bar hidden">
         <div class="shift-timer-box">
           <span>⏱️ Время:</span>
@@ -462,7 +459,6 @@
           <span>🚫 Убрать из обзвона (ЧС)</span><span>➔</span>
         </button>
 
-        <!-- ФОРМА СОГЛАСИЯ -->
         <div id="success-form" class="success-box hidden">
           <div class="form-group">
             <label style="color:#1b5e20;">Детали согласия (тариф, пожелания):</label>
@@ -471,7 +467,6 @@
           <button class="btn-primary" onclick="submitSuccess()" style="background: #2e7d32; box-shadow:0 4px 12px rgba(46, 125, 50, 0.3);">Сохранить согласие</button>
         </div>
 
-        <!-- ФОРМА ПЕРЕЗВОНА -->
         <div id="callback-form" class="callback-box hidden">
           <div class="form-group">
             <label style="color:#f57f17;">Дата и время перезвона:</label>
@@ -487,7 +482,6 @@
     </div>
   </div>
 
-  <!-- Настройки сервера -->
   <div id="settings-modal" class="modal-overlay hidden">
     <div class="modal-content" style="height: auto;">
       <div class="sheet-handle"></div>
@@ -503,7 +497,6 @@
     </div>
   </div>
 
-  <!-- Админ-панель -->
   <div id="admin-modal" class="modal-overlay hidden">
     <div class="modal-content">
       <div class="sheet-handle"></div>
@@ -568,7 +561,6 @@
     </div>
   </div>
 
-  <!-- FAQ -->
   <div id="faq-modal" class="modal-overlay hidden">
     <div class="modal-content">
       <div class="sheet-handle"></div>
@@ -605,7 +597,6 @@
     </div>
   </div>
 
-  <!-- Доходы -->
   <div id="income-modal" class="modal-overlay hidden">
     <div class="modal-content">
       <div class="sheet-handle"></div>
@@ -639,7 +630,6 @@
     </div>
   </div>
 
-  <!-- Тарифы -->
   <div id="tariff-modal" class="modal-overlay hidden">
     <div class="modal-content">
       <div class="sheet-handle"></div>
