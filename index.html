@@ -705,7 +705,7 @@
         document.getElementById('startShiftCard').classList.add('hidden');
         document.getElementById('activeShiftCard').classList.remove('hidden');
         
-        // Автоматический поиск первого клиента, если его нет
+        // Автоматический поиск первого клиента
         if (!currentContact) {
           fetchNextContact();
         } else {
@@ -767,6 +767,50 @@
       selectedSheet = sheetName;
     }
 
+    // --- UMBRELLA CONTACT NORMALIZER (Fixes swapped columns & Phone formatting) ---
+    function normalizeContact(contact) {
+      if (!contact) return { name: 'Без имени', phone: '', dialable: '', city: 'Город не указан' };
+
+      let val1 = String(contact.phone || '').trim();
+      let val2 = String(contact.city || '').trim();
+
+      let digits1 = val1.replace(/\D/g, '');
+      let digits2 = val2.replace(/\D/g, '');
+
+      let hasLetters1 = /[а-яА-Яa-zA-Z]/.test(val1);
+      let hasLetters2 = /[а-яА-Яa-zA-Z]/.test(val2);
+
+      let phoneVal = val1;
+      let cityVal = val2;
+
+      // Swap if val1 contains street/city text and val2 is actually a phone number with digits
+      if ((hasLetters1 || digits1.length < 7) && digits2.length >= 7) {
+        phoneVal = val2;
+        cityVal = val1;
+      }
+
+      let rawDigits = phoneVal.replace(/\D/g, '');
+      let formattedPhone = phoneVal;
+
+      if (rawDigits.length === 11 && (rawDigits.startsWith('7') || rawDigits.startsWith('8'))) {
+        formattedPhone = '+7' + rawDigits.substring(1);
+      } else if (rawDigits.length === 10 && rawDigits.startsWith('9')) {
+        formattedPhone = '+7' + rawDigits;
+      } else if (rawDigits.length > 0 && !formattedPhone.startsWith('+')) {
+        formattedPhone = '+' + rawDigits;
+      }
+
+      const cleanDialable = rawDigits ? '+' + (rawDigits.startsWith('8') ? '7' + rawDigits.substring(1) : rawDigits) : '';
+
+      return {
+        id: contact.id,
+        name: contact.name || 'Без имени',
+        phone: formattedPhone || 'Номер не указан',
+        dialable: cleanDialable || formattedPhone,
+        city: cityVal || 'Город не указан'
+      };
+    }
+
     async function fetchNextContact() {
       const btn = document.getElementById('getContactBtn');
       const card = document.getElementById('contactCard');
@@ -795,19 +839,18 @@
     function renderContactCard() {
       if (!currentContact) return;
 
-      let formattedPhone = String(currentContact.phone || '').trim();
-      if (formattedPhone.startsWith('7') && formattedPhone.length === 11) {
-        formattedPhone = '+' + formattedPhone;
-      }
+      const norm = normalizeContact(currentContact);
 
-      document.getElementById('contactName').innerText = currentContact.name || 'Без имени';
-      document.getElementById('contactCityBadge').innerText = currentContact.city || 'Город не указан';
+      document.getElementById('contactName').innerText = norm.name;
+      document.getElementById('contactCityBadge').innerText = norm.city;
       document.getElementById('contactSheetBadge').innerText = `База ${selectedSheet}`;
-      document.getElementById('contactPhoneDisplay').innerText = formattedPhone;
+      document.getElementById('contactPhoneDisplay').innerText = norm.phone;
 
       const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
       const callAnchor = document.getElementById('callPhoneAnchor');
-      callAnchor.href = isIOS ? `sip:${formattedPhone}` : `tel:${formattedPhone}`;
+      
+      const cleanPhoneForDial = norm.dialable.replace(/[^\d+]/g, '');
+      callAnchor.href = isIOS ? `sip:${cleanPhoneForDial}` : `tel:${cleanPhoneForDial}`;
 
       document.getElementById('contactCard').classList.remove('hidden');
       document.getElementById('contactCard').scrollIntoView({ behavior: 'smooth' });
@@ -815,11 +858,13 @@
 
     function copyPhoneToClipboard() {
       if (!currentContact) return;
-      let phone = String(currentContact.phone || '').trim();
-      if (phone.startsWith('7') && phone.length === 11) phone = '+' + phone;
+      const norm = normalizeContact(currentContact);
+      const phoneToCopy = norm.phone;
 
-      navigator.clipboard.writeText(phone).then(() => {
-        showToast('Номер скопирован!');
+      navigator.clipboard.writeText(phoneToCopy).then(() => {
+        showToast('Номер скопирован: ' + phoneToCopy);
+      }).catch(() => {
+        showToast('Номер: ' + phoneToCopy);
       });
     }
 
@@ -855,10 +900,12 @@
       submitBtn.disabled = true;
       submitBtn.innerHTML = '💾 Сохранение...';
 
+      const norm = normalizeContact(currentContact);
+
       const res = await apiRequest('saveCallResult', {
         agentName: currentUser.fullName || currentUser.login,
         contactId: currentContact.id,
-        phone: currentContact.phone,
+        phone: norm.phone,
         status,
         comment,
         recallDatetime: datetime,
@@ -885,8 +932,8 @@
 
     async function openTariffsModal() {
       document.getElementById('tariffsModal').classList.remove('hidden');
-      const city = currentContact?.city || '';
-      document.getElementById('tariffSearchInput').value = city;
+      const norm = normalizeContact(currentContact);
+      document.getElementById('tariffSearchInput').value = norm.city;
 
       const res = await apiRequest('getTariffs');
       if (res.success && res.tariffs && res.tariffs.length > 0) {
