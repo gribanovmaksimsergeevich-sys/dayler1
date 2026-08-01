@@ -11,44 +11,9 @@
   
   <title>ТТК — Мобильный Дайлер PWA</title>
 
-  <!-- PWA Manifest Dynamic Generation -->
-  <script>
-    (function() {
-      const manifest = {
-        id: "./",
-        name: "ТТК — Мобильный Дайлер",
-        short_name: "ТТК Дайлер",
-        start_url: "./index.html",
-        scope: "./",
-        display: "standalone",
-        orientation: "portrait",
-        background_color: "#f8fafc",
-        theme_color: "#4f46e5",
-        description: "Рабочий дайлер обзвона ТТК для агентов и операторов",
-        icons: [
-          {
-            src: "https://placehold.co/192x192/4f46e5/ffffff.png?text=TTK",
-            sizes: "192x192",
-            type: "image/png",
-            purpose: "any maskable"
-          },
-          {
-            src: "https://placehold.co/512x512/4f46e5/ffffff.png?text=TTK",
-            sizes: "512x512",
-            type: "image/png",
-            purpose: "any maskable"
-          }
-        ]
-      };
-      const stringManifest = JSON.stringify(manifest);
-      const blob = new Blob([stringManifest], {type: 'application/manifest+json'});
-      const manifestUrl = URL.createObjectURL(blob);
-      const link = document.createElement('link');
-      link.rel = 'manifest';
-      link.href = manifestUrl;
-      document.head.appendChild(link);
-    })();
-  </script>
+  <!-- PWA Manifest Direct Data URI (гарантирует распознавание PWA браузером) -->
+  <link rel="manifest" href='data:application/manifest+json;utf8,{"id":"./","name":"ТТК — Мобильный Дайлер","short_name":"ТТК Дайлер","start_url":"./index.html","scope":"./","display":"standalone","orientation":"portrait","background_color":"#f8fafc","theme_color":"#4f46e5","description":"Рабочий дайлер обзвона ТТК","icons":[{"src":"https://placehold.co/192x192/4f46e5/ffffff.png?text=TTK","sizes":"192x192","type":"image/png","purpose":"any maskable"},{"src":"https://placehold.co/512x512/4f46e5/ffffff.png?text=TTK","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}'>
+  <link rel="apple-touch-icon" href="https://placehold.co/192x192/4f46e5/ffffff.png?text=TTK">
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
@@ -503,14 +468,17 @@
     // Регистрация встроенного Service Worker для PWA
     if ('serviceWorker' in navigator) {
       const swCode = `
-        const CACHE_NAME = 'ttk-pwa-v1';
+        const CACHE_NAME = 'ttk-pwa-v2';
         self.addEventListener('install', e => { self.skipWaiting(); });
         self.addEventListener('activate', e => { e.waitUntil(clients.claim()); });
-        self.addEventListener('fetch', e => { e.respondWith(fetch(e.request).catch(() => caches.match(e.request))); });
+        self.addEventListener('fetch', e => {
+          e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+        });
       `;
-      const blob = new Blob([swCode], { type: 'text/javascript' });
-      const swUrl = URL.createObjectURL(blob);
-      navigator.serviceWorker.register(swUrl).catch(err => console.log('SW Reg Error', err));
+      const swDataUrl = 'data:text/javascript;charset=utf-8,' + encodeURIComponent(swCode);
+      navigator.serviceWorker.register(swDataUrl, { scope: './' })
+        .then(() => console.log('SW Registered successfully'))
+        .catch(err => console.log('SW Reg Error:', err));
     }
 
     window.addEventListener('beforeinstallprompt', (e) => {
