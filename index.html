@@ -567,7 +567,7 @@
     let currentUser = null;
     let currentShift = null;
     let currentContact = null;
-    let selectedSheet = '90+';
+    let selectedSheet = safeGet('ttk_selected_sheet') || '90+';
     let selectedCallStatus = ''; // Currently selected status string
     let shiftTimerInterval = null;
     let deferredPrompt = null;
@@ -633,8 +633,24 @@
     document.addEventListener('DOMContentLoaded', () => {
       initPWA();
       checkAuthSession();
-      selectSheet('90+');
+      syncActiveSheet();
     });
+
+    async function syncActiveSheet() {
+      const saved = safeGet('ttk_selected_sheet');
+      if (saved) {
+        selectedSheet = saved;
+      }
+      updateAdminSheetUI();
+
+      // Fetch from server if possible
+      const res = await apiRequest('getActiveSheet');
+      if (res && res.success && res.sheetName) {
+        selectedSheet = res.sheetName;
+        safeSet('ttk_selected_sheet', selectedSheet);
+        updateAdminSheetUI();
+      }
+    }
 
     function initPWA() {
       window.addEventListener('beforeinstallprompt', (e) => {
@@ -866,10 +882,14 @@
       }, 1000);
     }
 
-    function selectSheet(sheetName) {
+    async function selectSheet(sheetName) {
       selectedSheet = sheetName;
+      safeSet('ttk_selected_sheet', sheetName);
       updateAdminSheetUI();
       showToast('База переключена на ' + sheetName, 'success');
+
+      // Send active sheet change to server for all operators
+      await apiRequest('setActiveSheet', { sheetName });
     }
 
     function updateAdminSheetUI() {
