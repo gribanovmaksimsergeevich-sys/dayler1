@@ -2,1346 +2,959 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#e20613">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>ТТК Дайлер</title>
+  
+  <!-- PWA & Apple Meta -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="ТТК Дайлер">
+  <meta name="theme-color" content="#e20613">
   
-  <title>ТТК — Мобильный Дайлер (Material Design)</title>
-  
+  <link rel="icon" type="image/png" href="icon.png">
   <link rel="apple-touch-icon" href="icon.png">
 
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts (Roboto) & Material Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
-    
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    
-    html, body { 
-      width: 100vw; 
-      min-height: 100vh; 
-      margin: 0; 
-      padding: 0; 
-      background: #f4f5f7; 
-      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif; 
-      color: #1d1b20; 
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f4f5f7;
+      color: #1f2937;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
     
-    body { 
-      padding: 12px; 
-      display: flex; 
-      justify-content: center; 
-      align-items: flex-start; 
+    /* Material Bottom Sheet & Custom Shadows */
+    .md-sheet {
+      border-top-left-radius: 28px;
+      border-top-right-radius: 28px;
     }
-    
-    .card { 
-      background: #ffffff; 
-      padding: 24px 20px; 
-      border-radius: 28px; 
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.08); 
-      width: 100%; 
-      max-width: 480px; 
-      margin: 0 auto; 
-      border: 1px solid #f1f3f5;
-    }
-    
-    .header { text-align: center; margin-bottom: 20px; }
-    .header h2 { 
-      margin: 0; 
-      font-weight: 900; 
-      font-size: 22px; 
-      color: #e20613;
-      letter-spacing: -0.3px;
-    }
-    
-    .top-buttons { display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
-    
-    .agent-badge { 
-      display: inline-flex; 
-      align-items: center; 
-      gap: 6px; 
-      background: #ffebee; 
-      color: #c62828; 
-      padding: 8px 14px; 
-      border-radius: 100px; 
-      font-size: 12px; 
-      font-weight: 700; 
-      border: 1px solid #ffcdd2; 
-    }
-    
-    .md-chip-btn {
-      border: 1px solid #e0e0e0;
+    .md-card {
+      border-radius: 20px;
       background: #ffffff;
-      color: #424242;
-      padding: 8px 14px;
-      border-radius: 100px;
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
     }
-    .md-chip-btn:active { transform: scale(0.96); background: #f5f5f5; }
     
-    .btn-admin { background: #fff8e1; color: #f57f17; border-color: #ffe082; }
-    .btn-income { background: #e8f5e9; color: #2e7d32; border-color: #a5d6a7; }
-    .btn-stats { background: #ffebee; color: #e20613; border-color: #ffcdd2; text-decoration: none; }
-    .btn-faq { background: #e1f5fe; color: #0277bd; border-color: #81d4fa; }
-    .btn-settings { background: #f5f5f5; color: #424242; border-color: #e0e0e0; }
-
-    .btn-end-shift-bar { 
-      width: 100%; 
-      background: linear-gradient(135deg, #ef5350 0%, #e20613 100%); 
-      color: #ffffff; 
-      border: none; 
-      font-size: 15px; 
-      font-weight: 700; 
-      cursor: pointer; 
-      padding: 14px; 
-      border-radius: 20px; 
-      box-shadow: 0 4px 12px rgba(226, 6, 19, 0.25); 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      gap: 8px; 
-      transition: all 0.2s ease; 
-      margin-top: 14px; 
+    /* Hide scrollbars */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
     }
-    .btn-end-shift-bar:active { transform: scale(0.98); opacity: 0.9; }
-
-    .shift-stats-bar { 
-      display: flex; 
-      justify-content: space-around; 
-      align-items: center; 
-      background: #212121; 
-      color: #ffffff; 
-      padding: 14px; 
-      border-radius: 20px; 
-      margin-top: 10px; 
-      font-size: 13px; 
-      font-weight: 700; 
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15); 
-      flex-wrap: wrap; 
-      gap: 8px; 
-    }
-    .shift-timer-box { display: flex; align-items: center; gap: 6px; }
-    .shift-timer-val { font-family: monospace; font-size: 17px; font-weight: 900; color: #ff8a80; }
-    .shift-calls-box { background: rgba(255, 255, 255, 0.12); padding: 5px 12px; border-radius: 12px; }
-
-    .pwa-install-banner { 
-      background: #e20613; 
-      color: white; 
-      padding: 14px 16px; 
-      border-radius: 20px; 
-      margin-bottom: 16px; 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      font-size: 13px; 
-      font-weight: 600; 
-      box-shadow: 0 4px 12px rgba(226, 6, 19, 0.2);
-    }
-    .btn-install { 
-      background: #ffffff; 
-      color: #e20613; 
-      border: none; 
-      padding: 8px 16px; 
-      border-radius: 100px; 
-      font-weight: 700; 
-      font-size: 12px; 
-      cursor: pointer; 
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
 
-    .auth-tabs { display: flex; background: #f5f5f5; padding: 4px; border-radius: 100px; margin-bottom: 20px; }
-    .auth-tab { 
-      flex: 1; 
-      padding: 10px; 
-      text-align: center; 
-      font-weight: 700; 
-      font-size: 14px; 
-      color: #616161; 
-      cursor: pointer; 
-      border-radius: 100px; 
-      transition: all 0.2s ease;
+    /* Pulse animation for active shift timer */
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
     }
-    .auth-tab.active { background: #ffffff; color: #e20613; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-
-    .form-group { margin-bottom: 18px; }
-    label { font-weight: 700; display: block; margin-bottom: 6px; color: #424242; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
-    input, textarea, select { 
-      width: 100%; 
-      padding: 14px 16px; 
-      border-radius: 16px; 
-      border: 1.5px solid #e0e0e0; 
-      font-size: 15px; 
-      font-family: inherit; 
-      background: #fafafa; 
-      transition: border-color 0.2s, background-color 0.2s; 
+    .pulse-indicator {
+      animation: pulse-dot 2s infinite ease-in-out;
     }
-    input:focus, textarea:focus, select:focus { border-color: #e20613; outline: none; background: #ffffff; box-shadow: 0 0 0 3px rgba(226, 6, 19, 0.1); }
-    textarea { resize: vertical; height: 80px; }
-
-    .btn-primary { 
-      width: 100%; 
-      padding: 16px; 
-      border-radius: 100px; 
-      background: #e20613; 
-      color: white; 
-      border: none; 
-      font-weight: 700; 
-      font-size: 16px; 
-      cursor: pointer; 
-      box-shadow: 0 4px 14px rgba(226, 6, 19, 0.3); 
-      transition: all 0.2s ease;
-    }
-    .btn-primary:active { transform: scale(0.98); opacity: 0.95; }
-
-    .contact-card { 
-      background: #ffffff; 
-      border: 1px solid #ffebee; 
-      padding: 20px; 
-      border-radius: 24px; 
-      margin: 18px 0; 
-      box-shadow: 0 4px 16px rgba(226, 6, 19, 0.06); 
-    }
-    .client-name-label { font-size: 11px; color: #757575; font-weight: 700; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-    .client-address { font-size: 18px; font-weight: 700; color: #212121; line-height: 1.35; }
-    
-    .city-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; margin-bottom: 16px; gap: 8px; flex-wrap: wrap; }
-    .badge-container { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; flex: 1; }
-    .client-city-tag { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; padding: 6px 12px; border-radius: 100px; font-size: 12px; font-weight: 700; white-space: nowrap; }
-    .db-tag { background: #fff8e1; color: #f57f17; border: 1px solid #ffe082; padding: 6px 12px; border-radius: 100px; font-size: 12px; font-weight: 700; white-space: nowrap; }
-    .btn-tariff-open { background: #e20613; color: white; border: none; padding: 8px 16px; border-radius: 100px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 8px rgba(226, 6, 19, 0.25); }
-
-    .phone-box { background: #f8f9fa; padding: 16px; border-radius: 20px; border: 1px solid #e9ecef; text-align: center; }
-    .phone-num { font-size: 26px; font-weight: 900; color: #212121; display: block; margin-bottom: 12px; letter-spacing: 0.5px; }
-    .phone-actions { display: flex; gap: 10px; }
-    .btn-phone-action { flex: 1; padding: 14px; font-size: 14px; border-radius: 100px; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-weight: 700; border: none; cursor: pointer; transition: transform 0.15s ease; }
-    .btn-copy { background: #ffffff; color: #424242; border: 1.5px solid #e0e0e0; }
-    .btn-call { background: #2e7d32; color: white; box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25); }
-    .btn-phone-action:active { transform: scale(0.97); }
-
-    .status-group-label { margin: 20px 0 10px 0; font-size: 12px; font-weight: 700; color: #757575; text-transform: uppercase; letter-spacing: 0.5px; }
-    
-    .btn-status { 
-      width: 100%; 
-      margin-bottom: 10px; 
-      text-align: left; 
-      background: #ffffff; 
-      color: #212121; 
-      border: 1.5px solid #e0e0e0; 
-      padding: 15px 18px; 
-      font-size: 15px; 
-      font-weight: 600; 
-      border-radius: 16px; 
-      cursor: pointer; 
-      display: flex; 
-      align-items: center; 
-      justify-content: space-between; 
-      transition: all 0.2s ease;
-    }
-    .btn-status:active { transform: scale(0.98); background: #fafafa; }
-    
-    .btn-status-group { background: #f5f5f5; border-color: #e0e0e0; font-weight: 700; }
-    .sub-status-box { background: #fafafa; border-radius: 18px; padding: 12px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; border: 1px solid #eee; }
-    .btn-sub-status { width: 100%; text-align: left; background: white; border: 1px solid #e0e0e0; padding: 12px 16px; font-size: 13.5px; font-weight: 600; border-radius: 12px; cursor: pointer; }
-
-    .btn-status-success { background: #e8f5e9; color: #1b5e20; border-color: #a5d6a7; }
-    .btn-status-refuse { background: #ffebee; color: #b71c1c; border-color: #ffcdd2; }
-    .btn-status-callback { background: #fff8e1; color: #f57f17; border-color: #ffe082; }
-    .btn-status-ttk { background: #e3f2fd; color: #0d47a1; border-color: #90caf9; }
-    .btn-status-hangup { background: #fff3e0; color: #e65100; border-color: #ffe0b2; }
-    .btn-status-blacklist { background: #212121; color: #ffffff; border-color: #000000; margin-top: 14px; border-radius: 100px; }
-
-    .btn-reload { background: #2e7d32; color: white; border: none; font-weight: 700; border-radius: 100px; padding: 16px; margin-top: 16px; cursor: pointer; width: 100%; box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25); }
-    .hidden { display: none !important; }
-    .status-msg { text-align: center; font-weight: 600; color: #757575; margin: 20px 0; font-size: 15px; }
-    .callback-box { background: #fff8e1; border: 1.5px solid #ffe082; padding: 18px; border-radius: 20px; margin-top: 14px; }
-    .success-box { background: #e8f5e9; border: 1.5px solid #a5d6a7; padding: 18px; border-radius: 20px; margin-top: 14px; }
-
-    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); z-index: 1000; display: flex; justify-content: center; align-items: flex-end; }
-    .modal-content { 
-      background: white; 
-      width: 100%; 
-      max-width: 500px; 
-      height: 85vh; 
-      border-radius: 28px 28px 0 0; 
-      padding: 16px 20px 24px 20px; 
-      display: flex; 
-      flex-direction: column; 
-      box-shadow: 0 -10px 30px rgba(0,0,0,0.2); 
-      animation: slideUp 0.25s cubic-bezier(0, 0, 0.2, 1); 
-    }
-    .sheet-handle { width: 36px; height: 4px; background: #e0e0e0; border-radius: 2px; margin: 0 auto 14px auto; }
-    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-    
-    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f3f5; padding-bottom: 12px; margin-bottom: 14px; }
-    .modal-title { font-size: 18px; font-weight: 700; color: #212121; }
-    .modal-close { background: #f5f5f5; border: none; font-size: 18px; font-weight: bold; color: #616161; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-
-    .admin-tabs { display: flex; background: #f5f5f5; padding: 4px; border-radius: 100px; margin-bottom: 16px; }
-    .admin-tab-btn { flex: 1; padding: 8px; text-align: center; font-weight: 700; font-size: 12px; color: #616161; border: none; background: none; cursor: pointer; border-radius: 100px; }
-    .admin-tab-btn.active { background: #ffffff; color: #e20613; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-
-    .stat-card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-    .stat-box { background: #f8f9fa; border: 1px solid #e9ecef; padding: 14px; border-radius: 16px; text-align: center; }
-    .stat-val { font-size: 22px; font-weight: 900; color: #212121; }
-    .stat-lbl { font-size: 10px; font-weight: 700; color: #757575; text-transform: uppercase; }
-
-    .progress-bar-bg { background: #e0e0e0; height: 10px; border-radius: 100px; overflow: hidden; margin: 8px 0; }
-    .progress-bar-fill { background: #e20613; height: 100%; width: 0%; transition: width 0.3s ease; }
-
-    .admin-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
-    .admin-table th, .admin-table td { padding: 10px; border-bottom: 1px solid #e0e0e0; text-align: left; }
-    .admin-table th { background: #f8f9fa; color: #757575; font-weight: 700; }
-
-    .income-box { background: #e20613; color: white; padding: 22px; border-radius: 24px; text-align: center; margin-bottom: 18px; box-shadow: 0 4px 16px rgba(226, 6, 19, 0.25); }
-    .income-val { font-size: 34px; font-weight: 900; margin: 6px 0; }
-    .income-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
-    .income-stat-card { background: #f8f9fa; border: 1px solid #e9ecef; padding: 14px; border-radius: 16px; text-align: center; }
-    .stat-num { font-size: 18px; font-weight: 900; color: #212121; }
-
-    .faq-body { overflow-y: auto; flex: 1; padding-right: 4px; }
-    .faq-section { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 18px; padding: 14px; margin-bottom: 12px; }
-    .faq-sec-title { font-weight: 700; font-size: 14px; color: #c62828; margin-bottom: 6px; }
-    .faq-text { font-size: 12.5px; color: #424242; margin: 4px 0; line-height: 1.45; }
-
-    .tariff-list { overflow-y: auto; flex: 1; }
-    .tariff-card { background: #ffffff; border: 1.5px solid #ffcdd2; border-radius: 20px; padding: 16px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
-    .t-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px; border-bottom: 1px solid #ffebee; padding-bottom: 8px; }
-    .t-name { font-weight: 800; font-size: 16px; color: #212121; }
-    .t-period { font-size: 12px; font-weight: 600; color: #757575; margin-top: 3px; }
-    .t-price { font-size: 18px; font-weight: 900; color: #e20613; white-space: nowrap; }
-    .t-desc { font-size: 13px; color: #424242; margin-bottom: 6px; line-height: 1.4; }
-    .t-cond { font-size: 12px; color: #c62828; background: #ffebee; padding: 10px; border-radius: 12px; margin-bottom: 6px; line-height: 1.4; border: 1px solid #ffcdd2; }
-    .t-cities { font-size: 11px; color: #757575; margin-top: 4px; }
-
-    #toast { visibility: hidden; min-width: 220px; background-color: #212121; color: #fff; text-align: center; border-radius: 100px; padding: 14px 24px; position: fixed; z-index: 2000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 14px; font-weight: 600; box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
-    #toast.show { visibility: visible; animation: fadein 0.3s, fadeout 0.3s 1.7s; }
-    @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
-    @keyframes fadeout { from { bottom: 30px; opacity: 1; } to { bottom: 0; opacity: 0; } }
   </style>
 </head>
-<body>
-  <div class="card">
-    <div class="header">
-      <h2>ТТК — Мобильный Дайлер</h2>
+<body class="min-h-screen flex flex-col justify-between select-none pb-safe">
+
+  <!-- PWA Install Banner -->
+  <div id="pwaInstallBanner" class="hidden bg-gray-900 text-white p-3.5 px-4 flex items-center justify-between shadow-lg sticky top-0 z-50 border-b border-gray-800">
+    <div class="flex items-center space-x-3">
+      <img src="icon.png" onerror="this.src='https://placehold.co/80x80/e20613/ffffff?text=ТТК'" class="w-10 h-10 rounded-xl shadow border border-white/20">
+      <div>
+        <div class="font-bold text-sm leading-tight">ТТК Дайлер</div>
+        <div class="text-xs text-gray-300">Установите приложение для удобной работы</div>
+      </div>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button onclick="installPWA()" class="bg-[#e20613] hover:bg-[#c00410] text-white text-xs font-bold px-3.5 py-2 rounded-full shadow transition-all active:scale-95">
+        Установить
+      </button>
+      <button onclick="dismissInstallBanner()" class="text-gray-400 hover:text-white p-1 text-lg">✕</button>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="bg-[#e20613] text-white px-4 py-3 shadow-md flex items-center justify-between sticky top-0 z-40">
+    <div class="flex items-center space-x-2.5">
+      <div class="bg-white/10 p-2 rounded-xl border border-white/20">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+        </svg>
+      </div>
+      <div>
+        <h1 class="font-black text-lg tracking-wide leading-none">ТТК ДАЙЛЕР</h1>
+        <p class="text-[10px] text-white/80 font-medium">Мобильное рабочее место</p>
+      </div>
+    </div>
+
+    <!-- Right Header Actions -->
+    <div class="flex items-center space-x-1">
+      <button onclick="openFaqModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white/90" title="Справка">
+        ❓
+      </button>
+      <button id="adminPanelBtn" onclick="openAdminModal()" class="hidden p-2 hover:bg-white/10 rounded-full transition-colors text-amber-300" title="Панель администратора">
+        👑
+      </button>
+      <button id="serverConfigBtn" onclick="openServerModal()" class="hidden p-2 hover:bg-white/10 rounded-full transition-colors text-white/90" title="Настройки сервера">
+        ⚙️
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="flex-grow max-w-lg w-full mx-auto p-4 space-y-4">
+
+    <!-- AUTH SCREEN -->
+    <section id="authSection" class="md-card p-6 mt-4">
+      <!-- Animated MD3 Toggle Pill -->
+      <div class="relative bg-gray-100 p-1.5 rounded-full flex mb-6 border border-gray-200">
+        <div id="authTogglePill" class="absolute top-1.5 bottom-1.5 left-1.5 w-[calc(50%-6px)] bg-[#e20613] rounded-full shadow-md transition-all duration-300 ease-in-out"></div>
+        
+        <button type="button" onclick="switchAuthMode('login')" id="tabBtnLogin" class="relative z-10 w-1/2 py-2.5 text-center text-sm font-bold transition-colors duration-300 text-white rounded-full select-none">
+          🔑 Вход
+        </button>
+        <button type="button" onclick="switchAuthMode('register')" id="tabBtnRegister" class="relative z-10 w-1/2 py-2.5 text-center text-sm font-bold transition-colors duration-300 text-gray-600 rounded-full select-none">
+          📝 Регистрация
+        </button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Логин</label>
+          <input type="text" id="loginUsername" required class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#e20613] focus:border-transparent outline-none transition-all text-sm font-medium">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Пароль</label>
+          <input type="password" id="loginPassword" required class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#e20613] focus:border-transparent outline-none transition-all text-sm font-medium">
+        </div>
+        <button type="submit" id="loginSubmitBtn" class="w-full py-3.5 bg-[#e20613] text-white font-bold rounded-full shadow-md hover:bg-[#c00410] active:scale-[0.98] transition-all flex items-center justify-center">
+          <span id="loginBtnText">Войти в систему</span>
+          <div id="loginBtnLoader" class="hidden flex items-center justify-center space-x-2">
+            <span class="text-sm font-bold">Выполняется вход</span>
+            <div class="flex space-x-1 items-center">
+              <div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0s"></div>
+              <div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0.15s"></div>
+              <div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0.3s"></div>
+            </div>
+          </div>
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-4 hidden">
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">ФИО Оператора</label>
+          <input type="text" id="regFullName" placeholder="Иванов Иван Иванович" required class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#e20613] focus:border-transparent outline-none transition-all text-sm font-medium">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Логин</label>
+          <input type="text" id="regUsername" required class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#e20613] focus:border-transparent outline-none transition-all text-sm font-medium">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Пароль</label>
+          <input type="password" id="regPassword" required class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#e20613] focus:border-transparent outline-none transition-all text-sm font-medium">
+        </div>
+        <button type="submit" id="regSubmitBtn" class="w-full py-3.5 bg-[#e20613] text-white font-bold rounded-full shadow-md hover:bg-[#c00410] active:scale-[0.98] transition-all flex items-center justify-center">
+          <span id="regBtnText">Зарегистрироваться</span>
+          <div id="regBtnLoader" class="hidden flex items-center justify-center space-x-2">
+            <span class="text-sm font-bold">Регистрация</span>
+            <div class="flex space-x-1 items-center">
+              <div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0s"></div>
+              <div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0.15s"></div>
+              <div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0.3s"></div>
+            </div>
+          </div>
+        </button>
+      </form>
+    </section>
+
+    <!-- WORK DASHBOARD SECTION -->
+    <section id="dashboardSection" class="hidden space-y-4">
       
-      <div id="pwa-install-container" class="pwa-install-banner hidden">
-        <span>Установите Дайлер как приложение!</span>
-        <button class="btn-install" onclick="installPWA()">Установить</button>
-      </div>
-
-      <div id="top-bar" class="top-buttons hidden">
-        <div class="agent-badge">👤 <span id="display-agent"></span></div>
-        <button id="admin-panel-btn" class="md-chip-btn btn-admin hidden" onclick="openAdminModal()">👑 Админ</button>
-        <button id="settings-btn" class="md-chip-btn btn-settings hidden" onclick="openSettingsModal()">⚙️ Сервер</button>
-        <button class="md-chip-btn btn-income" onclick="openIncomeModal()">💰 Доход</button>
-        <a id="stats-link" href="https://maxkoch23.github.io/itmstat/" target="_blank" class="md-chip-btn btn-stats">📊 Статистика</a>
-        <button class="md-chip-btn btn-faq" onclick="openFaqModal()">❓ FAQ</button>
-      </div>
-
-      <button id="btn-end-shift-bar" class="btn-end-shift-bar hidden" onclick="endShiftAndLogout()">🛑 Завершить смену</button>
-
-      <div id="shift-stats-bar" class="shift-stats-bar hidden">
-        <div class="shift-timer-box">
-          <span>⏱️ Время:</span>
-          <span id="shift-timer" class="shift-timer-val">00:00:00</span>
+      <!-- Agent Profile Banner -->
+      <div class="md-card p-4 flex items-center justify-between border-l-4 border-[#e20613]">
+        <div>
+          <div id="agentNameDisplay" class="font-bold text-gray-800 text-base">Оператор ТТК</div>
+          <div id="agentRoleBadge" class="text-xs font-semibold text-gray-500">Агент</div>
         </div>
-        <div class="shift-calls-box">
-          📞 Звонков: <span id="shift-calls-count">0</span>
-        </div>
-      </div>
-    </div>
-    
-    <div id="auth-box">
-      <div class="auth-tabs">
-        <div id="tab-login" class="auth-tab active" onclick="switchAuthTab('login')">Вход</div>
-        <div id="tab-reg" class="auth-tab" onclick="switchAuthTab('reg')">Регистрация</div>
-      </div>
-
-      <div id="form-login">
-        <div class="form-group">
-          <label>Логин:</label>
-          <input type="text" id="login-input" placeholder="Введите логин">
-        </div>
-        <div class="form-group">
-          <label>Пароль:</label>
-          <input type="password" id="pass-input" placeholder="Введите пароль">
-        </div>
-        <button class="btn-primary" onclick="handleLogin()">Войти</button>
-      </div>
-
-      <div id="form-reg" class="hidden">
-        <div class="form-group">
-          <label>ФИО (Фамилия Имя):</label>
-          <input type="text" id="reg-fullname" placeholder="Иванов Иван">
-        </div>
-        <div class="form-group">
-          <label>Придумайте Логин:</label>
-          <input type="text" id="reg-login" placeholder="например, ivanov">
-        </div>
-        <div class="form-group">
-          <label>Придумайте Пароль:</label>
-          <input type="password" id="reg-pass" placeholder="не менее 4 символов">
-        </div>
-        <button class="btn-primary" onclick="handleRegister()">Зарегистрироваться</button>
-      </div>
-    </div>
-
-    <div id="work-box" class="hidden">
-      <div id="contact-card" class="contact-card hidden">
-        <div class="client-name-label">
-          <span>Адрес абонента</span>
-          <span id="os-indicator-badge"></span>
-        </div>
-        <div id="c-address" class="client-address"></div>
-        
-        <div class="city-bar">
-          <div class="badge-container">
-            <span id="c-city" class="client-city-tag"></span>
-            <span id="c-db-tag" class="db-tag"></span>
-          </div>
-          <button class="btn-tariff-open" onclick="openTariffsModal()">🏷️ Тарифы</button>
-        </div>
-        
-        <div class="phone-box">
-          <span id="c-phone" class="phone-num"></span>
-          <div class="phone-actions">
-            <button class="btn-phone-action btn-copy" onclick="copyPhone()">📋 Скопировать</button>
-            <a id="c-call-link" href="#" class="btn-phone-action btn-call">📞 Позвонить</a>
-          </div>
-        </div>
-      </div>
-
-      <div id="empty-box" class="hidden">
-        <div id="empty-msg" class="status-msg"></div>
-        <button class="btn-reload" onclick="loadNext()">🔄 Проверить базу снова</button>
-      </div>
-
-      <div id="loader" class="status-msg hidden">⌛ Загрузка...</div>
-
-      <div id="status-buttons" class="hidden">
-        <div class="status-group-label">Результат разговора</div>
-        
-        <button class="btn-status btn-status-group" onclick="toggleSubMenu('dozvon-box')">
-          <span>📞 Дозвон</span><span id="dozvon-arrow">▼</span>
+        <button onclick="handleLogout()" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-3 py-2 rounded-full transition-colors">
+          Выйти 🚪
         </button>
-        
-        <div id="dozvon-box" class="sub-status-box hidden">
-          <button class="btn-sub-status btn-status-success" onclick="showSuccessForm()">✅ Согласие</button>
-          <button class="btn-sub-status btn-status-refuse" onclick="sendResult('Дозвон - Отказ')">❌ Отказ</button>
-          <button class="btn-sub-status btn-status-hangup" onclick="sendResult('Дозвон - Сбросили')">📵 Сбросили</button>
-          <button class="btn-sub-status btn-status-ttk" onclick="sendResult('Дозвон - Абонент ТТК')">🌐 Абонент ТТК</button>
-          <button class="btn-sub-status" onclick="sendResult('Дозвон - Дорого')">💰 Дорого</button>
-          <button class="btn-sub-status" onclick="sendResult('Дозвон - Не устроило качество')">👎 Не устроило качество</button>
-          <button class="btn-sub-status" onclick="sendResult('Дозвон - Подумает')">🤔 Подумает</button>
-          <button class="btn-sub-status" onclick="sendResult('Дозвон - Мобильная связь')">📱 Мобильная связь</button>
-        </div>
+      </div>
 
-        <button class="btn-status btn-status-callback" onclick="showCallbackForm()">
-          <span>⏰ Перезвонить</span><span>➔</span>
+      <!-- NO ACTIVE SHIFT PLACEHOLDER -->
+      <div id="startShiftCard" class="md-card p-6 text-center space-y-4">
+        <div class="w-16 h-16 bg-red-50 text-[#e20613] rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
+          ⏱️
+        </div>
+        <div>
+          <h3 class="font-bold text-gray-800 text-lg">Смена не началась</h3>
+          <p class="text-xs text-gray-500 mt-1">Откройте смену, чтобы начать принимать контакты из базы</p>
+        </div>
+        <button onclick="handleStartShift()" class="w-full py-3.5 bg-[#e20613] text-white font-bold rounded-full shadow-lg hover:bg-[#c00410] active:scale-95 transition-all">
+          🚀 НАЧАТЬ СМЕНУ
+        </button>
+      </div>
+
+      <!-- ACTIVE SHIFT CONTROLS -->
+      <div id="activeShiftCard" class="hidden space-y-4">
+        
+        <!-- Full-width End Shift Button -->
+        <button onclick="handleEndShift()" class="w-full py-3.5 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white font-extrabold rounded-2xl shadow-lg active:scale-[0.98] transition-all flex items-center justify-center space-x-2 text-base">
+          <span>🛑 ЗАВЕРШИТЬ СМЕНУ</span>
         </button>
 
-        <button class="btn-status" onclick="sendResult('Недозвон')">
-          <span>📞 Недозвон</span><span>➔</span>
+        <!-- Timer & Call Counter Grid -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="md-card p-4 text-center relative overflow-hidden">
+            <div class="flex items-center justify-center space-x-1 text-xs text-gray-400 font-bold mb-1">
+              <span class="w-2 h-2 bg-emerald-500 rounded-full pulse-indicator"></span>
+              <span>ВРЕМЯ СМЕНЫ</span>
+            </div>
+            <div id="shiftTimerDisplay" class="text-2xl font-black text-gray-800 font-mono tracking-tight">00:00:00</div>
+          </div>
+          
+          <div class="md-card p-4 text-center">
+            <div class="text-xs text-gray-400 font-bold mb-1">ЗВОНКОВ ЗА СМЕНУ</div>
+            <div id="shiftCallsCounter" class="text-2xl font-black text-[#e20613]">0</div>
+          </div>
+        </div>
+
+        <!-- Sheet Selector Chips -->
+        <div class="md-card p-3">
+          <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 text-center">Выберите базу выгрузки</label>
+          <div class="grid grid-cols-3 gap-2">
+            <button type="button" onclick="selectSheet('90+')" id="sheetBtn90" class="sheet-chip py-2 px-1 text-xs font-bold rounded-xl border border-gray-200 text-gray-600 transition-all text-center">
+              90+
+            </button>
+            <button type="button" onclick="selectSheet('180+')" id="sheetBtn180" class="sheet-chip py-2 px-1 text-xs font-bold rounded-xl border border-gray-200 text-gray-600 transition-all text-center">
+              180+
+            </button>
+            <button type="button" onclick="selectSheet('Закрытые')" id="sheetBtnClosed" class="sheet-chip py-2 px-1 text-xs font-bold rounded-xl border border-gray-200 text-gray-600 transition-all text-center">
+              Закрытые
+            </button>
+          </div>
+        </div>
+
+        <!-- GET CONTACT BUTTON -->
+        <button onclick="fetchNextContact()" id="getContactBtn" class="w-full py-4 bg-[#e20613] text-white font-extrabold text-base rounded-2xl shadow-lg hover:bg-[#c00410] active:scale-95 transition-all flex items-center justify-center space-x-2">
+          <span>📞 ПОЛУЧИТЬ КЛИЕНТА</span>
         </button>
+
+        <!-- CONTACT CARD CONTAINER -->
+        <div id="contactCard" class="hidden md-card p-5 space-y-4 border border-red-100">
+          <div class="flex justify-between items-start">
+            <div>
+              <h2 id="contactName" class="text-lg font-black text-gray-900 leading-snug">Иванов Иван</h2>
+              <div id="badgeContainer" class="flex flex-wrap gap-1.5 mt-1.5">
+                <span id="contactCityBadge" class="bg-red-50 text-[#e20613] text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-red-100">Москва</span>
+                <span id="contactSheetBadge" class="bg-gray-100 text-gray-700 text-[11px] font-bold px-2.5 py-0.5 rounded-full">База 90+</span>
+              </div>
+            </div>
+            
+            <button onclick="openTariffsModal()" class="bg-red-50 hover:bg-red-100 text-[#e20613] p-2.5 rounded-xl text-xs font-bold flex items-center space-x-1 border border-red-200 transition-colors">
+              <span>🏷️ Тарифы</span>
+            </button>
+          </div>
+
+          <!-- Phone Number Box -->
+          <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 flex items-center justify-between">
+            <div>
+              <div class="text-[10px] font-bold text-gray-400 uppercase">Номер телефона</div>
+              <div id="contactPhoneDisplay" class="text-xl font-black text-gray-800 tracking-wider font-mono">+7 (999) 000-00-00</div>
+            </div>
+            
+            <button onclick="copyPhoneToClipboard()" class="p-2.5 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-xl transition-colors" title="Скопировать номер">
+              📋
+            </button>
+          </div>
+
+          <!-- Direct Call Button -->
+          <a id="callPhoneAnchor" href="tel:+70000000000" onclick="onCallInitiated()" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-2xl shadow-md flex items-center justify-center space-x-2 text-base transition-all active:scale-95">
+            <span>📞 СОВЕРШИТЬ ЗВОНОК</span>
+          </a>
+
+          <!-- CALL RESULT RECORDING FORM -->
+          <div class="pt-3 border-t border-gray-100 space-y-3">
+            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider">Результат звонка</label>
+            
+            <select id="callStatusSelect" onchange="handleStatusChange()" class="w-full p-3.5 bg-gray-50 border border-gray-300 rounded-xl text-sm font-bold text-gray-800 outline-none focus:ring-2 focus:ring-[#e20613]">
+              <option value="">-- Выберите статус --</option>
+              <option value="Недозвон">❌ Недозвон</option>
+              <option value="Перезвонить">⏰ Перезвонить (Указать дату/время)</option>
+              <option value="Дозвон">✅ Дозвон / Заявка</option>
+              <option value="ЧС">⛔ ЧС / Не актуально</option>
+            </select>
+
+            <!-- Recall DateTime Sub-form -->
+            <div id="recallContainer" class="hidden space-y-2 bg-amber-50 p-3.5 rounded-xl border border-amber-200">
+              <label class="block text-xs font-bold text-amber-800">Дата и время перезвона</label>
+              <input type="datetime-local" id="recallDatetime" class="w-full p-2.5 bg-white border border-amber-300 rounded-lg text-sm">
+            </div>
+
+            <!-- Comment Input -->
+            <div>
+              <textarea id="callComment" rows="2" placeholder="Примечание к звонку..." class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#e20613]"></textarea>
+            </div>
+
+            <button onclick="submitCallResult()" class="w-full py-3.5 bg-gray-900 hover:bg-black text-white font-bold rounded-xl shadow transition-all active:scale-95">
+              💾 Сохранить и продолжить
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- TARIFFS MODAL (BOTTOM SHEET) -->
+  <div id="tariffsModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center transition-opacity">
+    <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4 animate-slide-up">
+      <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
+      
+      <div class="flex justify-between items-center">
+        <h3 class="text-lg font-black text-gray-900">🏷️ Справочник Тарифов</h3>
+        <button onclick="closeTariffsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
+      </div>
+
+      <!-- City Filter Input -->
+      <div class="relative">
+        <input type="text" id="tariffSearchInput" oninput="filterTariffs()" placeholder="Поиск по городу..." class="w-full pl-10 pr-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#e20613]">
+        <span class="absolute left-3 top-2.5 text-gray-400">🔍</span>
+      </div>
+
+      <!-- Tariff Cards Scroll Area -->
+      <div id="tariffsListContainer" class="overflow-y-auto space-y-3 pr-1 flex-grow">
+        <!-- Dynamic Tariffs Here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ MODAL -->
+  <div id="faqModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
+    <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
+      <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
+      
+      <div class="flex justify-between items-center">
+        <h3 class="text-lg font-black text-gray-900">❓ Памятка по работе</h3>
+        <button onclick="closeFaqModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
+      </div>
+
+      <div class="overflow-y-auto space-y-3 text-xs text-gray-600 pr-1 leading-relaxed">
+        <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+          <strong class="text-gray-800 text-sm block mb-1">⏱️ Учет рабочей смены</strong>
+          Нажмите кнопку «Начать смену». Таймер начнет вести отсчет времени, а счетчик — фиксировать ваши вызовы. По окончании работы обязательно нажмите «Завершить смену».
+        </div>
         
-        <button class="btn-status" onclick="sendResult('Автоответчик')">
-          <span>🤖 Автоответчик</span><span>➔</span>
-        </button>
-
-        <button class="btn-status btn-status-blacklist" onclick="blacklistContact()">
-          <span>🚫 Убрать из обзвона (ЧС)</span><span>➔</span>
-        </button>
-
-        <div id="success-form" class="success-box hidden">
-          <div class="form-group">
-            <label style="color:#1b5e20;">Детали согласия (тариф, пожелания):</label>
-            <textarea id="success-comment" placeholder="Например: Выбрал Комфорт, подключение во вторник..."></textarea>
-          </div>
-          <button class="btn-primary" onclick="submitSuccess()" style="background: #2e7d32; box-shadow:0 4px 12px rgba(46, 125, 50, 0.3);">Сохранить согласие</button>
+        <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+          <strong class="text-gray-800 text-sm block mb-1">📞 Загрузка абонента</strong>
+          Выберите необходимую базу (90+, 180+ или Закрытые) и нажмите «Получить клиента». Нажмите «Совершить звонок» для связи с абонентом.
         </div>
 
-        <div id="callback-form" class="callback-box hidden">
-          <div class="form-group">
-            <label style="color:#f57f17;">Дата и время перезвона:</label>
-            <input type="datetime-local" id="cb-date">
-          </div>
-          <div class="form-group">
-            <label style="color:#f57f17;">Комментарий к звонку:</label>
-            <textarea id="cb-comment" placeholder="О чем договорились..."></textarea>
-          </div>
-          <button class="btn-primary" onclick="submitCallback()" style="background: #f57f17; box-shadow:0 4px 12px rgba(245, 127, 23, 0.3);">Сохранить перезвон</button>
+        <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+          <strong class="text-gray-800 text-sm block mb-1">📝 Фиксация результата</strong>
+          После разговора выберите статус: «Дозвон» (заявка), «Перезвонить» (с указанием даты/времени), «Недозвон» или «ЧС».
+        </div>
+
+        <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
+          <strong class="text-gray-800 text-sm block mb-1">🏷️ Тарифы ТТК</strong>
+          Кнопка «Тарифы» автоматически отфильтрует предложения под город текущего абонента с указанием условий и цен.
         </div>
       </div>
     </div>
   </div>
 
-  <div id="settings-modal" class="modal-overlay hidden">
-    <div class="modal-content" style="height: auto;">
-      <div class="sheet-handle"></div>
-      <div class="modal-header">
-        <div class="modal-title">⚙️ Подключение к Серверу</div>
-        <button class="modal-close" onclick="closeSettingsModal()">✕</button>
-      </div>
-      <div class="form-group">
-        <label>URL Веб-приложения Google Apps Script:</label>
-        <input type="text" id="api-url-input" placeholder="https://script.google.com/macros/s/.../exec">
-      </div>
-      <button class="btn-primary" onclick="saveApiUrl()">Сохранить URL Сервера</button>
-    </div>
-  </div>
-
-  <div id="admin-modal" class="modal-overlay hidden">
-    <div class="modal-content">
-      <div class="sheet-handle"></div>
-      <div class="modal-header">
-        <div class="modal-title">👑 Админ-панель</div>
-        <button class="modal-close" onclick="closeAdminModal()">✕</button>
-      </div>
-
-      <div class="admin-tabs">
-        <button id="atab-db" class="admin-tab-btn active" onclick="switchAdminTab('db')">📊 База</button>
-        <button id="atab-agents" class="admin-tab-btn" onclick="switchAdminTab('agents')">👥 Агенты</button>
-        <button id="atab-roles" class="admin-tab-btn" onclick="switchAdminTab('roles')">⚙️ Роли</button>
-      </div>
-
-      <div id="admin-sec-db">
-        <div class="form-group">
-          <label>Активная база обзвона:</label>
-          <select id="admin-db-select" onchange="changeActiveDb()">
-            <option value="90+">База 90+</option>
-            <option value="180+">База 180+</option>
-            <option value="Закрытые">Закрытые (бывшие Контакты)</option>
-          </select>
-        </div>
-
-        <div class="stat-card-row" style="grid-template-columns: 1fr 1fr 1fr;">
-          <div class="stat-box"><div id="adb-total" class="stat-val">0</div><div class="stat-lbl">Всего</div></div>
-          <div class="stat-box"><div id="adb-done" class="stat-val">0</div><div class="stat-lbl">Обработано</div></div>
-          <div class="stat-box"><div id="adb-remaining" class="stat-val" style="color:#e20613;">0</div><div class="stat-lbl">Осталось</div></div>
-        </div>
-
-        <div style="font-size:12px; font-weight:700; color:#757575;">Прогресс обзвона: <span id="adb-pct">0%</span></div>
-        <div class="progress-bar-bg"><div id="adb-bar" class="progress-bar-fill"></div></div>
-
-        <div class="stat-card-row" style="margin-top:12px;">
-          <div class="stat-box"><div id="adb-dozvon" class="stat-val" style="color:#0277bd;">0</div><div class="stat-lbl">Дозвоны</div></div>
-          <div class="stat-box"><div id="adb-nedozvon" class="stat-val" style="color:#f57f17;">0</div><div class="stat-lbl">Недозвоны</div></div>
-        </div>
-
-        <div class="stat-card-row" style="margin-top:10px;">
-          <div class="stat-box"><div id="adb-agreed" class="stat-val" style="color:#2e7d32;">0</div><div class="stat-lbl">Согласия</div></div>
-          <div class="stat-box"><div id="adb-refused" class="stat-val" style="color:#c62828;">0</div><div class="stat-lbl">Отказы</div></div>
-        </div>
-      </div>
-
-      <div id="admin-sec-agents" class="hidden" style="overflow-y:auto; flex:1;">
-        <table class="admin-table">
-          <thead>
-            <tr><th>Агент</th><th>Часы</th><th>Звонков</th><th>Скорость</th></tr>
-          </thead>
-          <tbody id="admin-agents-table-body"></tbody>
-        </table>
-      </div>
-
-      <div id="admin-sec-roles" class="hidden" style="overflow-y:auto; flex:1;">
-        <table class="admin-table">
-          <thead>
-            <tr><th>Пользователь</th><th>Текущая Роль</th><th>Действие</th></tr>
-          </thead>
-          <tbody id="admin-roles-table-body"></tbody>
-        </table>
+  <!-- SERVER CONFIG MODAL (ADMIN ONLY) -->
+  <div id="serverModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-md rounded-2xl p-6 space-y-4">
+      <h3 class="text-lg font-black text-gray-900">⚙️ Настройки Сервера</h3>
+      <p class="text-xs text-gray-500">URL вашего бэкенда Google Apps Script</p>
+      
+      <textarea id="serverUrlInput" rows="3" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-xs font-mono outline-none focus:ring-2 focus:ring-[#e20613]"></textarea>
+      
+      <div class="flex space-x-2">
+        <button onclick="saveServerUrl()" class="w-1/2 py-2.5 bg-[#e20613] text-white font-bold rounded-xl text-xs">Сохранить</button>
+        <button onclick="closeServerModal()" class="w-1/2 py-2.5 bg-gray-200 text-gray-800 font-bold rounded-xl text-xs">Отмена</button>
       </div>
     </div>
   </div>
 
-  <div id="faq-modal" class="modal-overlay hidden">
-    <div class="modal-content">
-      <div class="sheet-handle"></div>
-      <div class="modal-header">
-        <div class="modal-title">📖 Руководство и FAQ</div>
-        <button class="modal-close" onclick="closeFaqModal()">✕</button>
-      </div>
-      <div class="faq-body">
-        <div class="faq-section">
-          <div class="faq-sec-title">⏱️ Учёт смены</div>
-          <p class="faq-text">При входе смена открывается автоматически. Вверху отображаются время работы и счётчик отработанных звонков. По окончании работы нажимайте <b>«🛑 Завершить смену»</b>.</p>
-        </div>
+  <!-- TOAST NOTIFICATIONS -->
+  <div id="toastContainer" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 space-y-2 pointer-events-none w-full max-w-xs px-4"></div>
 
-        <div class="faq-section">
-          <div class="faq-sec-title">📞 Карточка абонента</div>
-          <p class="faq-text"><b>📞 Позвонить:</b> запускает SIP-вызов (на iOS) или обычный набор (на Android).</p>
-          <p class="faq-text"><b>📋 Скопировать:</b> копирует номер телефона в буфер обмена в 1 клик.</p>
-          <p class="faq-text"><b>🏷️ Тарифы:</b> открывает каталог актуальных тарифных планов ТТК. Город подставляется автоматически!</p>
-        </div>
-
-        <div class="faq-section">
-          <div class="faq-sec-title">📝 Фиксация результатов</div>
-          <p class="faq-text"><b>🟢 Дозвон:</b> выбор результата (Согласие, Отказ, Сбросили, Абонент ТТК, Дорого и т.д.).</p>
-          <p class="faq-text"><b>⏰ Перезвонить:</b> установка даты, времени и комментария к повторному звонку.</p>
-          <p class="faq-text"><b>📞 Недозвон / 🤖 Автоответчик:</b> фиксация отсутствия ответа.</p>
-          <p class="faq-text"><b>🚫 Убрать из обзвона (ЧС):</b> исключает номер из базы.</p>
-        </div>
-
-        <div class="faq-section">
-          <div class="faq-sec-title">💰 Личный кабинет (Доход)</div>
-          <p class="faq-text">Показывает расчётный заработок с учётом будней, выходных (x1.5) и текущей часовой ставки.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="income-modal" class="modal-overlay hidden">
-    <div class="modal-content">
-      <div class="sheet-handle"></div>
-      <div class="modal-header">
-        <div class="modal-title">💰 Личный кабинет</div>
-        <button class="modal-close" onclick="closeIncomeModal()">✕</button>
-      </div>
-
-      <div class="form-group" style="margin-bottom: 12px;">
-        <label>Выберите месяц:</label>
-        <select id="income-month-select" onchange="loadIncomeStats()">
-          <option value="6">Июль 2026</option>
-          <option value="7">Август 2026</option>
-          <option value="8">Сентябрь 2026</option>
-          <option value="9">Октябрь 2026</option>
-        </select>
-      </div>
-
-      <div class="income-box">
-        <div style="font-size:12px; font-weight:700; text-transform:uppercase; opacity:0.9;">Расчётный заработок</div>
-        <div id="inc-total-val" class="income-val">0 ₽</div>
-        <div id="inc-rate-lbl" style="font-size:13px; font-weight:700; opacity:0.95;">Ставка: 100 ₽/час</div>
-      </div>
-
-      <div class="income-grid">
-        <div class="income-stat-card"><div id="inc-hours-val" class="stat-num">0 ч</div><div class="stat-lbl">Всего часов</div></div>
-        <div class="income-stat-card"><div id="inc-calls-val" class="stat-num">0</div><div class="stat-lbl">Звонков за месяц</div></div>
-        <div class="income-stat-card"><div id="inc-weekday-val" class="stat-num">0 ч</div><div class="stat-lbl">Будни</div></div>
-        <div class="income-stat-card"><div id="inc-weekend-val" class="stat-num">0 ч</div><div class="stat-lbl">Выходные (x1.5)</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div id="tariff-modal" class="modal-overlay hidden">
-    <div class="modal-content">
-      <div class="sheet-handle"></div>
-      <div class="modal-header">
-        <div class="modal-title">Тарифные планы ТТК</div>
-        <button class="modal-close" onclick="closeTariffsModal()">✕</button>
-      </div>
-      <div style="margin-bottom:14px;">
-        <input type="text" id="city-search-input" style="padding:12px 16px; font-size:14px;" placeholder="🔍 Поиск по городу или названию..." oninput="renderTariffs()">
-      </div>
-      <div id="tariff-list-container" class="tariff-list"></div>
-    </div>
-  </div>
-
-  <div id="toast">📋 Скопировано!</div>
-
+  <!-- JAVASCRIPT LOGIC -->
   <script>
-    const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbxrW0RzQQsWaJSvUHsu63yyTpybcvoK1R2nwDgf3xAU6PgMZb2Wx6vZV8stp28c2cqH/exec";
-    let API_URL = safeGetStorage('ttk_api_url') || DEFAULT_API_URL;
-    if (!safeGetStorage('ttk_api_url')) {
-      safeSetStorage('ttk_api_url', DEFAULT_API_URL);
-    }
-    let TARIFFS_DB = [];
-    let currentAgent = "";
-    let userToken = "";
-    let isAdmin = false;
-    let isIOS = false;
-    let deferredPrompt = null;
+    // HARDCODED GAS SERVER ENDPOINT DEFAULT
+    const DEFAULT_SERVER_URL = "https://script.google.com/macros/s/AKfycbxrW0RzQQsWaJSvUHsu63yyTpybcvoK1R2nwDgf3xAU6PgMZb2Wx6vZV8stp28c2cqH/exec";
     
-    let currentCard = null;
-    let currentShiftRow = null;
-    let shiftStartTimeMs = null;
-    let timerInterval = null;
-    let shiftCallsCount = 0;
+    // Application State
+    let currentUser = null;
+    let currentShift = null;
+    let currentContact = null;
+    let selectedSheet = '90+';
+    let shiftTimerInterval = null;
+    let deferredPrompt = null;
+    let cachedTariffs = [];
 
-    function safeGetStorage(key) {
-      try { return localStorage.getItem(key); } catch(e) { return null; }
+    // Safe Storage Wrappers
+    function safeGet(key) {
+      try { return localStorage.getItem(key); } catch (e) { return null; }
     }
-    function safeSetStorage(key, val) {
-      try { localStorage.setItem(key, val); } catch(e) {}
+    function safeSet(key, val) {
+      try { localStorage.setItem(key, val); } catch (e) {}
     }
-    function safeRemoveStorage(key) {
-      try { localStorage.removeItem(key); } catch(e) {}
+    function safeRemove(key) {
+      try { localStorage.removeItem(key); } catch (e) {}
     }
 
-    (function initPWA() {
-      if ('serviceWorker' in navigator) {
-        const swCode = `
-          const CACHE_NAME = 'ttk-pwa-v5';
-          self.addEventListener('install', e => { self.skipWaiting(); });
-          self.addEventListener('activate', e => { e.waitUntil(clients.claim()); });
-          self.addEventListener('fetch', e => {
-            e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
-          });
-        `;
-        const blobSW = new Blob([swCode], { type: 'application/javascript' });
-        const swUrl = URL.createObjectURL(blobSW);
-        navigator.serviceWorker.register(swUrl, { scope: './' }).catch(() => {});
+    // Get Active Server URL
+    function getServerUrl() {
+      return safeGet('ttk_server_url') || DEFAULT_SERVER_URL;
+    }
+
+    // Toast Notification System
+    function showToast(msg, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      
+      let bg = 'bg-gray-900 text-white';
+      if (type === 'error') bg = 'bg-red-600 text-white';
+      if (type === 'success') bg = 'bg-emerald-600 text-white';
+
+      toast.className = `${bg} px-4 py-3 rounded-2xl shadow-xl text-xs font-bold text-center transition-all duration-300 transform translate-y-4 opacity-0 pointer-events-auto`;
+      toast.innerText = msg;
+      
+      container.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.remove('translate-y-4', 'opacity-0');
+      }, 10);
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-4');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // API Fetch Bridge
+    async function apiRequest(action, payload = {}) {
+      const url = getServerUrl();
+      const bodyData = { action, ...payload };
+      
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(bodyData)
+        });
+        return await res.json();
+      } catch (err) {
+        console.error('API Error:', err);
+        return { success: false, message: 'Ошибка связи с сервером. Проверьте интернет.' };
       }
+    }
 
-      const manifestObj = {
-        id: "./",
-        name: "ТТК — Мобильный Дайлер",
-        short_name: "ТТК Дайлер",
-        start_url: "./",
-        scope: "./",
-        display: "standalone",
-        orientation: "portrait",
-        background_color: "#ffffff",
-        theme_color: "#e20613",
-        icons: [
-          { src: "icon.png", sizes: "192x192", type: "image/png", purpose: "any maskable" },
-          { src: "icon.png", sizes: "512x512", type: "image/png", purpose: "any maskable" }
-        ]
-      };
-      const blobManifest = new Blob([JSON.stringify(manifestObj)], { type: 'application/json' });
-      const manifestUrl = URL.createObjectURL(blobManifest);
-      const link = document.createElement('link');
-      link.rel = 'manifest';
-      link.href = manifestUrl;
-      document.head.appendChild(link);
-    })();
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      document.getElementById('pwa-install-container').classList.remove('hidden');
+    // --- APP INITIALIZATION ---
+    document.addEventListener('DOMContentLoaded', () => {
+      initPWA();
+      checkAuthSession();
+      selectSheet('90+');
     });
 
-    function installPWA() {
+    // PWA & Service Worker Setup
+    function initPWA() {
+      // Catch native install prompt on Android Chrome
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        showInstallBanner();
+      });
+
+      // Show banner if not installed
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+      if (!isStandalone) {
+        showInstallBanner();
+      }
+
+      // Generate Manifest & Register Service Worker Blob
+      try {
+        const manifest = {
+          name: "ТТК Дайлер",
+          short_name: "ТТК Дайлер",
+          start_url: "./",
+          display: "standalone",
+          background_color: "#f4f5f7",
+          theme_color: "#e20613",
+          orientation: "portrait",
+          icons: [
+            { src: "icon.png", sizes: "192x192", type: "image/png", purpose: "any maskable" },
+            { src: "icon.png", sizes: "512x512", type: "image/png", purpose: "any maskable" }
+          ]
+        };
+        const mBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+        let mLink = document.querySelector('link[rel="manifest"]');
+        if (!mLink) {
+          mLink = document.createElement('link');
+          mLink.rel = 'manifest';
+          document.head.appendChild(mLink);
+        }
+        mLink.href = URL.createObjectURL(mBlob);
+
+        if ('serviceWorker' in navigator) {
+          const swCode = `
+            self.addEventListener('install', e => self.skipWaiting());
+            self.addEventListener('activate', e => self.clients.claim());
+            self.addEventListener('fetch', e => {});
+          `;
+          const swBlob = new Blob([swCode], { type: 'application/javascript' });
+          navigator.serviceWorker.register(URL.createObjectURL(swBlob), { scope: './' }).catch(() => {});
+        }
+      } catch (e) {}
+    }
+
+    function showInstallBanner() {
+      const banner = document.getElementById('pwaInstallBanner');
+      if (banner) banner.classList.remove('hidden');
+    }
+
+    function dismissInstallBanner() {
+      const banner = document.getElementById('pwaInstallBanner');
+      if (banner) banner.classList.add('hidden');
+    }
+
+    async function installPWA() {
       if (deferredPrompt) {
         deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(() => {
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
           deferredPrompt = null;
-          document.getElementById('pwa-install-container').classList.add('hidden');
-        });
-      }
-    }
-
-    function detectOS() {
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        isIOS = true;
-        document.getElementById('os-indicator-badge').innerText = ' iOS SIP';
+          dismissInstallBanner();
+        }
       } else {
-        isIOS = false;
-        document.getElementById('os-indicator-badge').innerText = '🤖 Android';
+        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+        if (isIOS) {
+          alert('Для установки на iPhone:\n1. Нажмите "Поделиться" внизу Safari\n2. Выберите "На экран «Домой»"');
+        } else {
+          alert('Инструкция по установке:\n1. Нажмите меню браузера (⋮) вверху\n2. Выберите "Добавить на главный экран" или "Установить приложение"');
+        }
       }
     }
 
-    async function apiCall(action, payload = {}) {
-      if (!API_URL) {
-        openSettingsModal();
-        throw new Error("Не настроен URL Google Apps Script!");
-      }
-      payload.action = action;
-
-      try {
-        const response = await fetch(API_URL, {
-          method: 'POST',
-          body: JSON.stringify(payload)
-        });
-        return await response.json();
-      } catch (e) {
-        console.error("API Call Error:", e);
-        throw e;
+    // --- AUTH ANIMATED TOGGLE & LOADING ---
+    function switchAuthMode(mode) {
+      const pill = document.getElementById('authTogglePill');
+      const loginBtn = document.getElementById('tabBtnLogin');
+      const regBtn = document.getElementById('tabBtnRegister');
+      const loginForm = document.getElementById('loginForm');
+      const regForm = document.getElementById('registerForm');
+      
+      if (mode === 'login') {
+        pill.style.transform = 'translateX(0%)';
+        loginBtn.classList.remove('text-gray-600');
+        loginBtn.classList.add('text-white');
+        regBtn.classList.remove('text-white');
+        regBtn.classList.add('text-gray-600');
+        loginForm.classList.remove('hidden');
+        regForm.classList.add('hidden');
+      } else {
+        pill.style.transform = 'translateX(100%)';
+        regBtn.classList.remove('text-gray-600');
+        regBtn.classList.add('text-white');
+        loginBtn.classList.remove('text-white');
+        loginBtn.classList.add('text-gray-600');
+        loginForm.classList.add('hidden');
+        regForm.classList.remove('hidden');
       }
     }
 
-    window.onload = function() {
-      detectOS();
-      const savedToken = safeGetStorage('ttk_user_token');
-      const now = new Date();
-      document.getElementById('income-month-select').value = now.getMonth();
+    function setLoginLoading(isLoading) {
+      const btn = document.getElementById('loginSubmitBtn');
+      const text = document.getElementById('loginBtnText');
+      const loader = document.getElementById('loginBtnLoader');
+      if (isLoading) {
+        btn.disabled = true;
+        text.classList.add('hidden');
+        loader.classList.remove('hidden');
+      } else {
+        btn.disabled = false;
+        text.classList.remove('hidden');
+        loader.classList.add('hidden');
+      }
+    }
 
-      if (!API_URL) {
-        openSettingsModal();
+    function setRegisterLoading(isLoading) {
+      const btn = document.getElementById('regSubmitBtn');
+      const text = document.getElementById('regBtnText');
+      const loader = document.getElementById('regBtnLoader');
+      if (isLoading) {
+        btn.disabled = true;
+        text.classList.add('hidden');
+        loader.classList.remove('hidden');
+      } else {
+        btn.disabled = false;
+        text.classList.remove('hidden');
+        loader.classList.add('hidden');
+      }
+    }
+
+    // --- AUTHENTICATION LOGIC ---
+    function checkAuthSession() {
+      const savedUser = safeGet('ttk_user_session');
+      if (savedUser) {
+        try {
+          currentUser = JSON.parse(savedUser);
+          renderDashboard();
+          return;
+        } catch (e) {}
+      }
+      renderAuth();
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const login = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+      
+      if (!login || !password) {
+        showToast('Заполните логин и пароль', 'error');
         return;
       }
 
-      if (savedToken) {
-        document.getElementById('loader').innerText = '⌛ Проверка авторизации...';
-        document.getElementById('loader').classList.remove('hidden');
+      setLoginLoading(true);
+      const res = await apiRequest('login', { login, password });
+      setLoginLoading(false);
 
-        apiCall('verifyToken', { token: savedToken })
-          .then(res => {
-            document.getElementById('loader').classList.add('hidden');
-            if (res && res.success) {
-              userToken = savedToken;
-              currentAgent = res.fullName;
-              isAdmin = res.isAdmin;
-
-              if (isAdmin) {
-                document.getElementById('admin-panel-btn').classList.remove('hidden');
-                document.getElementById('settings-btn').classList.remove('hidden');
-              } else {
-                document.getElementById('admin-panel-btn').classList.add('hidden');
-                document.getElementById('settings-btn').classList.add('hidden');
-              }
-
-              resumeOrStartShift();
-            } else {
-              safeRemoveStorage('ttk_user_token');
-              document.getElementById('auth-box').classList.remove('hidden');
-            }
-          })
-          .catch(err => {
-            document.getElementById('loader').classList.add('hidden');
-            safeRemoveStorage('ttk_user_token');
-            document.getElementById('auth-box').classList.remove('hidden');
-          });
+      if (res.success) {
+        currentUser = res.user;
+        safeSet('ttk_user_session', JSON.stringify(currentUser));
+        showToast('Успешный вход!', 'success');
+        renderDashboard();
       } else {
-        document.getElementById('auth-box').classList.remove('hidden');
-      }
-    };
-
-    function openSettingsModal() {
-      document.getElementById('api-url-input').value = API_URL;
-      document.getElementById('settings-modal').classList.remove('hidden');
-    }
-    function closeSettingsModal() { document.getElementById('settings-modal').classList.add('hidden'); }
-
-    function saveApiUrl() {
-      const url = document.getElementById('api-url-input').value.trim();
-      if (!url) { alert("Введите корректный URL сервиса!"); return; }
-      API_URL = url;
-      safeSetStorage('ttk_api_url', API_URL);
-      closeSettingsModal();
-      showToast("URL Сервера сохранен!");
-      location.reload();
-    }
-
-    function switchAuthTab(tab) {
-      document.getElementById('tab-login').classList.remove('active');
-      document.getElementById('tab-reg').classList.remove('active');
-      document.getElementById('form-login').classList.add('hidden');
-      document.getElementById('form-reg').classList.add('hidden');
-
-      if (tab === 'login') {
-        document.getElementById('tab-login').classList.add('active');
-        document.getElementById('form-login').classList.remove('hidden');
-      } else {
-        document.getElementById('tab-reg').classList.add('active');
-        document.getElementById('form-reg').classList.remove('hidden');
+        showToast(res.message || 'Ошибка авторизации', 'error');
       }
     }
 
-    function handleLogin() {
-      const l = document.getElementById('login-input').value.trim();
-      const p = document.getElementById('pass-input').value.trim();
+    async function handleRegister(e) {
+      e.preventDefault();
+      const fullName = document.getElementById('regFullName').value.trim();
+      const login = document.getElementById('regUsername').value.trim();
+      const password = document.getElementById('regPassword').value.trim();
 
-      if (!l || !p) { alert("Заполните логин и пароль!"); return; }
-
-      document.getElementById('loader').innerText = '⌛ Вход...';
-      document.getElementById('loader').classList.remove('hidden');
-
-      apiCall('login', { login: l, password: p })
-        .then(res => {
-          document.getElementById('loader').classList.add('hidden');
-          if (res && res.success) {
-            userToken = res.token;
-            currentAgent = res.fullName;
-            isAdmin = res.isAdmin;
-
-            safeSetStorage('ttk_user_token', userToken);
-
-            if (isAdmin) {
-              document.getElementById('admin-panel-btn').classList.remove('hidden');
-              document.getElementById('settings-btn').classList.remove('hidden');
-            } else {
-              document.getElementById('admin-panel-btn').classList.add('hidden');
-              document.getElementById('settings-btn').classList.add('hidden');
-            }
-
-            resumeOrStartShift();
-          } else {
-            alert((res && res.message) ? res.message : "Ошибка входа!");
-          }
-        })
-        .catch(err => {
-          document.getElementById('loader').classList.add('hidden');
-          alert("Ошибка подключения к серверу!");
-        });
-    }
-
-    function handleRegister() {
-      const fn = document.getElementById('reg-fullname').value.trim();
-      const l = document.getElementById('reg-login').value.trim();
-      const p = document.getElementById('reg-pass').value.trim();
-
-      if (!fn || !l || !p) { alert("Заполните все поля регистрации!"); return; }
-
-      document.getElementById('loader').innerText = '⌛ Регистрация...';
-      document.getElementById('loader').classList.remove('hidden');
-
-      apiCall('register', { fullName: fn, login: l, password: p })
-        .then(res => {
-          document.getElementById('loader').classList.add('hidden');
-          if (res && res.success) {
-            userToken = res.token;
-            currentAgent = res.fullName;
-            isAdmin = res.isAdmin;
-
-            safeSetStorage('ttk_user_token', userToken);
-
-            if (isAdmin) {
-              document.getElementById('admin-panel-btn').classList.remove('hidden');
-              document.getElementById('settings-btn').classList.remove('hidden');
-            } else {
-              document.getElementById('admin-panel-btn').classList.add('hidden');
-              document.getElementById('settings-btn').classList.add('hidden');
-            }
-
-            showToast("Успешная регистрация! Выполняется вход...");
-            resumeOrStartShift();
-          } else {
-            alert((res && res.message) ? res.message : "Ошибка регистрации!");
-          }
-        })
-        .catch(err => {
-          document.getElementById('loader').classList.add('hidden');
-          alert("Ошибка подключения к серверу!");
-        });
-    }
-
-    function resumeOrStartShift() {
-      document.getElementById('loader').innerText = '⌛ Проверка смены...';
-      document.getElementById('loader').classList.remove('hidden');
-
-      apiCall('getActiveShift', { agentName: currentAgent, shiftRow: 0 })
-        .then(shiftRes => {
-          document.getElementById('loader').classList.add('hidden');
-          if (shiftRes && shiftRes.active) {
-            currentShiftRow = shiftRes.shiftRow;
-            shiftStartTimeMs = shiftRes.startTimeMs;
-            shiftCallsCount = shiftRes.callCount || 0;
-            enterWorkArea();
-          } else {
-            initShift();
-          }
-        })
-        .catch(() => {
-          document.getElementById('loader').classList.add('hidden');
-          enterWorkArea();
-        });
-    }
-
-    function initShift() {
-      document.getElementById('loader').innerText = '⌛ Открытие смены...';
-      document.getElementById('loader').classList.remove('hidden');
-
-      apiCall('startShift', { agentName: currentAgent })
-        .then(res => {
-          document.getElementById('loader').classList.add('hidden');
-          if (res && res.success) {
-            currentShiftRow = res.shiftRow;
-            shiftStartTimeMs = res.startTimeMs || new Date().getTime();
-            shiftCallsCount = res.callCount || 0;
-            enterWorkArea();
-          } else {
-            alert("Ошибка смены: " + (res ? res.message : "Неизвестная ошибка"));
-            enterWorkArea();
-          }
-        })
-        .catch(() => {
-          document.getElementById('loader').classList.add('hidden');
-          enterWorkArea();
-        });
-    }
-
-    function enterWorkArea() {
-      document.getElementById('display-agent').innerText = currentAgent;
-      document.getElementById('top-bar').classList.remove('hidden');
-      document.getElementById('btn-end-shift-bar').classList.remove('hidden');
-      document.getElementById('shift-stats-bar').classList.remove('hidden');
-      document.getElementById('auth-box').classList.add('hidden');
-      document.getElementById('work-box').classList.remove('hidden');
-
-      if (isAdmin) {
-        document.getElementById('admin-panel-btn').classList.remove('hidden');
-        document.getElementById('settings-btn').classList.remove('hidden');
-      } else {
-        document.getElementById('admin-panel-btn').classList.add('hidden');
-        document.getElementById('settings-btn').classList.add('hidden');
+      if (!fullName || !login || !password) {
+        showToast('Заполните все поля регистрации', 'error');
+        return;
       }
 
-      updateCallsDisplay();
-      startShiftTimer();
+      setRegisterLoading(true);
+      const res = await apiRequest('register', { fullName, login, password });
+      setRegisterLoading(false);
 
-      apiCall('getTariffs').then(data => { TARIFFS_DB = data || []; }).catch(()=>{});
-      loadNext();
+      if (res.success) {
+        showToast('Регистрация успешна! Войдите в аккаунт.', 'success');
+        switchAuthMode('login');
+        document.getElementById('loginUsername').value = login;
+      } else {
+        showToast(res.message || 'Ошибка регистрации', 'error');
+      }
+    }
+
+    function handleLogout() {
+      currentUser = null;
+      currentShift = null;
+      currentContact = null;
+      clearInterval(shiftTimerInterval);
+      safeRemove('ttk_user_session');
+      renderAuth();
+      showToast('Вы вышли из системы');
+    }
+
+    // --- RENDER VIEWS ---
+    function renderAuth() {
+      document.getElementById('authSection').classList.remove('hidden');
+      document.getElementById('dashboardSection').classList.add('hidden');
+      document.getElementById('adminPanelBtn').classList.add('hidden');
+      document.getElementById('serverConfigBtn').classList.add('hidden');
+    }
+
+    function renderDashboard() {
+      document.getElementById('authSection').classList.add('hidden');
+      document.getElementById('dashboardSection').classList.remove('hidden');
+
+      document.getElementById('agentNameDisplay').innerText = currentUser.fullName || currentUser.login;
+      document.getElementById('agentRoleBadge').innerText = currentUser.isAdmin ? 'Супервайзер / Админ' : 'Оператор';
+
+      // Toggle Admin/Server buttons visibility ONLY for admins
+      if (currentUser.isAdmin) {
+        document.getElementById('adminPanelBtn').classList.remove('hidden');
+        document.getElementById('serverConfigBtn').classList.remove('hidden');
+      } else {
+        document.getElementById('adminPanelBtn').classList.add('hidden');
+        document.getElementById('serverConfigBtn').classList.add('hidden');
+      }
+
+      // Check shift state
+      if (currentShift) {
+        document.getElementById('startShiftCard').classList.add('hidden');
+        document.getElementById('activeShiftCard').classList.remove('hidden');
+      } else {
+        document.getElementById('startShiftCard').classList.remove('hidden');
+        document.getElementById('activeShiftCard').classList.add('hidden');
+      }
+    }
+
+    // --- SHIFT CONTROL ---
+    async function handleStartShift() {
+      showToast('Открытие смены...');
+      const res = await apiRequest('startShift', { agentName: currentUser.fullName || currentUser.login });
+      
+      if (res.success || res.shiftId) {
+        currentShift = {
+          startTime: Date.now(),
+          callsCount: 0
+        };
+        startShiftTimer();
+        renderDashboard();
+        showToast('Смена успешно открыта! Хороших звонков.', 'success');
+      } else {
+        showToast(res.message || 'Не удалось открыть смену', 'error');
+      }
+    }
+
+    async function handleEndShift() {
+      if (!confirm('Завершить текущую рабочую смену?')) return;
+
+      showToast('Завершение смены...');
+      const res = await apiRequest('endShift', { agentName: currentUser.fullName || currentUser.login });
+      
+      clearInterval(shiftTimerInterval);
+      currentShift = null;
+      currentContact = null;
+      document.getElementById('contactCard').classList.add('hidden');
+      renderDashboard();
+      showToast('Смена завершена!', 'success');
     }
 
     function startShiftTimer() {
-      if (timerInterval) clearInterval(timerInterval);
-      
-      function tick() {
-        if (!shiftStartTimeMs || isNaN(shiftStartTimeMs)) return;
-        const now = new Date().getTime();
-        const diffSec = Math.floor((now - shiftStartTimeMs) / 1000);
-        if (diffSec < 0) return;
+      clearInterval(shiftTimerInterval);
+      const startTime = currentShift.startTime;
 
-        const hrs = Math.floor(diffSec / 3600);
-        const mins = Math.floor((diffSec % 3600) / 60);
-        const secs = diffSec % 60;
-        const pad = function(n) { return n < 10 ? '0' + n : n; };
-
-        document.getElementById('shift-timer').innerText = pad(hrs) + ':' + pad(mins) + ':' + pad(secs);
-      }
-
-      tick();
-      timerInterval = setInterval(tick, 1000);
+      shiftTimerInterval = setInterval(() => {
+        const elapsedSec = Math.floor((Date.now() - startTime) / 1000);
+        const hrs = String(Math.floor(elapsedSec / 3600)).padStart(2, '0');
+        const mins = String(Math.floor((elapsedSec % 3600) / 60)).padStart(2, '0');
+        const secs = String(elapsedSec % 60).padStart(2, '0');
+        
+        document.getElementById('shiftTimerDisplay').innerText = `${hrs}:${mins}:${secs}`;
+      }, 1000);
     }
 
-    function updateCallsDisplay() {
-      document.getElementById('shift-calls-count').innerText = shiftCallsCount;
-    }
-
-    function incrementShiftCalls() {
-      shiftCallsCount++;
-      updateCallsDisplay();
-    }
-
-    function endShiftAndLogout() {
-      if(!confirm('Завершить смену и выйти?')) return;
-      
-      if (timerInterval) clearInterval(timerInterval);
-
-      document.getElementById('loader').innerText = '⌛ Завершение...';
-      document.getElementById('loader').classList.remove('hidden');
-
-      apiCall('endShift', { shiftRow: currentShiftRow, agentName: currentAgent })
-        .then(() => {
-          document.getElementById('loader').classList.add('hidden');
-          safeRemoveStorage('ttk_user_token');
-
-          currentAgent = ""; userToken = ""; isAdmin = false; currentShiftRow = null; shiftStartTimeMs = null; shiftCallsCount = 0; currentCard = null;
-
-          document.getElementById('top-bar').classList.add('hidden');
-          document.getElementById('btn-end-shift-bar').classList.add('hidden');
-          document.getElementById('shift-stats-bar').classList.add('hidden');
-          document.getElementById('work-box').classList.add('hidden');
-          document.getElementById('auth-box').classList.remove('hidden');
-          document.getElementById('admin-panel-btn').classList.add('hidden');
-          document.getElementById('settings-btn').classList.add('hidden');
-        })
-        .catch(() => {
-          document.getElementById('loader').classList.add('hidden');
-          safeRemoveStorage('ttk_user_token');
-          location.reload();
-        });
-    }
-
-    function loadNext() {
-      document.getElementById('loader').innerText = '⌛ Загрузка...';
-      document.getElementById('loader').classList.remove('hidden');
-      document.getElementById('contact-card').classList.add('hidden');
-      document.getElementById('status-buttons').classList.add('hidden');
-      document.getElementById('dozvon-box').classList.add('hidden');
-      document.getElementById('success-form').classList.add('hidden');
-      document.getElementById('callback-form').classList.add('hidden');
-      document.getElementById('empty-box').classList.add('hidden');
-
-      apiCall('getNextContact', { agentName: currentAgent })
-        .then(onContactLoaded)
-        .catch(err => {
-          document.getElementById('loader').classList.add('hidden');
-          alert("Ошибка загрузки контакта!");
-        });
-    }
-
-    function onContactLoaded(res) {
-      document.getElementById('loader').classList.add('hidden');
-      if (res && res.success) {
-        currentCard = res.contact;
-        renderCurrentContactCard(currentCard, res.activeDb);
-      } else {
-        document.getElementById('empty-msg').innerText = (res && res.message) ? res.message : "Контакты отсутствуют";
-        document.getElementById('empty-box').classList.remove('hidden');
-      }
-    }
-
-    function renderCurrentContactCard(card, activeDb) {
-      document.getElementById('c-address').innerText = card.address || 'Адрес не указан';
-      document.getElementById('c-city').innerText = card.city ? ('📍 ' + card.city) : '📍 Город не указан';
-      document.getElementById('c-db-tag').innerText = 'База: ' + (activeDb || '90+');
-      
-      let displayPhone = String(card.phone || '').trim();
-      if (displayPhone.startsWith('7')) {
-        displayPhone = '+' + displayPhone;
-      }
-      
-      document.getElementById('c-phone').innerText = displayPhone;
-
-      const callBtn = document.getElementById('c-call-link');
-      if (isIOS) {
-        callBtn.href = 'sip:' + displayPhone + '@20vatc006325-001.cloudpbx.ttk.ru';
-      } else {
-        callBtn.href = 'tel:' + displayPhone;
-      }
-
-      document.getElementById('contact-card').classList.remove('hidden');
-      document.getElementById('status-buttons').classList.remove('hidden');
-    }
-
-    function toggleSubMenu(id) {
-      const elem = document.getElementById(id);
-      elem.classList.toggle('hidden');
-    }
-
-    function showSuccessForm() {
-      document.getElementById('success-form').classList.remove('hidden');
-      document.getElementById('callback-form').classList.add('hidden');
-    }
-
-    function submitSuccess() {
-      const commentVal = document.getElementById('success-comment').value.trim();
-      sendResult('Дозвон - Согласие', { comment: commentVal ? "Детали: " + commentVal : "Без детального описания" });
-    }
-
-    function showCallbackForm() {
-      document.getElementById('callback-form').classList.remove('hidden');
-      document.getElementById('success-form').classList.add('hidden');
-    }
-
-    function submitCallback() {
-      const dateVal = document.getElementById('cb-date').value;
-      const commentVal = document.getElementById('cb-comment').value.trim();
-      if (!dateVal) { alert("Укажите дату и время!"); return; }
-
-      const dt = new Date(dateVal);
-      const dateStr = (dt.getMonth() + 1) + '/' + dt.getDate() + '/' + dt.getFullYear();
-      const timeStr = dt.toLocaleTimeString("ru-RU", { hour: '2-digit', minute: '2-digit' });
-
-      sendResult('Перезвон', { dateStr: dateStr, timeStr: timeStr, comment: commentVal || "Без комментария" });
-    }
-
-    function sendResult(resultText, callbackInfo) {
-      document.getElementById('status-buttons').classList.add('hidden');
-      document.getElementById('loader').innerText = '⏳ Сохранение...';
-      document.getElementById('loader').classList.remove('hidden');
-
-      apiCall('saveCallResult', { row: currentCard.row, agentName: currentAgent, result: resultText, callbackInfo: callbackInfo || null })
-        .then(() => {
-          incrementShiftCalls();
-          loadNext();
-        })
-        .catch(() => {
-          document.getElementById('loader').classList.add('hidden');
-          loadNext();
-        });
-    }
-
-    function blacklistContact() {
-      if(!confirm('Убрать номер из обзвона навсегда?')) return;
-      document.getElementById('status-buttons').classList.add('hidden');
-      document.getElementById('loader').innerText = '⛔ В ЧС...';
-      document.getElementById('loader').classList.remove('hidden');
-
-      apiCall('addToBlacklist', { row: currentCard.row, phone: currentCard.phone, agentName: currentAgent })
-        .then(() => {
-          incrementShiftCalls();
-          loadNext();
-        })
-        .catch(() => {
-          document.getElementById('loader').classList.add('hidden');
-          loadNext();
-        });
-    }
-
-    function openAdminModal() {
-      document.getElementById('admin-modal').classList.remove('hidden');
-      loadAdminData();
-    }
-    function closeAdminModal() { document.getElementById('admin-modal').classList.add('hidden'); }
-
-    function switchAdminTab(tab) {
-      document.getElementById('atab-db').classList.remove('active');
-      document.getElementById('atab-agents').classList.remove('active');
-      document.getElementById('atab-roles').classList.remove('active');
-      document.getElementById('admin-sec-db').classList.add('hidden');
-      document.getElementById('admin-sec-agents').classList.add('hidden');
-      document.getElementById('admin-sec-roles').classList.add('hidden');
-
-      if (tab === 'db') {
-        document.getElementById('atab-db').classList.add('active');
-        document.getElementById('admin-sec-db').classList.remove('hidden');
-      } else if (tab === 'agents') {
-        document.getElementById('atab-agents').classList.add('active');
-        document.getElementById('admin-sec-agents').classList.remove('hidden');
-      } else {
-        document.getElementById('atab-roles').classList.add('active');
-        document.getElementById('admin-sec-roles').classList.remove('hidden');
-      }
-    }
-
-    function loadAdminData() {
-      apiCall('getAdminAnalytics')
-        .then(data => {
-          if (!data) return;
-          document.getElementById('admin-db-select').value = data.activeDb;
-          document.getElementById('adb-total').innerText = data.dbStats.total;
-          document.getElementById('adb-done').innerText = data.dbStats.done;
-          document.getElementById('adb-remaining').innerText = data.dbStats.remaining;
-          document.getElementById('adb-dozvon').innerText = data.dbStats.dozvon;
-          document.getElementById('adb-nedozvon').innerText = data.dbStats.nedozvon;
-          document.getElementById('adb-pct').innerText = data.dbStats.progressPct + '%';
-          document.getElementById('adb-bar').style.width = data.dbStats.progressPct + '%';
-          document.getElementById('adb-agreed').innerText = data.dbStats.breakdown.agreed;
-          document.getElementById('adb-refused').innerText = data.dbStats.breakdown.refused;
-
-          const aBody = document.getElementById('admin-agents-table-body');
-          aBody.innerHTML = "";
-          data.agents.forEach(function(a) {
-            aBody.innerHTML += '<tr><td>' + (a.isOnline ? '🟢 ' : '') + a.name + '</td><td>' + a.totalHours + '</td><td>' + a.totalCalls + '</td><td>' + a.callsPerHour + '/ч</td></tr>';
-          });
-
-          const rBody = document.getElementById('admin-roles-table-body');
-          rBody.innerHTML = "";
-          data.users.forEach(function(u) {
-            const btnTxt = u.role === 'Суперпользователь' ? 'Сделать Агентом' : 'Сделать Админом';
-            const nextRole = u.role === 'Суперпользователь' ? 'Агент' : 'Суперпользователь';
-            rBody.innerHTML += '<tr><td>' + u.fullName + '<br><small style="color:#757575;">(' + u.login + ')</small></td><td>' + u.role + '</td><td><div style="display:flex; gap:4px; flex-wrap:wrap;"><button onclick="changeRole(\'' + u.login + '\', \'' + nextRole + '\')" style="font-size:10px; padding:4px 8px; border-radius:100px; cursor:pointer;">' + btnTxt + '</button><button onclick="deleteUserAccount(\'' + u.login + '\')" style="font-size:10px; padding:4px 8px; border-radius:100px; background:#ffebee; color:#c62828; border:1px solid #ffcdd2; cursor:pointer; font-weight:700;">Уволить</button></div></td></tr>';
-          });
-        })
-        .catch(() => {});
-    }
-
-    function changeActiveDb() {
-      const selectedDb = document.getElementById('admin-db-select').value;
-      apiCall('setActiveDb', { dbName: selectedDb })
-        .then(() => {
-          showToast("База переключена на " + selectedDb);
-          loadAdminData();
-        });
-    }
-
-    function changeRole(login, newRole) {
-      apiCall('updateRole', { targetLogin: login, newRole: newRole })
-        .then(res => {
-          if (res && res.success) {
-            showToast("Роль обновлена");
-            loadAdminData();
-          } else { alert(res ? res.message : "Ошибка обновления роли"); }
-        });
-    }
-
-    function deleteUserAccount(login) {
-      if (!confirm("Вы действительно хотите уволить пользователя '" + login + "'? Учетная запись будет удалена.")) return;
-      apiCall('deleteUser', { targetLogin: login })
-        .then(res => {
-          if (res && res.success) {
-            showToast("Пользователь уволен");
-            loadAdminData();
-          } else { alert(res ? res.message : "Ошибка удаления"); }
-        });
-    }
-
-    function openFaqModal() { document.getElementById('faq-modal').classList.remove('hidden'); }
-    function closeFaqModal() { document.getElementById('faq-modal').classList.add('hidden'); }
-
-    function openIncomeModal() {
-      document.getElementById('income-modal').classList.remove('hidden');
-      loadIncomeStats();
-    }
-    function closeIncomeModal() { document.getElementById('income-modal').classList.add('hidden'); }
-
-    function loadIncomeStats() {
-      const m = parseInt(document.getElementById('income-month-select').value);
-      apiCall('getIncomeStats', { agentName: currentAgent, monthNum: m, yearNum: 2026 })
-        .then(res => {
-          if (!res) return;
-          document.getElementById('inc-total-val').innerText = res.estimatedIncome.toLocaleString("ru-RU") + " ₽";
-          document.getElementById('inc-rate-lbl').innerText = "Текущая ставка: " + res.rate + " ₽/час";
-          document.getElementById('inc-hours-val').innerText = res.totalHours + " ч";
-          document.getElementById('inc-calls-val').innerText = res.totalCalls;
-          document.getElementById('inc-weekday-val').innerText = res.weekdayHours + " ч";
-          document.getElementById('inc-weekend-val').innerText = res.weekendHours + " ч";
-        })
-        .catch(()=>{});
-    }
-
-    function openTariffsModal() {
-      document.getElementById('tariff-modal').classList.remove('hidden');
-      const clientCity = (currentCard && currentCard.city) ? currentCard.city.trim() : "";
-      document.getElementById('city-search-input').value = clientCity;
-      renderTariffs();
-    }
-    function closeTariffsModal() { document.getElementById('tariff-modal').classList.add('hidden'); }
-
-    function renderTariffs() {
-      const query = document.getElementById('city-search-input').value.trim().toLowerCase();
-      const container = document.getElementById('tariff-list-container');
-      container.innerHTML = "";
-      
-      const filtered = TARIFFS_DB.filter(function(t) {
-        if (!query) return true;
-        return (t.cities && t.cities.toLowerCase().indexOf(query) !== -1) || 
-               (t.name && t.name.toLowerCase().indexOf(query) !== -1) ||
-               (t.desc && t.desc.toLowerCase().indexOf(query) !== -1) ||
-               (t.cond && t.cond.toLowerCase().indexOf(query) !== -1);
+    function selectSheet(sheetName) {
+      selectedSheet = sheetName;
+      ['90+', '180+', 'Closed'].forEach(key => {
+        const btn = document.getElementById(`sheetBtn${key}`);
+        if (btn) {
+          btn.classList.remove('bg-[#e20613]', 'text-white', 'border-[#e20613]');
+          btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
+        }
       });
 
-      if (filtered.length === 0) {
-        container.innerHTML = '<div style="color:#757575; font-size:14px; text-align:center; padding:20px;">Тарифы по данному запросу не найдены.</div>';
+      let targetId = 'sheetBtn90';
+      if (sheetName === '180+') targetId = 'sheetBtn180';
+      if (sheetName === 'Закрытые') targetId = 'sheetBtnClosed';
+
+      const activeBtn = document.getElementById(targetId);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200');
+        activeBtn.classList.add('bg-[#e20613]', 'text-white', 'border-[#e20613]');
+      }
+    }
+
+    // --- CONTACT FETCHING & CALLS ---
+    async function fetchNextContact() {
+      const btn = document.getElementById('getContactBtn');
+      btn.disabled = true;
+      btn.innerText = '⌛ Загрузка абонента...';
+
+      const res = await apiRequest('getNextContact', {
+        agentName: currentUser.fullName || currentUser.login,
+        sheetName: selectedSheet
+      });
+
+      btn.disabled = false;
+      btn.innerHTML = '<span>📞 ПОЛУЧИТЬ КЛИЕНТА</span>';
+
+      if (res.success && res.contact) {
+        currentContact = res.contact;
+        renderContactCard();
+      } else {
+        showToast(res.message || 'Контакты в данной базе не найдены', 'error');
+      }
+    }
+
+    function renderContactCard() {
+      if (!currentContact) return;
+
+      const rawPhone = String(currentContact.phone || '').trim();
+      let formattedPhone = rawPhone;
+      
+      // Auto +7 prefix for numbers starting with 7
+      if (formattedPhone.startsWith('7') && formattedPhone.length === 11) {
+        formattedPhone = '+' + formattedPhone;
+      }
+
+      document.getElementById('contactName').innerText = currentContact.name || 'Без имени';
+      document.getElementById('contactCityBadge').innerText = currentContact.city || 'Город не указан';
+      document.getElementById('contactSheetBadge').innerText = `База ${selectedSheet}`;
+      document.getElementById('contactPhoneDisplay').innerText = formattedPhone;
+
+      // Call Link Anchor
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const callAnchor = document.getElementById('callPhoneAnchor');
+      callAnchor.href = isIOS ? `sip:${formattedPhone}` : `tel:${formattedPhone}`;
+
+      document.getElementById('contactCard').classList.remove('hidden');
+      document.getElementById('contactCard').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function copyPhoneToClipboard() {
+      if (!currentContact) return;
+      let phone = String(currentContact.phone || '').trim();
+      if (phone.startsWith('7') && phone.length === 11) phone = '+' + phone;
+
+      navigator.clipboard.writeText(phone).then(() => {
+        showToast('Номер скопирован!');
+      }).catch(() => {
+        showToast('Номер: ' + phone);
+      });
+    }
+
+    function onCallInitiated() {
+      if (currentShift) {
+        currentShift.callsCount++;
+        document.getElementById('shiftCallsCounter').innerText = currentShift.callsCount;
+      }
+    }
+
+    function handleStatusChange() {
+      const status = document.getElementById('callStatusSelect').value;
+      const recallContainer = document.getElementById('recallContainer');
+      if (status === 'Перезвонить') {
+        recallContainer.classList.remove('hidden');
+      } else {
+        recallContainer.classList.add('hidden');
+      }
+    }
+
+    async function submitCallResult() {
+      const status = document.getElementById('callStatusSelect').value;
+      if (!status) {
+        showToast('Выберите статус звонка', 'error');
         return;
       }
 
-      filtered.forEach(function(t) {
-        const item = document.createElement('div');
-        item.className = 'tariff-card';
-        
-        let html = '<div class="t-header">';
-        html += '<div>';
-        html += '<div class="t-name">' + (t.name || 'Тариф') + '</div>';
-        if (t.period) {
-          html += '<div class="t-period">⏱️ ' + t.period + '</div>';
-        }
-        html += '</div>';
-        html += '<div class="t-price">' + (t.price || '') + '</div>';
-        html += '</div>';
+      const comment = document.getElementById('callComment').value.trim();
+      const datetime = document.getElementById('recallDatetime').value;
 
-        if (t.desc) {
-          html += '<div class="t-desc">⚡ <b>Описание / Скорость:</b> ' + t.desc + '</div>';
-        }
-        if (t.cond) {
-          html += '<div class="t-cond">📝 <b>Условия / Примечания:</b> ' + t.cond + '</div>';
-        }
-        if (t.cities) {
-          html += '<div class="t-cities">📍 <b>Города:</b> ' + t.cities + '</div>';
-        }
+      showToast('Сохранение результата...');
+      const res = await apiRequest('saveCallResult', {
+        agentName: currentUser.fullName || currentUser.login,
+        contactId: currentContact.id,
+        phone: currentContact.phone,
+        status,
+        comment,
+        recallDatetime: datetime,
+        sheetName: selectedSheet
+      });
 
-        item.innerHTML = html;
-        container.appendChild(item);
+      if (res.success) {
+        showToast('Результат сохранен!', 'success');
+        document.getElementById('contactCard').classList.add('hidden');
+        document.getElementById('callStatusSelect').value = '';
+        document.getElementById('callComment').value = '';
+        document.getElementById('recallDatetime').value = '';
+        currentContact = null;
+      } else {
+        showToast(res.message || 'Ошибка сохранения', 'error');
+      }
+    }
+
+    // --- TARIFFS HANDLER ---
+    async function openTariffsModal() {
+      document.getElementById('tariffsModal').classList.remove('hidden');
+      const city = currentContact?.city || '';
+      document.getElementById('tariffSearchInput').value = city;
+      
+      if (cachedTariffs.length === 0) {
+        const res = await apiRequest('getTariffs');
+        if (res.success && res.tariffs) {
+          cachedTariffs = res.tariffs;
+        }
+      }
+      filterTariffs();
+    }
+
+    function closeTariffsModal() {
+      document.getElementById('tariffsModal').classList.add('hidden');
+    }
+
+    function filterTariffs() {
+      const query = document.getElementById('tariffSearchInput').value.toLowerCase().trim();
+      const container = document.getElementById('tariffsListContainer');
+      container.innerHTML = '';
+
+      const filtered = cachedTariffs.filter(t => {
+        const cityMatch = (t.cities || '').toLowerCase().includes(query);
+        const titleMatch = (t.name || '').toLowerCase().includes(query);
+        return cityMatch || titleMatch;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="text-center text-xs text-gray-400 py-6">Тарифы не найдены</div>';
+        return;
+      }
+
+      filtered.forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'p-3.5 bg-gray-50 rounded-2xl border border-gray-200 space-y-2';
+        card.innerHTML = `
+          <div class="flex justify-between items-start">
+            <div>
+              <div class="font-black text-gray-800 text-sm leading-tight">${t.name}</div>
+              <div class="text-[11px] text-gray-400 font-medium mt-0.5">⏱️ ${t.period || 'Ежемесячно'}</div>
+            </div>
+            <div class="text-sm font-black text-[#e20613] bg-red-50 px-2.5 py-1 rounded-full border border-red-100">${t.price} ₽</div>
+          </div>
+          ${t.desc ? `<div class="text-xs text-gray-600 font-medium">${t.desc}</div>` : ''}
+          ${t.cond ? `<div class="text-[11px] text-gray-500 bg-white p-2.5 rounded-xl border border-gray-100 leading-snug">📌 ${t.cond}</div>` : ''}
+        `;
+        container.appendChild(card);
       });
     }
 
-    function copyPhone() {
-      const phoneText = document.getElementById('c-phone').innerText;
-      if (!phoneText) return;
-      navigator.clipboard.writeText(phoneText).then(showToast).catch(function() {
-        const tempInput = document.createElement("input");
-        tempInput.value = phoneText; document.body.appendChild(tempInput); tempInput.select(); document.execCommand("copy"); document.body.removeChild(tempInput); showToast();
-      });
+    // --- MODAL UTILS ---
+    function openFaqModal() { document.getElementById('faqModal').classList.remove('hidden'); }
+    function closeFaqModal() { document.getElementById('faqModal').classList.add('hidden'); }
+    function openServerModal() {
+      document.getElementById('serverUrlInput').value = getServerUrl();
+      document.getElementById('serverModal').classList.remove('hidden');
     }
-
-    function showToast(msg) {
-      const toast = document.getElementById("toast");
-      if (msg) toast.innerText = msg;
-      else toast.innerText = "📋 Номер скопирован!";
-      toast.className = "show";
-      setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 2000);
+    function closeServerModal() { document.getElementById('serverModal').classList.add('hidden'); }
+    function saveServerUrl() {
+      const val = document.getElementById('serverUrlInput').value.trim();
+      if (val) {
+        safeSet('ttk_server_url', val);
+        showToast('URL Сервера сохранен!', 'success');
+        closeServerModal();
+      }
     }
   </script>
 </body>
