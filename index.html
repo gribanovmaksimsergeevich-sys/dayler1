@@ -916,13 +916,20 @@
       document.getElementById('c-address').innerText = card.address || 'Адрес не указан';
       document.getElementById('c-city').innerText = card.city ? ('📍 ' + card.city) : '📍 Город не указан';
       document.getElementById('c-db-tag').innerText = 'База: ' + (activeDb || '90+');
-      document.getElementById('c-phone').innerText = card.phone;
+      
+      // Автоматическое добавление плюса, если номер начинается с 7
+      let displayPhone = String(card.phone || '').trim();
+      if (displayPhone.startsWith('7')) {
+        displayPhone = '+' + displayPhone;
+      }
+      
+      document.getElementById('c-phone').innerText = displayPhone;
 
       const callBtn = document.getElementById('c-call-link');
       if (isIOS) {
-        callBtn.href = 'sip:' + card.phone + '@20vatc006325-001.cloudpbx.ttk.ru';
+        callBtn.href = 'sip:' + displayPhone + '@20vatc006325-001.cloudpbx.ttk.ru';
       } else {
-        callBtn.href = 'tel:' + card.phone;
+        callBtn.href = 'tel:' + displayPhone;
       }
 
       document.getElementById('contact-card').classList.remove('hidden');
