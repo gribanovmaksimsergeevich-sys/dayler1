@@ -116,6 +116,11 @@
     .income-stat-card { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 12px; text-align: center; }
     .stat-num { font-size: 18px; font-weight: 800; color: #0f172a; }
 
+    .faq-body { overflow-y: auto; flex: 1; padding-right: 4px; }
+    .faq-section { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; }
+    .faq-sec-title { font-weight: 800; font-size: 14px; color: #1e1b4b; margin-bottom: 6px; }
+    .faq-text { font-size: 12px; color: #475569; margin: 4px 0; line-height: 1.4; }
+
     .tariff-list { overflow-y: auto; flex: 1; }
     .tariff-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 14px; margin-bottom: 12px; }
     .t-name { font-weight: 800; font-size: 16px; color: #1e1b4b; }
@@ -365,14 +370,33 @@
   <div id="faq-modal" class="modal-overlay hidden">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="modal-title">📖 Инструкция и FAQ</div>
+        <div class="modal-title">📖 Руководство и FAQ</div>
         <button class="modal-close" onclick="closeFaqModal()">✕</button>
       </div>
       <div class="faq-body">
         <div class="faq-section">
-          <div class="faq-sec-title">📱 Установка как приложение (PWA)</div>
-          <p class="faq-text"><b>Android:</b> Нажмите 3 точки в правом верхнем углу Chrome и выберите «Установить приложение» или «Добавить на главный экран».</p>
-          <p class="faq-text"><b>iOS (iPhone):</b> Откройте сайт в Safari, нажмите кнопку «Поделиться» 📤 внизу и выберите «На экран "Домой"».</p>
+          <div class="faq-sec-title">⏱️ Учёт смены</div>
+          <p class="faq-text">При входе смена открывается автоматически. Вверху отображаются время работы и счётчик отработанных звонков. По окончании работы обязательно нажимайте плашку <b>«🛑 Завершить смену»</b>.</p>
+        </div>
+
+        <div class="faq-section">
+          <div class="faq-sec-title">📞 Карточка абонента</div>
+          <p class="faq-text"><b>📞 Позвонить:</b> запускает SIP-вызов (на iOS) или обычный набор (на Android).</p>
+          <p class="faq-text"><b>📋 Скопировать:</b> копирует номер телефона в буфер обмена в 1 клик.</p>
+          <p class="faq-text"><b>🏷️ Тарифы:</b> открывает каталог актуальных тарифных планов ТТК с быстрым поиском по городам.</p>
+        </div>
+
+        <div class="faq-section">
+          <div class="faq-sec-title">📝 Фиксация результатов</div>
+          <p class="faq-text"><b>🟢 Дозвон:</b> меню выбора результатов разговора (Согласие, Отказ, Сбросили, Абонент ТТК, Дорого, Качество и др.).</p>
+          <p class="faq-text"><b>⏰ Перезвонить:</b> позволяет установить дату, время и комментарий к повторному звонку.</p>
+          <p class="faq-text"><b>📞 Недозвон / 🤖 Автоответчик:</b> фиксация отсутствия ответа.</p>
+          <p class="faq-text"><b>🚫 Убрать из обзвона (ЧС):</b> навсегда исключает недействительный номер из базы.</p>
+        </div>
+
+        <div class="faq-section">
+          <div class="faq-sec-title">💰 Личный кабинет (Доход)</div>
+          <p class="faq-text">Показывает расчётный заработок за месяц с учётом отработанных будних и выходных часов (коэффициент x1.5), количества звонков и текущей часовой ставки.</p>
         </div>
       </div>
     </div>
