@@ -29,13 +29,12 @@
     .btn-income { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
     .btn-stats { background: #e0e7ff; color: #3730a3; border: 1px solid #c7d2fe; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none; display: inline-block; }
     .btn-faq { background: #f0f9ff; color: #0284c7; border: 1px solid #bae6fd; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
-    .btn-fullscreen { background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
     .btn-settings { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
     
-    .btn-logout { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: #ffffff; border: none; font-size: 13px; font-weight: 800; cursor: pointer; padding: 8px 14px; border-radius: 10px; box-shadow: 0 4px 10px rgba(220, 38, 38, 0.35); display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s ease; margin-left: auto; }
-    .btn-logout:active { transform: scale(0.96); opacity: 0.9; }
+    .btn-end-shift-bar { width: 100%; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: #ffffff; border: none; font-size: 14px; font-weight: 800; cursor: pointer; padding: 12px; border-radius: 14px; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25); display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s ease; margin-top: 10px; }
+    .btn-end-shift-bar:active { transform: scale(0.98); opacity: 0.9; }
 
-    .shift-stats-bar { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); color: #ffffff; padding: 10px 14px; border-radius: 14px; margin-top: 10px; font-size: 13px; font-weight: 700; box-shadow: 0 4px 12px rgba(30, 27, 75, 0.15); flex-wrap: wrap; gap: 8px; }
+    .shift-stats-bar { display: flex; justify-content: space-around; align-items: center; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); color: #ffffff; padding: 12px 14px; border-radius: 14px; margin-top: 10px; font-size: 13px; font-weight: 700; box-shadow: 0 4px 12px rgba(30, 27, 75, 0.15); flex-wrap: wrap; gap: 8px; }
     .shift-timer-box { display: flex; align-items: center; gap: 6px; }
     .shift-timer-val { font-family: monospace; font-size: 16px; font-weight: 800; color: #38bdf8; }
     .shift-calls-box { background: rgba(255, 255, 255, 0.15); padding: 4px 10px; border-radius: 8px; }
@@ -122,11 +121,6 @@
     .t-name { font-weight: 800; font-size: 16px; color: #1e1b4b; }
     .t-price { font-size: 18px; font-weight: 800; color: #059669; margin: 6px 0; }
 
-    .faq-body { overflow-y: auto; flex: 1; padding-right: 4px; }
-    .faq-section { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 14px; margin-bottom: 12px; }
-    .faq-sec-title { font-size: 15px; font-weight: 800; color: #4f46e5; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-    .faq-text { font-size: 13px; color: #334155; line-height: 1.5; margin: 0 0 8px 0; }
-
     #toast { visibility: hidden; min-width: 220px; background-color: #0f172a; color: #fff; text-align: center; border-radius: 30px; padding: 12px 20px; position: fixed; z-index: 2000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 14px; font-weight: 600; }
     #toast.show { visibility: visible; animation: fadein 0.3s, fadeout 0.3s 1.7s; }
     @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
@@ -150,8 +144,9 @@
         <button class="btn-income" onclick="openIncomeModal()">💰 Доход</button>
         <a id="stats-link" href="https://maxkoch23.github.io/itmstat/" target="_blank" class="btn-stats">📊 Статистика</a>
         <button class="btn-faq" onclick="openFaqModal()">❓ FAQ</button>
-        <button class="btn-fullscreen" onclick="toggleFullScreen()">⛶ На весь экран</button>
       </div>
+
+      <button id="btn-end-shift-bar" class="btn-end-shift-bar hidden" onclick="endShiftAndLogout()">🛑 Завершить смену</button>
 
       <div id="shift-stats-bar" class="shift-stats-bar hidden">
         <div class="shift-timer-box">
@@ -161,11 +156,9 @@
         <div class="shift-calls-box">
           📞 Звонков: <span id="shift-calls-count">0</span>
         </div>
-        <button class="btn-logout" onclick="endShiftAndLogout()">🛑 Завершить</button>
       </div>
     </div>
     
-    <!-- ФОРМА АВТОРИЗАЦИИ И РЕГИСТРАЦИИ -->
     <div id="auth-box">
       <div class="auth-tabs">
         <div id="tab-login" class="auth-tab active" onclick="switchAuthTab('login')">Вход</div>
@@ -201,7 +194,6 @@
       </div>
     </div>
 
-    <!-- КАРТОЧКА ЗВОНКА И РАБОЧАЯ ОБЛАСТЬ -->
     <div id="work-box" class="hidden">
       <div id="contact-card" class="contact-card hidden">
         <div class="client-name-label">
@@ -234,7 +226,6 @@
 
       <div id="loader" class="status-msg hidden">⌛ Загрузка...</div>
 
-      <!-- КНОПКИ СТАТУСОВ -->
       <div id="status-buttons" class="hidden">
         <div class="status-group-label">Результат разговора</div>
         
@@ -294,7 +285,6 @@
     </div>
   </div>
 
-  <!-- МОДАЛЬНЫЕ ОКНА -->
   <div id="settings-modal" class="modal-overlay hidden">
     <div class="modal-content" style="height: auto; border-radius:24px;">
       <div class="modal-header">
@@ -756,6 +746,7 @@
     function enterWorkArea() {
       document.getElementById('display-agent').innerText = currentAgent;
       document.getElementById('top-bar').classList.remove('hidden');
+      document.getElementById('btn-end-shift-bar').classList.remove('hidden');
       document.getElementById('shift-stats-bar').classList.remove('hidden');
       document.getElementById('auth-box').classList.add('hidden');
       document.getElementById('work-box').classList.remove('hidden');
@@ -821,6 +812,7 @@
           currentAgent = ""; userToken = ""; isAdmin = false; currentShiftRow = null; shiftStartTimeMs = null; shiftCallsCount = 0; currentCard = null;
 
           document.getElementById('top-bar').classList.add('hidden');
+          document.getElementById('btn-end-shift-bar').classList.add('hidden');
           document.getElementById('shift-stats-bar').classList.add('hidden');
           document.getElementById('work-box').classList.add('hidden');
           document.getElementById('auth-box').classList.remove('hidden');
@@ -1031,14 +1023,6 @@
             loadAdminData();
           } else { alert(res ? res.message : "Ошибка удаления"); }
         });
-    }
-
-    function toggleFullScreen() {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(function(){});
-      } else {
-        if (document.exitFullscreen) document.exitFullscreen();
-      }
     }
 
     function openFaqModal() { document.getElementById('faq-modal').classList.remove('hidden'); }
