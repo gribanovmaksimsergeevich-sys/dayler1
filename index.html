@@ -440,18 +440,32 @@
         <button onclick="closeIncomeModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
       </div>
 
+      <!-- Month Selector Dropdown -->
+      <div>
+        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Месяц расчета</label>
+        <select id="incomeMonthSelect" onchange="loadMonthlyIncome()" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-xs font-bold text-gray-800 outline-none focus:ring-2 focus:ring-[#e20613] shadow-sm">
+        </select>
+      </div>
+
       <div class="space-y-3 text-xs text-gray-700">
         <div class="bg-red-50 p-4 rounded-2xl border border-red-100 text-center">
-          <div class="text-xs text-gray-500 font-bold uppercase">Предварительный доход за смену</div>
+          <div class="text-xs text-gray-500 font-bold uppercase">Расчетный доход за месяц</div>
           <div id="calculatedIncomeDisplay" class="text-3xl font-black text-[#e20613] mt-1">0 ₽</div>
-          <div class="text-[10px] text-gray-400 mt-1">Рассчитывается исходя из отработанных часов и звонков</div>
+          <div class="text-[10px] text-gray-400 mt-1">Рассчитывается по отработанным часам и действующей ставке</div>
         </div>
 
-        <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 space-y-1">
-          <div class="font-bold text-gray-800">📌 Правила расчета:</div>
-          <p>• Будние дни: стандартная базовая ставка</p>
-          <p>• Выходные дни: коэффициент **x1.5**</p>
-          <p>• Повышенная ставка при высокой интенсивности звонков</p>
+        <div id="incomeDetailsContainer" class="space-y-2">
+          <!-- Dynamic breakdown content loaded via JS -->
+        </div>
+
+        <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 space-y-1.5 text-[11px]">
+          <div class="font-bold text-gray-800">📌 Шкала базовых ставок:</div>
+          <div class="grid grid-cols-3 gap-1 text-center font-bold">
+            <div class="p-1.5 bg-white rounded-lg border border-gray-200">1–79 ч<br><span class="text-[#e20613]">100 ₽/ч</span></div>
+            <div class="p-1.5 bg-white rounded-lg border border-gray-200">80–89 ч<br><span class="text-[#e20613]">120 ₽/ч</span></div>
+            <div class="p-1.5 bg-white rounded-lg border border-gray-200">90+ ч<br><span class="text-[#e20613]">150 ₽/ч</span></div>
+          </div>
+          <p class="text-gray-500 pt-1">• В выходные дни к отработанному времени применяется коэффициент **x1.5**.</p>
         </div>
       </div>
     </div>
@@ -1308,19 +1322,150 @@
       }
     }
 
-    // Modal Helpers
     function openIncomeModal() {
-      const calls = currentShift?.callsCount || 0;
-      const elapsedMs = currentShift ? (Date.now() - currentShift.startTime) : 0;
-      const hours = elapsedMs / (1000 * 60 * 60);
-      const isWeekend = (new Date().getDay() === 0 || new Date().getDay() === 6);
-      const coeff = isWeekend ? 1.5 : 1.0;
-      const income = Math.round((hours * 150 + calls * 20) * coeff);
-      
-      document.getElementById('calculatedIncomeDisplay').innerText = `${income} ₽`;
+      populateMonthSelect();
       document.getElementById('incomeModal').classList.remove('hidden');
+      loadMonthlyIncome();
     }
-    function closeIncomeModal() { document.getElementById('incomeModal').classList.add('hidden'); }
+    function closeIncomeModal() { 
+      document.getElementById('incomeModal').classList.add('hidden'); 
+    }
+
+    function populateMonthSelect() {
+      const select = document.getElementById('incomeMonthSelect');
+      if (!select) return;
+      if (select.children.length > 0) return; // Уже заполнено
+
+      const monthNames = [
+        "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+        "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+      ];
+      
+      const now = new Date();
+      select.innerHTML = '';
+      
+      // Последние 6 месяцев
+      for (let i = 0; i < 6; i++) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const m = d.getMonth() + 1;
+        const y = d.getFullYear();
+        const opt = document.createElement('option');
+        opt.value = `${y}-${m}`;
+        opt.innerText = `${monthNames[m - 1]} ${y}`;
+        if (i === 0) opt.selected = true;
+        select.appendChild(opt);
+      }
+    }
+
+    async function loadMonthlyIncome() {
+      const select = document.getElementById('incomeMonthSelect');
+      if (!select || !select.value) return;
+      
+      const [yearStr, monthStr] = select.value.split('-');
+      const month = parseInt(monthStr, 10);
+      const year = parseInt(yearStr, 10);
+
+      const display = document.getElementById('calculatedIncomeDisplay');
+      const details = document.getElementById('incomeDetailsContainer');
+      
+      display.innerText = '⌛ Расчет...';
+
+      const agentName = currentUser ? (currentUser.fullName || currentUser.login) : 'Оператор';
+      const res = await apiRequest('getUserMonthlyIncome', { agentName, month, year });
+
+      let weekdayMins = (res && res.weekdayMinutes) ? res.weekdayMinutes : 0;
+      let weekendMins = (res && res.weekendMinutes) ? res.weekendMinutes : 0;
+      let totalCalls = (res && res.totalCalls) ? res.totalCalls : 0;
+
+      // Если выбран текущий месяц и у оператора идет смена, прибавляем живое время смены
+      const now = new Date();
+      if (currentShift && month === (now.getMonth() + 1) && year === now.getFullYear()) {
+        const activeElapsedMins = Math.floor((Date.now() - currentShift.startTime) / 60000);
+        const isWeekendToday = (now.getDay() === 0 || now.getDay() === 6);
+        if (isWeekendToday) {
+          weekendMins += activeElapsedMins;
+        } else {
+          weekdayMins += activeElapsedMins;
+        }
+        totalCalls += (currentShift.callsCount || 0);
+      }
+
+      const totalRawMins = weekdayMins + weekendMins;
+      const totalRawHours = totalRawMins / 60;
+
+      // Ставка по градационной сетке:
+      // 1-79 ч: 100
+      // 80-89 ч: 120
+      // >= 90 ч: 150
+      let baseRate = 100;
+      if (totalRawHours >= 90) {
+        baseRate = 150;
+      } else if (totalRawHours >= 80) {
+        baseRate = 120;
+      }
+
+      const weightedHours = (weekdayMins / 60) + ((weekendMins / 60) * 1.5);
+      const totalIncome = Math.round(weightedHours * baseRate);
+
+      display.innerText = `${totalIncome.toLocaleString('ru-RU')} ₽`;
+
+      const fmtTime = (mins) => {
+        const h = Math.floor(mins / 60);
+        const m = mins % 60;
+        return `${h} ч. ${String(m).padStart(2, '0')} мин.`;
+      };
+
+      let tierInfo = '';
+      if (totalRawHours < 80) {
+        const needed = Math.ceil(80 * 60 - totalRawMins);
+        tierInfo = `<div class="text-[11px] text-amber-800 bg-amber-50 p-2.5 rounded-xl border border-amber-200">
+          💡 До повышения ставки до <strong>120 ₽/ч</strong> осталось отработать: <strong>${fmtTime(needed)}</strong>
+        </div>`;
+      } else if (totalRawHours < 90) {
+        const needed = Math.ceil(90 * 60 - totalRawMins);
+        tierInfo = `<div class="text-[11px] text-blue-800 bg-blue-50 p-2.5 rounded-xl border border-blue-200">
+          🚀 До максимальной ставки <strong>150 ₽/ч</strong> осталось отработать: <strong>${fmtTime(needed)}</strong>
+        </div>`;
+      } else {
+        tierInfo = `<div class="text-[11px] text-emerald-800 bg-emerald-50 p-2.5 rounded-xl border border-emerald-200">
+          🔥 Вы достигли максимальной ставки <strong>150 ₽/ч</strong>!
+        </div>`;
+      }
+
+      details.innerHTML = `
+        <div class="grid grid-cols-2 gap-2 text-left">
+          <div class="bg-gray-50 p-2.5 rounded-xl border border-gray-200">
+            <div class="text-[10px] text-gray-400 uppercase font-bold">Текущая ставка</div>
+            <div class="text-base font-black text-gray-800">${baseRate} ₽/час</div>
+          </div>
+          <div class="bg-gray-50 p-2.5 rounded-xl border border-gray-200">
+            <div class="text-[10px] text-gray-400 uppercase font-bold">Отработано часов</div>
+            <div class="text-base font-black text-gray-800">${(totalRawHours).toFixed(1)} ч</div>
+          </div>
+        </div>
+
+        ${tierInfo}
+
+        <div class="space-y-1 text-left border-t border-gray-100 pt-2 text-xs">
+          <div class="flex justify-between text-gray-600">
+            <span>⏱️ Время за месяц:</span>
+            <strong class="text-gray-800">${fmtTime(totalRawMins)}</strong>
+          </div>
+          <div class="flex justify-between text-gray-600">
+            <span>🏢 Будние дни:</span>
+            <strong class="text-gray-800">${fmtTime(weekdayMins)}</strong>
+          </div>
+          <div class="flex justify-between text-gray-600">
+            <span>🏖️ Выходные (кэф x1.5):</span>
+            <strong class="text-emerald-600">${fmtTime(weekendMins)}</strong>
+          </div>
+          <div class="flex justify-between text-gray-600">
+            <span>📞 Звонков за месяц:</span>
+            <strong class="text-gray-800">${totalCalls}</strong>
+          </div>
+        </div>
+      `;
+    }
 
     function openStatsModal() {
       const calls = currentShift?.callsCount || 0;
