@@ -9,146 +9,320 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="ТТК Дайлер">
   
-  <title>ТТК — Мобильный Дайлер PWA</title>
+  <title>ТТК — Мобильный Дайлер</title>
   
   <link rel="apple-touch-icon" href="https://placehold.co/192x192/e20613/ffffff.png?text=TTK">
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+    
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    html, body { width: 100vw; min-height: 100vh; margin: 0; padding: 0; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); font-family: 'Inter', -apple-system, sans-serif; color: #0f172a; }
-    body { padding: 12px; display: flex; justify-content: center; align-items: flex-start; }
     
-    /* Карточка приложения */
-    .card { background: #ffffff; padding: 22px; border-radius: 20px; box-shadow: 0 10px 25px -5px rgba(226, 6, 19, 0.08); width: 100%; max-width: 480px; margin: 0 auto; border: 1px solid #fee2e2; }
-    .header { text-align: center; margin-bottom: 18px; }
-    .header h2 { margin: 0; font-weight: 800; font-size: 22px; background: linear-gradient(135deg, #e20613 0%, #a8040d 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    html, body { 
+      width: 100vw; 
+      min-height: 100vh; 
+      margin: 0; 
+      padding: 0; 
+      background: #f4f5f7; 
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif; 
+      color: #1d1b20; 
+    }
     
-    /* Верхняя панель кнопок */
-    .top-buttons { display: flex; gap: 6px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
-    .agent-badge { display: inline-flex; align-items: center; gap: 6px; background: #fff1f2; color: #9f1239; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; border: 1px solid #fecdd3; }
-    .btn-admin { background: #fef3c7; color: #d97706; border: 1px solid #fde68a; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
-    .btn-income { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
-    .btn-stats { background: #fff1f2; color: #e20613; border: 1px solid #fecdd3; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none; display: inline-block; }
-    .btn-faq { background: #f0f9ff; color: #0284c7; border: 1px solid #bae6fd; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
-    .btn-settings { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    body { 
+      padding: 12px; 
+      display: flex; 
+      justify-content: center; 
+      align-items: flex-start; 
+    }
     
-    /* Кнопка Завершить смену */
-    .btn-end-shift-bar { width: 100%; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: #ffffff; border: none; font-size: 14px; font-weight: 800; cursor: pointer; padding: 13px; border-radius: 14px; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25); display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s ease; margin-top: 12px; }
+    .card { 
+      background: #ffffff; 
+      padding: 24px 20px; 
+      border-radius: 28px; 
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.08); 
+      width: 100%; 
+      max-width: 480px; 
+      margin: 0 auto; 
+      border: 1px solid #f1f3f5;
+    }
+    
+    .header { text-align: center; margin-bottom: 20px; }
+    .header h2 { 
+      margin: 0; 
+      font-weight: 900; 
+      font-size: 22px; 
+      color: #e20613;
+      letter-spacing: -0.3px;
+    }
+    
+    .top-buttons { display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+    
+    .agent-badge { 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 6px; 
+      background: #ffebee; 
+      color: #c62828; 
+      padding: 8px 14px; 
+      border-radius: 100px; 
+      font-size: 12px; 
+      font-weight: 700; 
+      border: 1px solid #ffcdd2; 
+    }
+    
+    .md-chip-btn {
+      border: 1px solid #e0e0e0;
+      background: #ffffff;
+      color: #424242;
+      padding: 8px 14px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    .md-chip-btn:active { transform: scale(0.96); background: #f5f5f5; }
+    
+    .btn-admin { background: #fff8e1; color: #f57f17; border-color: #ffe082; }
+    .btn-income { background: #e8f5e9; color: #2e7d32; border-color: #a5d6a7; }
+    .btn-stats { background: #ffebee; color: #e20613; border-color: #ffcdd2; text-decoration: none; }
+    .btn-faq { background: #e1f5fe; color: #0277bd; border-color: #81d4fa; }
+    .btn-settings { background: #f5f5f5; color: #424242; border-color: #e0e0e0; }
+
+    .btn-end-shift-bar { 
+      width: 100%; 
+      background: linear-gradient(135deg, #ef5350 0%, #e20613 100%); 
+      color: #ffffff; 
+      border: none; 
+      font-size: 15px; 
+      font-weight: 700; 
+      cursor: pointer; 
+      padding: 14px; 
+      border-radius: 20px; 
+      box-shadow: 0 4px 12px rgba(226, 6, 19, 0.25); 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 8px; 
+      transition: all 0.2s ease; 
+      margin-top: 14px; 
+    }
     .btn-end-shift-bar:active { transform: scale(0.98); opacity: 0.9; }
 
-    /* Плашка смены */
-    .shift-stats-bar { display: flex; justify-content: space-around; align-items: center; background: linear-gradient(135deg, #1f2937 0%, #111827 100%); color: #ffffff; padding: 12px 14px; border-radius: 14px; margin-top: 10px; font-size: 13px; font-weight: 700; box-shadow: 0 4px 12px rgba(17, 24, 39, 0.2); flex-wrap: wrap; gap: 8px; border: 1px solid #374151; }
+    .shift-stats-bar { 
+      display: flex; 
+      justify-content: space-around; 
+      align-items: center; 
+      background: #212121; 
+      color: #ffffff; 
+      padding: 14px; 
+      border-radius: 20px; 
+      margin-top: 10px; 
+      font-size: 13px; 
+      font-weight: 700; 
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15); 
+      flex-wrap: wrap; 
+      gap: 8px; 
+    }
     .shift-timer-box { display: flex; align-items: center; gap: 6px; }
-    .shift-timer-val { font-family: monospace; font-size: 16px; font-weight: 800; color: #f87171; }
-    .shift-calls-box { background: rgba(255, 255, 255, 0.12); padding: 4px 10px; border-radius: 8px; }
+    .shift-timer-val { font-family: monospace; font-size: 17px; font-weight: 900; color: #ff8a80; }
+    .shift-calls-box { background: rgba(255, 255, 255, 0.12); padding: 5px 12px; border-radius: 12px; }
 
-    /* PWA баннер */
-    .pwa-install-banner { background: linear-gradient(135deg, #e20613 0%, #b9050f 100%); color: white; padding: 12px; border-radius: 14px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; }
-    .btn-install { background: white; color: #e20613; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 800; font-size: 12px; cursor: pointer; }
+    .pwa-install-banner { 
+      background: #e20613; 
+      color: white; 
+      padding: 14px 16px; 
+      border-radius: 20px; 
+      margin-bottom: 16px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      font-size: 13px; 
+      font-weight: 600; 
+      box-shadow: 0 4px 12px rgba(226, 6, 19, 0.2);
+    }
+    .btn-install { 
+      background: #ffffff; 
+      color: #e20613; 
+      border: none; 
+      padding: 8px 16px; 
+      border-radius: 100px; 
+      font-weight: 700; 
+      font-size: 12px; 
+      cursor: pointer; 
+    }
 
-    /* Вкладки авторизации */
-    .auth-tabs { display: flex; border-bottom: 2px solid #fee2e2; margin-bottom: 16px; }
-    .auth-tab { flex: 1; padding: 10px; text-align: center; font-weight: 700; font-size: 14px; color: #64748b; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; }
-    .auth-tab.active { color: #e20613; border-color: #e20613; }
+    .auth-tabs { display: flex; background: #f5f5f5; padding: 4px; border-radius: 100px; margin-bottom: 20px; }
+    .auth-tab { 
+      flex: 1; 
+      padding: 10px; 
+      text-align: center; 
+      font-weight: 700; 
+      font-size: 14px; 
+      color: #616161; 
+      cursor: pointer; 
+      border-radius: 100px; 
+      transition: all 0.2s ease;
+    }
+    .auth-tab.active { background: #ffffff; color: #e20613; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
 
-    /* Поля ввода и формы */
-    .form-group { margin-bottom: 16px; }
-    label { font-weight: 700; display: block; margin-bottom: 6px; color: #475569; font-size: 12px; text-transform: uppercase; letter-spacing: 0.3px; }
-    input, textarea, select { width: 100%; padding: 13px 15px; border-radius: 12px; border: 1.5px solid #cbd5e1; font-size: 15px; font-family: inherit; background: #f8fafc; transition: border-color 0.2s; }
-    input:focus, textarea:focus, select:focus { border-color: #e20613; outline: none; background: #ffffff; }
-    textarea { resize: vertical; height: 75px; }
+    .form-group { margin-bottom: 18px; }
+    label { font-weight: 700; display: block; margin-bottom: 6px; color: #424242; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+    input, textarea, select { 
+      width: 100%; 
+      padding: 14px 16px; 
+      border-radius: 16px; 
+      border: 1.5px solid #e0e0e0; 
+      font-size: 15px; 
+      font-family: inherit; 
+      background: #fafafa; 
+      transition: border-color 0.2s, background-color 0.2s; 
+    }
+    input:focus, textarea:focus, select:focus { border-color: #e20613; outline: none; background: #ffffff; box-shadow: 0 0 0 3px rgba(226, 6, 19, 0.1); }
+    textarea { resize: vertical; height: 80px; }
 
-    .btn-primary { width: 100%; padding: 15px; border-radius: 12px; background: linear-gradient(135deg, #e20613 0%, #b9050f 100%); color: white; border: none; font-weight: 800; font-size: 16px; cursor: pointer; box-shadow: 0 4px 14px rgba(226, 6, 19, 0.3); }
-    .btn-primary:active { transform: scale(0.99); }
+    .btn-primary { 
+      width: 100%; 
+      padding: 16px; 
+      border-radius: 100px; 
+      background: #e20613; 
+      color: white; 
+      border: none; 
+      font-weight: 700; 
+      font-size: 16px; 
+      cursor: pointer; 
+      box-shadow: 0 4px 14px rgba(226, 6, 19, 0.3); 
+      transition: all 0.2s ease;
+    }
+    .btn-primary:active { transform: scale(0.98); opacity: 0.95; }
 
-    /* Карточка клиента */
-    .contact-card { background: #ffffff; border: 1.5px solid #fecaca; padding: 18px; border-radius: 16px; margin: 16px 0; box-shadow: 0 4px 12px rgba(226, 6, 19, 0.05); }
-    .client-name-label { font-size: 11px; color: #94a3b8; font-weight: 800; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-    .client-address { font-size: 17px; font-weight: 800; color: #0f172a; line-height: 1.3; }
+    .contact-card { 
+      background: #ffffff; 
+      border: 1px solid #ffebee; 
+      padding: 20px; 
+      border-radius: 24px; 
+      margin: 18px 0; 
+      box-shadow: 0 4px 16px rgba(226, 6, 19, 0.06); 
+    }
+    .client-name-label { font-size: 11px; color: #757575; font-weight: 700; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .client-address { font-size: 18px; font-weight: 700; color: #212121; line-height: 1.35; }
     
-    /* Исправленный контейнер тегов города и базы */
-    .city-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; margin-bottom: 14px; gap: 8px; flex-wrap: wrap; }
+    .city-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; margin-bottom: 16px; gap: 8px; flex-wrap: wrap; }
     .badge-container { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; flex: 1; }
-    .client-city-tag { background: #fff1f2; color: #9f1239; border: 1px solid #fecdd3; padding: 5px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; white-space: nowrap; }
-    .db-tag { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 5px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; white-space: nowrap; }
-    .btn-tariff-open { background: #e20613; color: white; border: none; padding: 7px 13px; border-radius: 8px; font-size: 12px; font-weight: 800; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 6px rgba(226, 6, 19, 0.2); }
+    .client-city-tag { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; padding: 6px 12px; border-radius: 100px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+    .db-tag { background: #fff8e1; color: #f57f17; border: 1px solid #ffe082; padding: 6px 12px; border-radius: 100px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+    .btn-tariff-open { background: #e20613; color: white; border: none; padding: 8px 16px; border-radius: 100px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 8px rgba(226, 6, 19, 0.25); }
 
     /* Поле телефона */
-    .phone-box { background: #f8fafc; padding: 14px; border-radius: 14px; border: 1.5px solid #e2e8f0; text-align: center; }
-    .phone-num { font-size: 24px; font-weight: 800; color: #0f172a; display: block; margin-bottom: 10px; letter-spacing: 0.5px; }
+    .phone-box { background: #f8f9fa; padding: 16px; border-radius: 20px; border: 1px solid #e9ecef; text-align: center; }
+    .phone-num { font-size: 26px; font-weight: 900; color: #212121; display: block; margin-bottom: 12px; letter-spacing: 0.5px; }
     .phone-actions { display: flex; gap: 10px; }
-    .btn-phone-action { flex: 1; padding: 12px; font-size: 14px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-weight: 700; border: none; cursor: pointer; }
-    .btn-copy { background: #ffffff; color: #334155; border: 1.5px solid #cbd5e1; }
-    .btn-call { background: #10b981; color: white; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25); }
+    .btn-phone-action { flex: 1; padding: 14px; font-size: 14px; border-radius: 100px; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-weight: 700; border: none; cursor: pointer; transition: transform 0.15s ease; }
+    .btn-copy { background: #ffffff; color: #424242; border: 1.5px solid #e0e0e0; }
+    .btn-call { background: #2e7d32; color: white; box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25); }
+    .btn-phone-action:active { transform: scale(0.97); }
 
-    /* Кнопки результатов */
-    .status-group-label { margin: 18px 0 10px 0; font-size: 12px; font-weight: 800; color: #64748b; text-transform: uppercase; }
-    .btn-status { width: 100%; margin-bottom: 9px; text-align: left; background: #ffffff; color: #334155; border: 1.5px solid #e2e8f0; padding: 14px 16px; font-size: 15px; font-weight: 600; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
-    .btn-status-group { background: #f8fafc; border-color: #cbd5e1; font-weight: 700; }
-    .sub-status-box { background: #f1f5f9; border-radius: 12px; padding: 10px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 6px; }
-    .btn-sub-status { width: 100%; text-align: left; background: white; border: 1px solid #cbd5e1; padding: 10px 14px; font-size: 13px; font-weight: 600; border-radius: 8px; cursor: pointer; }
+    .status-group-label { margin: 20px 0 10px 0; font-size: 12px; font-weight: 700; color: #757575; text-transform: uppercase; letter-spacing: 0.5px; }
+    
+    .btn-status { 
+      width: 100%; 
+      margin-bottom: 10px; 
+      text-align: left; 
+      background: #ffffff; 
+      color: #212121; 
+      border: 1.5px solid #e0e0e0; 
+      padding: 15px 18px; 
+      font-size: 15px; 
+      font-weight: 600; 
+      border-radius: 16px; 
+      cursor: pointer; 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+      transition: all 0.2s ease;
+    }
+    .btn-status:active { transform: scale(0.98); background: #fafafa; }
+    
+    .btn-status-group { background: #f5f5f5; border-color: #e0e0e0; font-weight: 700; }
+    .sub-status-box { background: #fafafa; border-radius: 18px; padding: 12px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px; border: 1px solid #eee; }
+    .btn-sub-status { width: 100%; text-align: left; background: white; border: 1px solid #e0e0e0; padding: 12px 16px; font-size: 13.5px; font-weight: 600; border-radius: 12px; cursor: pointer; }
 
-    .btn-status-success { background: #f0fdf4; color: #166534; border-color: #bbf7d0; }
-    .btn-status-refuse { background: #fef2f2; color: #991b1b; border-color: #fecaca; }
-    .btn-status-callback { background: #fffbebfb; color: #b45309; border-color: #fde68a; }
-    .btn-status-ttk { background: #eff6ff; color: #1e40af; border-color: #bfdbfe; }
-    .btn-status-hangup { background: #fff7ed; color: #c2410c; border-color: #ffedd5; }
-    .btn-status-blacklist { background: #1f2937; color: #ffffff; border-color: #111827; margin-top: 12px; }
+    .btn-status-success { background: #e8f5e9; color: #1b5e20; border-color: #a5d6a7; }
+    .btn-status-refuse { background: #ffebee; color: #b71c1c; border-color: #ffcdd2; }
+    .btn-status-callback { background: #fff8e1; color: #f57f17; border-color: #ffe082; }
+    .btn-status-ttk { background: #e3f2fd; color: #0d47a1; border-color: #90caf9; }
+    .btn-status-hangup { background: #fff3e0; color: #e65100; border-color: #ffe0b2; }
+    .btn-status-blacklist { background: #212121; color: #ffffff; border-color: #000000; margin-top: 14px; border-radius: 100px; }
 
-    .btn-reload { background: #10b981; color: white; border: none; font-weight: 800; border-radius: 12px; padding: 14px; margin-top: 15px; cursor: pointer; width: 100%; }
+    .btn-reload { background: #2e7d32; color: white; border: none; font-weight: 700; border-radius: 100px; padding: 16px; margin-top: 16px; cursor: pointer; width: 100%; box-shadow: 0 4px 12px rgba(46, 125, 50, 0.25); }
     .hidden { display: none !important; }
-    .status-msg { text-align: center; font-weight: 600; color: #64748b; margin: 20px 0; font-size: 15px; }
-    .callback-box { background: #fffbebfb; border: 1.5px solid #fde68a; padding: 16px; border-radius: 14px; margin-top: 12px; }
-    .success-box { background: #f0fdf4; border: 1.5px solid #bbf7d0; padding: 16px; border-radius: 14px; margin-top: 12px; }
+    .status-msg { text-align: center; font-weight: 600; color: #757575; margin: 20px 0; font-size: 15px; }
+    .callback-box { background: #fff8e1; border: 1.5px solid #ffe082; padding: 18px; border-radius: 20px; margin-top: 14px; }
+    .success-box { background: #e8f5e9; border: 1.5px solid #a5d6a7; padding: 18px; border-radius: 20px; margin-top: 14px; }
 
-    /* Модальные окна */
-    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 1000; display: flex; justify-content: center; align-items: flex-end; }
-    .modal-content { background: white; width: 100%; max-width: 500px; height: 85vh; border-radius: 24px 24px 0 0; padding: 20px; display: flex; flex-direction: column; box-shadow: 0 -10px 30px rgba(0,0,0,0.2); animation: slideUp 0.3s ease-out; }
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); z-index: 1000; display: flex; justify-content: center; align-items: flex-end; }
+    .modal-content { 
+      background: white; 
+      width: 100%; 
+      max-width: 500px; 
+      height: 85vh; 
+      border-radius: 28px 28px 0 0; 
+      padding: 16px 20px 24px 20px; 
+      display: flex; 
+      flex-direction: column; 
+      box-shadow: 0 -10px 30px rgba(0,0,0,0.2); 
+      animation: slideUp 0.25s cubic-bezier(0, 0, 0.2, 1); 
+    }
+    .sheet-handle { width: 36px; height: 4px; background: #e0e0e0; border-radius: 2px; margin: 0 auto 14px auto; }
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 10px; }
-    .modal-title { font-size: 18px; font-weight: 800; color: #0f172a; }
-    .modal-close { background: #f1f5f9; border: none; font-size: 18px; font-weight: bold; color: #64748b; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; }
+    
+    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f3f5; padding-bottom: 12px; margin-bottom: 14px; }
+    .modal-title { font-size: 18px; font-weight: 700; color: #212121; }
+    .modal-close { background: #f5f5f5; border: none; font-size: 18px; font-weight: bold; color: #616161; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-    .admin-tabs { display: flex; gap: 8px; border-bottom: 1.5px solid #e2e8f0; margin-bottom: 14px; }
-    .admin-tab-btn { flex: 1; padding: 8px; text-align: center; font-weight: 700; font-size: 12px; color: #64748b; border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; }
-    .admin-tab-btn.active { color: #e20613; border-color: #e20613; }
+    .admin-tabs { display: flex; background: #f5f5f5; padding: 4px; border-radius: 100px; margin-bottom: 16px; }
+    .admin-tab-btn { flex: 1; padding: 8px; text-align: center; font-weight: 700; font-size: 12px; color: #616161; border: none; background: none; cursor: pointer; border-radius: 100px; }
+    .admin-tab-btn.active { background: #ffffff; color: #e20613; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
 
     .stat-card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-    .stat-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 12px; text-align: center; }
-    .stat-val { font-size: 20px; font-weight: 800; color: #0f172a; }
-    .stat-lbl { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; }
+    .stat-box { background: #f8f9fa; border: 1px solid #e9ecef; padding: 14px; border-radius: 16px; text-align: center; }
+    .stat-val { font-size: 22px; font-weight: 900; color: #212121; }
+    .stat-lbl { font-size: 10px; font-weight: 700; color: #757575; text-transform: uppercase; }
 
-    .progress-bar-bg { background: #e2e8f0; height: 10px; border-radius: 10px; overflow: hidden; margin: 8px 0; }
-    .progress-bar-fill { background: linear-gradient(135deg, #e20613 0%, #b9050f 100%); height: 100%; width: 0%; transition: width 0.3s; }
+    .progress-bar-bg { background: #e0e0e0; height: 10px; border-radius: 100px; overflow: hidden; margin: 8px 0; }
+    .progress-bar-fill { background: #e20613; height: 100%; width: 0%; transition: width 0.3s ease; }
 
     .admin-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
-    .admin-table th, .admin-table td { padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: left; }
-    .admin-table th { background: #f8fafc; color: #64748b; font-weight: 700; }
+    .admin-table th, .admin-table td { padding: 10px; border-bottom: 1px solid #e0e0e0; text-align: left; }
+    .admin-table th { background: #f8f9fa; color: #757575; font-weight: 700; }
 
     /* Доходы */
-    .income-box { background: linear-gradient(135deg, #e20613 0%, #b9050f 100%); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 16px; box-shadow: 0 4px 14px rgba(226, 6, 19, 0.25); }
-    .income-val { font-size: 32px; font-weight: 800; margin: 6px 0; }
+    .income-box { background: #e20613; color: white; padding: 22px; border-radius: 24px; text-align: center; margin-bottom: 18px; box-shadow: 0 4px 16px rgba(226, 6, 19, 0.25); }
+    .income-val { font-size: 34px; font-weight: 900; margin: 6px 0; }
     .income-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
-    .income-stat-card { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 12px; text-align: center; }
-    .stat-num { font-size: 18px; font-weight: 800; color: #0f172a; }
+    .income-stat-card { background: #f8f9fa; border: 1px solid #e9ecef; padding: 14px; border-radius: 16px; text-align: center; }
+    .stat-num { font-size: 18px; font-weight: 900; color: #212121; }
 
     .faq-body { overflow-y: auto; flex: 1; padding-right: 4px; }
-    .faq-section { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; }
-    .faq-sec-title { font-weight: 800; font-size: 14px; color: #991b1b; margin-bottom: 6px; }
-    .faq-text { font-size: 12px; color: #475569; margin: 4px 0; line-height: 1.4; }
+    .faq-section { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 18px; padding: 14px; margin-bottom: 12px; }
+    .faq-sec-title { font-weight: 700; font-size: 14px; color: #c62828; margin-bottom: 6px; }
+    .faq-text { font-size: 12.5px; color: #424242; margin: 4px 0; line-height: 1.45; }
 
-    /* Карточка тарифа */
     .tariff-list { overflow-y: auto; flex: 1; }
-    .tariff-card { background: #ffffff; border: 1.5px solid #fecaca; border-radius: 14px; padding: 14px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
-    .t-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px; border-bottom: 1px solid #fee2e2; padding-bottom: 8px; }
-    .t-name { font-weight: 800; font-size: 16px; color: #0f172a; }
-    .t-price { font-size: 16px; font-weight: 800; color: #e20613; white-space: nowrap; }
-    .t-desc { font-size: 13px; color: #334155; margin-bottom: 6px; line-height: 1.4; }
-    .t-cond { font-size: 12px; color: #991b1b; background: #fff5f5; padding: 8px 10px; border-radius: 8px; margin-bottom: 6px; line-height: 1.4; border: 1px solid #fecaca; }
-    .t-cities { font-size: 11px; color: #64748b; margin-top: 4px; }
+    .tariff-card { background: #ffffff; border: 1.5px solid #ffcdd2; border-radius: 20px; padding: 16px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .t-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px; border-bottom: 1px solid #ffebee; padding-bottom: 8px; }
+    .t-name { font-weight: 800; font-size: 16px; color: #212121; }
+    .t-period { font-size: 12px; font-weight: 600; color: #757575; margin-top: 3px; }
+    .t-price { font-size: 18px; font-weight: 900; color: #e20613; white-space: nowrap; }
+    .t-desc { font-size: 13px; color: #424242; margin-bottom: 6px; line-height: 1.4; }
+    .t-cond { font-size: 12px; color: #c62828; background: #ffebee; padding: 10px; border-radius: 12px; margin-bottom: 6px; line-height: 1.4; border: 1px solid #ffcdd2; }
+    .t-cities { font-size: 11px; color: #757575; margin-top: 4px; }
 
-    #toast { visibility: hidden; min-width: 220px; background-color: #0f172a; color: #fff; text-align: center; border-radius: 30px; padding: 12px 20px; position: fixed; z-index: 2000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 14px; font-weight: 600; }
+    #toast { visibility: hidden; min-width: 220px; background-color: #212121; color: #fff; text-align: center; border-radius: 100px; padding: 14px 24px; position: fixed; z-index: 2000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 14px; font-weight: 600; box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
     #toast.show { visibility: visible; animation: fadein 0.3s, fadeout 0.3s 1.7s; }
     @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
     @keyframes fadeout { from { bottom: 30px; opacity: 1; } to { bottom: 0; opacity: 0; } }
@@ -166,14 +340,13 @@
 
       <div id="top-bar" class="top-buttons hidden">
         <div class="agent-badge">👤 <span id="display-agent"></span></div>
-        <button id="admin-panel-btn" class="btn-admin hidden" onclick="openAdminModal()">👑 Админ-панель</button>
-        <button id="settings-btn" class="btn-settings hidden" onclick="openSettingsModal()">⚙️ Сервер</button>
-        <button class="btn-income" onclick="openIncomeModal()">💰 Доход</button>
-        <a id="stats-link" href="https://maxkoch23.github.io/itmstat/" target="_blank" class="btn-stats">📊 Статистика</a>
-        <button class="btn-faq" onclick="openFaqModal()">❓ FAQ</button>
+        <button id="admin-panel-btn" class="md-chip-btn btn-admin hidden" onclick="openAdminModal()">👑 Админ</button>
+        <button id="settings-btn" class="md-chip-btn btn-settings hidden" onclick="openSettingsModal()">⚙️ Сервер</button>
+        <button class="md-chip-btn btn-income" onclick="openIncomeModal()">💰 Доход</button>
+        <a id="stats-link" href="https://maxkoch23.github.io/itmstat/" target="_blank" class="md-chip-btn btn-stats">📊 Статистика</a>
+        <button class="md-chip-btn btn-faq" onclick="openFaqModal()">❓ FAQ</button>
       </div>
 
-      <!-- Кнопка завершения смены -->
       <button id="btn-end-shift-bar" class="btn-end-shift-bar hidden" onclick="endShiftAndLogout()">🛑 Завершить смену</button>
 
       <!-- Плашка таймера и количества звонков -->
@@ -188,7 +361,6 @@
       </div>
     </div>
     
-    <!-- Авторизация и регистрация -->
     <div id="auth-box">
       <div class="auth-tabs">
         <div id="tab-login" class="auth-tab active" onclick="switchAuthTab('login')">Вход</div>
@@ -224,7 +396,6 @@
       </div>
     </div>
 
-    <!-- Рабочая область оператора -->
     <div id="work-box" class="hidden">
       <div id="contact-card" class="contact-card hidden">
         <div class="client-name-label">
@@ -233,7 +404,6 @@
         </div>
         <div id="c-address" class="client-address"></div>
         
-        <!-- Исправленный блок тегов города и базы -->
         <div class="city-bar">
           <div class="badge-container">
             <span id="c-city" class="client-city-tag"></span>
@@ -258,7 +428,6 @@
 
       <div id="loader" class="status-msg hidden">⌛ Загрузка...</div>
 
-      <!-- Фиксация результатов звонка -->
       <div id="status-buttons" class="hidden">
         <div class="status-group-label">Результат разговора</div>
         
@@ -296,33 +465,34 @@
         <!-- ФОРМА СОГЛАСИЯ -->
         <div id="success-form" class="success-box hidden">
           <div class="form-group">
-            <label style="color:#166534;">Детали согласия (тариф, пожелания):</label>
+            <label style="color:#1b5e20;">Детали согласия (тариф, пожелания):</label>
             <textarea id="success-comment" placeholder="Например: Выбрал Комфорт, подключение во вторник..."></textarea>
           </div>
-          <button class="btn-primary" onclick="submitSuccess()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow:0 4px 12px rgba(16, 185, 129, 0.3);">Сохранить согласие</button>
+          <button class="btn-primary" onclick="submitSuccess()" style="background: #2e7d32; box-shadow:0 4px 12px rgba(46, 125, 50, 0.3);">Сохранить согласие</button>
         </div>
 
         <!-- ФОРМА ПЕРЕЗВОНА -->
         <div id="callback-form" class="callback-box hidden">
           <div class="form-group">
-            <label style="color:#b45309;">Дата и время перезвона:</label>
+            <label style="color:#f57f17;">Дата и время перезвона:</label>
             <input type="datetime-local" id="cb-date">
           </div>
           <div class="form-group">
-            <label style="color:#b45309;">Комментарий к звонку:</label>
+            <label style="color:#f57f17;">Комментарий к звонку:</label>
             <textarea id="cb-comment" placeholder="О чем договорились..."></textarea>
           </div>
-          <button class="btn-primary" onclick="submitCallback()" style="background: linear-gradient(135deg, #d97706 0%, #b45309 100%); box-shadow:0 4px 12px rgba(217, 119, 6, 0.3);">Сохранить перезвон</button>
+          <button class="btn-primary" onclick="submitCallback()" style="background: #f57f17; box-shadow:0 4px 12px rgba(245, 127, 23, 0.3);">Сохранить перезвон</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Модальное окно настроек сервера -->
+  <!-- Настройки сервера -->
   <div id="settings-modal" class="modal-overlay hidden">
-    <div class="modal-content" style="height: auto; border-radius:24px;">
+    <div class="modal-content" style="height: auto;">
+      <div class="sheet-handle"></div>
       <div class="modal-header">
-        <div class="modal-title">⚙️ Подключение к Google Таблице</div>
+        <div class="modal-title">⚙️ Подключение к Серверу</div>
         <button class="modal-close" onclick="closeSettingsModal()">✕</button>
       </div>
       <div class="form-group">
@@ -333,9 +503,10 @@
     </div>
   </div>
 
-  <!-- Модальное окно Админ-панели -->
+  <!-- Админ-панель -->
   <div id="admin-modal" class="modal-overlay hidden">
     <div class="modal-content">
+      <div class="sheet-handle"></div>
       <div class="modal-header">
         <div class="modal-title">👑 Админ-панель</div>
         <button class="modal-close" onclick="closeAdminModal()">✕</button>
@@ -363,17 +534,17 @@
           <div class="stat-box"><div id="adb-remaining" class="stat-val" style="color:#e20613;">0</div><div class="stat-lbl">Осталось</div></div>
         </div>
 
-        <div style="font-size:12px; font-weight:700; color:#475569;">Прогресс обзвона базы: <span id="adb-pct">0%</span></div>
+        <div style="font-size:12px; font-weight:700; color:#757575;">Прогресс обзвона: <span id="adb-pct">0%</span></div>
         <div class="progress-bar-bg"><div id="adb-bar" class="progress-bar-fill"></div></div>
 
-        <div class="stat-card-row" style="margin-top:10px;">
-          <div class="stat-box"><div id="adb-dozvon" class="stat-val" style="color:#0284c7;">0</div><div class="stat-lbl">Дозвоны</div></div>
-          <div class="stat-box"><div id="adb-nedozvon" class="stat-val" style="color:#d97706;">0</div><div class="stat-lbl">Недозвоны</div></div>
+        <div class="stat-card-row" style="margin-top:12px;">
+          <div class="stat-box"><div id="adb-dozvon" class="stat-val" style="color:#0277bd;">0</div><div class="stat-lbl">Дозвоны</div></div>
+          <div class="stat-box"><div id="adb-nedozvon" class="stat-val" style="color:#f57f17;">0</div><div class="stat-lbl">Недозвоны</div></div>
         </div>
 
         <div class="stat-card-row" style="margin-top:10px;">
-          <div class="stat-box"><div id="adb-agreed" class="stat-val" style="color:#10b981;">0</div><div class="stat-lbl">Согласия</div></div>
-          <div class="stat-box"><div id="adb-refused" class="stat-val" style="color:#ef4444;">0</div><div class="stat-lbl">Отказы</div></div>
+          <div class="stat-box"><div id="adb-agreed" class="stat-val" style="color:#2e7d32;">0</div><div class="stat-lbl">Согласия</div></div>
+          <div class="stat-box"><div id="adb-refused" class="stat-val" style="color:#c62828;">0</div><div class="stat-lbl">Отказы</div></div>
         </div>
       </div>
 
@@ -397,9 +568,10 @@
     </div>
   </div>
 
-  <!-- FAQ модальное окно -->
+  <!-- FAQ -->
   <div id="faq-modal" class="modal-overlay hidden">
     <div class="modal-content">
+      <div class="sheet-handle"></div>
       <div class="modal-header">
         <div class="modal-title">📖 Руководство и FAQ</div>
         <button class="modal-close" onclick="closeFaqModal()">✕</button>
@@ -407,7 +579,7 @@
       <div class="faq-body">
         <div class="faq-section">
           <div class="faq-sec-title">⏱️ Учёт смены</div>
-          <p class="faq-text">При входе смена открывается автоматически. Вверху отображаются время работы и счётчик отработанных звонков. По окончании работы обязательно нажимайте плашку <b>«🛑 Завершить смену»</b>.</p>
+          <p class="faq-text">При входе смена открывается автоматически. Вверху отображаются время работы и счётчик отработанных звонков. По окончании работы нажимайте <b>«🛑 Завершить смену»</b>.</p>
         </div>
 
         <div class="faq-section">
@@ -419,29 +591,30 @@
 
         <div class="faq-section">
           <div class="faq-sec-title">📝 Фиксация результатов</div>
-          <p class="faq-text"><b>🟢 Дозвон:</b> выбор результата разговора (Согласие, Отказ, Сбросили, Абонент ТТК, Дорого, Качество и др.).</p>
+          <p class="faq-text"><b>🟢 Дозвон:</b> выбор результата (Согласие, Отказ, Сбросили, Абонент ТТК, Дорого и т.д.).</p>
           <p class="faq-text"><b>⏰ Перезвонить:</b> установка даты, времени и комментария к повторному звонку.</p>
           <p class="faq-text"><b>📞 Недозвон / 🤖 Автоответчик:</b> фиксация отсутствия ответа.</p>
-          <p class="faq-text"><b>🚫 Убрать из обзвона (ЧС):</b> навсегда исключает недействительный номер из базы.</p>
+          <p class="faq-text"><b>🚫 Убрать из обзвона (ЧС):</b> исключает номер из базы.</p>
         </div>
 
         <div class="faq-section">
           <div class="faq-sec-title">💰 Личный кабинет (Доход)</div>
-          <p class="faq-text">Показывает расчётный заработок за месяц с учётом отработанных будних и выходных часов (коэффициент x1.5), количества звонков и текущей часовой ставки.</p>
+          <p class="faq-text">Показывает расчётный заработок с учётом будней, выходных (x1.5) и текущей часовой ставки.</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Модальное окно дохода -->
+  <!-- Доходы -->
   <div id="income-modal" class="modal-overlay hidden">
     <div class="modal-content">
+      <div class="sheet-handle"></div>
       <div class="modal-header">
         <div class="modal-title">💰 Личный кабинет</div>
         <button class="modal-close" onclick="closeIncomeModal()">✕</button>
       </div>
 
-      <div class="form-group" style="margin-bottom: 10px;">
+      <div class="form-group" style="margin-bottom: 12px;">
         <label>Выберите месяц:</label>
         <select id="income-month-select" onchange="loadIncomeStats()">
           <option value="6">Июль 2026</option>
@@ -466,15 +639,16 @@
     </div>
   </div>
 
-  <!-- Обновленное модальное окно тарифов -->
+  <!-- Тарифы -->
   <div id="tariff-modal" class="modal-overlay hidden">
     <div class="modal-content">
+      <div class="sheet-handle"></div>
       <div class="modal-header">
         <div class="modal-title">Тарифные планы ТТК</div>
         <button class="modal-close" onclick="closeTariffsModal()">✕</button>
       </div>
-      <div style="margin-bottom:12px;">
-        <input type="text" id="city-search-input" style="padding:11px 14px; font-size:14px; border-radius:10px;" placeholder="🔍 Поиск по городу или названию..." oninput="renderTariffs()">
+      <div style="margin-bottom:14px;">
+        <input type="text" id="city-search-input" style="padding:12px 16px; font-size:14px;" placeholder="🔍 Поиск по городу или названию..." oninput="renderTariffs()">
       </div>
       <div id="tariff-list-container" class="tariff-list"></div>
     </div>
@@ -511,11 +685,10 @@
       try { localStorage.removeItem(key); } catch(e) {}
     }
 
-    // Инициализация PWA через Blob URL
     (function initPWA() {
       if ('serviceWorker' in navigator) {
         const swCode = `
-          const CACHE_NAME = 'ttk-pwa-v4';
+          const CACHE_NAME = 'ttk-pwa-v5';
           self.addEventListener('install', e => { self.skipWaiting(); });
           self.addEventListener('activate', e => { e.waitUntil(clients.claim()); });
           self.addEventListener('fetch', e => {
@@ -524,9 +697,7 @@
         `;
         const blobSW = new Blob([swCode], { type: 'application/javascript' });
         const swUrl = URL.createObjectURL(blobSW);
-        navigator.serviceWorker.register(swUrl, { scope: './' })
-          .then(() => console.log('SW Registered via Blob'))
-          .catch(err => console.log('SW Reg Error:', err));
+        navigator.serviceWorker.register(swUrl, { scope: './' }).catch(() => {});
       }
 
       const manifestObj = {
@@ -911,13 +1082,11 @@
       }
     }
 
-    // Рендеринг карточки с исправленным выравниванием города и базы
     function renderCurrentContactCard(card, activeDb) {
       document.getElementById('c-address').innerText = card.address || 'Адрес не указан';
       document.getElementById('c-city').innerText = card.city ? ('📍 ' + card.city) : '📍 Город не указан';
       document.getElementById('c-db-tag').innerText = 'База: ' + (activeDb || '90+');
       
-      // Автоматическое добавление плюса, если номер начинается с 7
       let displayPhone = String(card.phone || '').trim();
       if (displayPhone.startsWith('7')) {
         displayPhone = '+' + displayPhone;
@@ -1053,7 +1222,7 @@
           data.users.forEach(function(u) {
             const btnTxt = u.role === 'Суперпользователь' ? 'Сделать Агентом' : 'Сделать Админом';
             const nextRole = u.role === 'Суперпользователь' ? 'Агент' : 'Суперпользователь';
-            rBody.innerHTML += '<tr><td>' + u.fullName + '<br><small style="color:#64748b;">(' + u.login + ')</small></td><td>' + u.role + '</td><td><div style="display:flex; gap:4px; flex-wrap:wrap;"><button onclick="changeRole(\'' + u.login + '\', \'' + nextRole + '\')" style="font-size:10px; padding:4px 6px; border-radius:6px; cursor:pointer;">' + btnTxt + '</button><button onclick="deleteUserAccount(\'' + u.login + '\')" style="font-size:10px; padding:4px 6px; border-radius:6px; background:#fee2e2; color:#dc2626; border:1px solid #fecaca; cursor:pointer; font-weight:700;">Уволить</button></div></td></tr>';
+            rBody.innerHTML += '<tr><td>' + u.fullName + '<br><small style="color:#757575;">(' + u.login + ')</small></td><td>' + u.role + '</td><td><div style="display:flex; gap:4px; flex-wrap:wrap;"><button onclick="changeRole(\'' + u.login + '\', \'' + nextRole + '\')" style="font-size:10px; padding:4px 8px; border-radius:100px; cursor:pointer;">' + btnTxt + '</button><button onclick="deleteUserAccount(\'' + u.login + '\')" style="font-size:10px; padding:4px 8px; border-radius:100px; background:#ffebee; color:#c62828; border:1px solid #ffcdd2; cursor:pointer; font-weight:700;">Уволить</button></div></td></tr>';
           });
         })
         .catch(() => {});
@@ -1113,7 +1282,6 @@
         .catch(()=>{});
     }
 
-    // Автоматический подхват города при открытии каталога тарифов
     function openTariffsModal() {
       document.getElementById('tariff-modal').classList.remove('hidden');
       const clientCity = (currentCard && currentCard.city) ? currentCard.city.trim() : "";
@@ -1122,7 +1290,6 @@
     }
     function closeTariffsModal() { document.getElementById('tariff-modal').classList.add('hidden'); }
 
-    // Полный рендеринг тарифов со всеми примечаниями
     function renderTariffs() {
       const query = document.getElementById('city-search-input').value.trim().toLowerCase();
       const container = document.getElementById('tariff-list-container');
@@ -1137,7 +1304,7 @@
       });
 
       if (filtered.length === 0) {
-        container.innerHTML = '<div style="color:#94a3b8; font-size:14px; text-align:center; padding:20px;">Тарифы по данному запросу не найдены.</div>';
+        container.innerHTML = '<div style="color:#757575; font-size:14px; text-align:center; padding:20px;">Тарифы по данному запросу не найдены.</div>';
         return;
       }
 
@@ -1149,7 +1316,7 @@
         html += '<div>';
         html += '<div class="t-name">' + (t.name || 'Тариф') + '</div>';
         if (t.period) {
-          html += '<div style="font-size:12px; font-weight:600; color:#64748b; margin-top:3px;">⏱️ ' + t.period + '</div>';
+          html += '<div class="t-period">⏱️ ' + t.period + '</div>';
         }
         html += '</div>';
         html += '<div class="t-price">' + (t.price || '') + '</div>';
