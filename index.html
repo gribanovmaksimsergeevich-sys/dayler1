@@ -68,9 +68,11 @@
     .btn-faq { background: #f0f9ff; color: #0284c7; border: 1px solid #bae6fd; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
     .btn-fullscreen { background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
     .btn-settings { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
-    .btn-logout { background: #fee2e2; border: none; color: #dc2626; font-size: 11px; font-weight: 700; cursor: pointer; padding: 4px 8px; border-radius: 6px; }
+    
+    .btn-logout { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: #ffffff; border: none; font-size: 12px; font-weight: 800; cursor: pointer; padding: 6px 12px; border-radius: 10px; box-shadow: 0 3px 8px rgba(220, 38, 38, 0.3); display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s ease; }
+    .btn-logout:active { transform: scale(0.96); opacity: 0.9; }
 
-    .shift-stats-bar { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); color: #ffffff; padding: 10px 16px; border-radius: 14px; margin-top: 10px; font-size: 13px; font-weight: 700; box-shadow: 0 4px 12px rgba(30, 27, 75, 0.15); }
+    .shift-stats-bar { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); color: #ffffff; padding: 10px 14px; border-radius: 14px; margin-top: 10px; font-size: 13px; font-weight: 700; box-shadow: 0 4px 12px rgba(30, 27, 75, 0.15); flex-wrap: wrap; gap: 6px; }
     .shift-timer-box { display: flex; align-items: center; gap: 6px; }
     .shift-timer-val { font-family: monospace; font-size: 16px; font-weight: 800; color: #38bdf8; }
     .shift-calls-box { background: rgba(255, 255, 255, 0.15); padding: 4px 10px; border-radius: 8px; }
@@ -181,12 +183,11 @@
       <div id="top-bar" class="top-buttons hidden">
         <div class="agent-badge">👤 <span id="display-agent"></span></div>
         <button id="admin-panel-btn" class="btn-admin hidden" onclick="openAdminModal()">👑 Админ-панель</button>
+        <button id="settings-btn" class="btn-settings hidden" onclick="openSettingsModal()">⚙️ Сервер</button>
         <button class="btn-income" onclick="openIncomeModal()">💰 Доход</button>
         <a id="stats-link" href="https://maxkoch23.github.io/itmstat/" target="_blank" class="btn-stats">📊 Статистика</a>
         <button class="btn-faq" onclick="openFaqModal()">❓ FAQ</button>
-        <button class="btn-settings" onclick="openSettingsModal()">⚙️ Сервер</button>
         <button class="btn-fullscreen" onclick="toggleFullScreen()">⛶ На весь экран</button>
-        <button class="btn-logout" onclick="endShiftAndLogout()">Завершить</button>
       </div>
 
       <div id="shift-stats-bar" class="shift-stats-bar hidden">
@@ -197,6 +198,7 @@
         <div class="shift-calls-box">
           📞 Звонков: <span id="shift-calls-count">0</span>
         </div>
+        <button class="btn-logout" onclick="endShiftAndLogout()">🛑 Завершить</button>
       </div>
     </div>
     
@@ -582,8 +584,10 @@
 
               if (isAdmin) {
                 document.getElementById('admin-panel-btn').classList.remove('hidden');
+                document.getElementById('settings-btn').classList.remove('hidden');
               } else {
                 document.getElementById('admin-panel-btn').classList.add('hidden');
+                document.getElementById('settings-btn').classList.add('hidden');
               }
 
               resumeOrStartShift();
@@ -654,8 +658,10 @@
 
             if (isAdmin) {
               document.getElementById('admin-panel-btn').classList.remove('hidden');
+              document.getElementById('settings-btn').classList.remove('hidden');
             } else {
               document.getElementById('admin-panel-btn').classList.add('hidden');
+              document.getElementById('settings-btn').classList.add('hidden');
             }
 
             resumeOrStartShift();
@@ -691,8 +697,10 @@
 
             if (isAdmin) {
               document.getElementById('admin-panel-btn').classList.remove('hidden');
+              document.getElementById('settings-btn').classList.remove('hidden');
             } else {
               document.getElementById('admin-panel-btn').classList.add('hidden');
+              document.getElementById('settings-btn').classList.add('hidden');
             }
 
             showToast("Успешная регистрация! Выполняется вход...");
@@ -761,8 +769,10 @@
 
       if (isAdmin) {
         document.getElementById('admin-panel-btn').classList.remove('hidden');
+        document.getElementById('settings-btn').classList.remove('hidden');
       } else {
         document.getElementById('admin-panel-btn').classList.add('hidden');
+        document.getElementById('settings-btn').classList.add('hidden');
       }
 
       updateCallsDisplay();
@@ -822,6 +832,7 @@
           document.getElementById('work-box').classList.add('hidden');
           document.getElementById('auth-box').classList.remove('hidden');
           document.getElementById('admin-panel-btn').classList.add('hidden');
+          document.getElementById('settings-btn').classList.add('hidden');
         })
         .catch(() => {
           document.getElementById('loader').classList.add('hidden');
