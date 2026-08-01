@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#4f46e5">
+  <meta name="theme-color" content="#e20613">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -11,66 +11,81 @@
   
   <title>ТТК — Мобильный Дайлер PWA</title>
   
-  <link rel="apple-touch-icon" href="https://placehold.co/192x192/4f46e5/ffffff.png?text=TTK">
+  <link rel="apple-touch-icon" href="https://placehold.co/192x192/e20613/ffffff.png?text=TTK">
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    html, body { width: 100vw; min-height: 100vh; margin: 0; padding: 0; background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%); font-family: 'Inter', -apple-system, sans-serif; color: #1e293b; }
+    html, body { width: 100vw; min-height: 100vh; margin: 0; padding: 0; background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); font-family: 'Inter', -apple-system, sans-serif; color: #0f172a; }
     body { padding: 12px; display: flex; justify-content: center; align-items: flex-start; }
     
-    .card { background: #ffffff; padding: 22px; border-radius: 20px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); width: 100%; max-width: 480px; margin: 0 auto; border: 1px solid rgba(226, 232, 240, 0.8); }
+    /* Карточка приложения */
+    .card { background: #ffffff; padding: 22px; border-radius: 20px; box-shadow: 0 10px 25px -5px rgba(226, 6, 19, 0.08); width: 100%; max-width: 480px; margin: 0 auto; border: 1px solid #fee2e2; }
     .header { text-align: center; margin-bottom: 18px; }
-    .header h2 { margin: 0; font-weight: 800; font-size: 22px; background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .header h2 { margin: 0; font-weight: 800; font-size: 22px; background: linear-gradient(135deg, #e20613 0%, #a8040d 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     
-    .top-buttons { display: flex; gap: 6px; justify-content: center; margin-top: 8px; flex-wrap: wrap; }
-    .agent-badge { display: inline-flex; align-items: center; gap: 6px; background: #f1f5f9; color: #475569; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    /* Верхняя панель кнопок */
+    .top-buttons { display: flex; gap: 6px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+    .agent-badge { display: inline-flex; align-items: center; gap: 6px; background: #fff1f2; color: #9f1239; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; border: 1px solid #fecdd3; }
     .btn-admin { background: #fef3c7; color: #d97706; border: 1px solid #fde68a; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
     .btn-income { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
-    .btn-stats { background: #e0e7ff; color: #3730a3; border: 1px solid #c7d2fe; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none; display: inline-block; }
+    .btn-stats { background: #fff1f2; color: #e20613; border: 1px solid #fecdd3; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none; display: inline-block; }
     .btn-faq { background: #f0f9ff; color: #0284c7; border: 1px solid #bae6fd; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
     .btn-settings { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
     
-    .btn-end-shift-bar { width: 100%; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: #ffffff; border: none; font-size: 14px; font-weight: 800; cursor: pointer; padding: 12px; border-radius: 14px; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25); display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s ease; margin-top: 10px; }
+    /* Кнопка Завершить смену */
+    .btn-end-shift-bar { width: 100%; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: #ffffff; border: none; font-size: 14px; font-weight: 800; cursor: pointer; padding: 13px; border-radius: 14px; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25); display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s ease; margin-top: 12px; }
     .btn-end-shift-bar:active { transform: scale(0.98); opacity: 0.9; }
 
-    .shift-stats-bar { display: flex; justify-content: space-around; align-items: center; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); color: #ffffff; padding: 12px 14px; border-radius: 14px; margin-top: 10px; font-size: 13px; font-weight: 700; box-shadow: 0 4px 12px rgba(30, 27, 75, 0.15); flex-wrap: wrap; gap: 8px; }
+    /* Плашка смены */
+    .shift-stats-bar { display: flex; justify-content: space-around; align-items: center; background: linear-gradient(135deg, #1f2937 0%, #111827 100%); color: #ffffff; padding: 12px 14px; border-radius: 14px; margin-top: 10px; font-size: 13px; font-weight: 700; box-shadow: 0 4px 12px rgba(17, 24, 39, 0.2); flex-wrap: wrap; gap: 8px; border: 1px solid #374151; }
     .shift-timer-box { display: flex; align-items: center; gap: 6px; }
-    .shift-timer-val { font-family: monospace; font-size: 16px; font-weight: 800; color: #38bdf8; }
-    .shift-calls-box { background: rgba(255, 255, 255, 0.15); padding: 4px 10px; border-radius: 8px; }
+    .shift-timer-val { font-family: monospace; font-size: 16px; font-weight: 800; color: #f87171; }
+    .shift-calls-box { background: rgba(255, 255, 255, 0.12); padding: 4px 10px; border-radius: 8px; }
 
-    .pwa-install-banner { background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); color: white; padding: 12px; border-radius: 14px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; }
-    .btn-install { background: white; color: #4f46e5; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 800; font-size: 12px; cursor: pointer; }
+    /* PWA баннер */
+    .pwa-install-banner { background: linear-gradient(135deg, #e20613 0%, #b9050f 100%); color: white; padding: 12px; border-radius: 14px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; }
+    .btn-install { background: white; color: #e20613; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 800; font-size: 12px; cursor: pointer; }
 
-    .auth-tabs { display: flex; border-bottom: 2px solid #e2e8f0; margin-bottom: 16px; }
+    /* Вкладки авторизации */
+    .auth-tabs { display: flex; border-bottom: 2px solid #fee2e2; margin-bottom: 16px; }
     .auth-tab { flex: 1; padding: 10px; text-align: center; font-weight: 700; font-size: 14px; color: #64748b; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; }
-    .auth-tab.active { color: #4f46e5; border-color: #4f46e5; }
+    .auth-tab.active { color: #e20613; border-color: #e20613; }
 
+    /* Поля ввода и формы */
     .form-group { margin-bottom: 16px; }
-    label { font-weight: 600; display: block; margin-bottom: 8px; color: #475569; font-size: 13px; text-transform: uppercase; }
-    input, textarea, select { width: 100%; padding: 14px 16px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-size: 15px; font-family: inherit; background: #f8fafc; }
+    label { font-weight: 700; display: block; margin-bottom: 6px; color: #475569; font-size: 12px; text-transform: uppercase; letter-spacing: 0.3px; }
+    input, textarea, select { width: 100%; padding: 13px 15px; border-radius: 12px; border: 1.5px solid #cbd5e1; font-size: 15px; font-family: inherit; background: #f8fafc; transition: border-color 0.2s; }
+    input:focus, textarea:focus, select:focus { border-color: #e20613; outline: none; background: #ffffff; }
     textarea { resize: vertical; height: 75px; }
 
-    .btn-primary { width: 100%; padding: 15px; border-radius: 12px; background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%); color: white; border: none; font-weight: 700; font-size: 16px; cursor: pointer; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25); }
+    .btn-primary { width: 100%; padding: 15px; border-radius: 12px; background: linear-gradient(135deg, #e20613 0%, #b9050f 100%); color: white; border: none; font-weight: 800; font-size: 16px; cursor: pointer; box-shadow: 0 4px 14px rgba(226, 6, 19, 0.3); }
+    .btn-primary:active { transform: scale(0.99); }
 
-    .contact-card { background: #f8fafc; border: 1.5px solid #e2e8f0; padding: 18px; border-radius: 16px; margin: 16px 0; }
-    .client-name-label { font-size: 11px; color: #94a3b8; font-weight: 700; text-transform: uppercase; display: flex; justify-content: space-between; }
-    .client-address { font-size: 17px; font-weight: 700; color: #0f172a; margin-top: 2px; }
-    .city-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; margin-bottom: 12px; }
-    .client-city-tag { background: #e0e7ff; color: #3730a3; padding: 5px 12px; border-radius: 8px; font-size: 13px; font-weight: 700; }
-    .db-tag { background: #fef3c7; color: #b45309; padding: 5px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; margin-left: 4px; }
-    .btn-tariff-open { background: #4f46e5; color: white; border: none; padding: 7px 14px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+    /* Карточка клиента */
+    .contact-card { background: #ffffff; border: 1.5px solid #fecaca; padding: 18px; border-radius: 16px; margin: 16px 0; box-shadow: 0 4px 12px rgba(226, 6, 19, 0.05); }
+    .client-name-label { font-size: 11px; color: #94a3b8; font-weight: 800; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .client-address { font-size: 17px; font-weight: 800; color: #0f172a; line-height: 1.3; }
+    
+    /* Исправленный контейнер тегов города и базы */
+    .city-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; margin-bottom: 14px; gap: 8px; flex-wrap: wrap; }
+    .badge-container { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; flex: 1; }
+    .client-city-tag { background: #fff1f2; color: #9f1239; border: 1px solid #fecdd3; padding: 5px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+    .db-tag { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; padding: 5px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+    .btn-tariff-open { background: #e20613; color: white; border: none; padding: 7px 13px; border-radius: 8px; font-size: 12px; font-weight: 800; cursor: pointer; white-space: nowrap; box-shadow: 0 2px 6px rgba(226, 6, 19, 0.2); }
 
-    .phone-box { background: #ffffff; padding: 14px; border-radius: 14px; border: 1.5px solid #cbd5e1; text-align: center; }
-    .phone-num { font-size: 24px; font-weight: 800; color: #1e1b4b; display: block; margin-bottom: 10px; }
+    /* Поле телефона */
+    .phone-box { background: #f8fafc; padding: 14px; border-radius: 14px; border: 1.5px solid #e2e8f0; text-align: center; }
+    .phone-num { font-size: 24px; font-weight: 800; color: #0f172a; display: block; margin-bottom: 10px; letter-spacing: 0.5px; }
     .phone-actions { display: flex; gap: 10px; }
-    .btn-phone-action { flex: 1; padding: 12px; font-size: 14px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-weight: 600; border: none; cursor: pointer; }
-    .btn-copy { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; }
-    .btn-call { background: #10b981; color: white; }
+    .btn-phone-action { flex: 1; padding: 12px; font-size: 14px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-weight: 700; border: none; cursor: pointer; }
+    .btn-copy { background: #ffffff; color: #334155; border: 1.5px solid #cbd5e1; }
+    .btn-call { background: #10b981; color: white; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25); }
 
-    .status-group-label { margin: 18px 0 10px 0; font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; }
+    /* Кнопки результатов */
+    .status-group-label { margin: 18px 0 10px 0; font-size: 12px; font-weight: 800; color: #64748b; text-transform: uppercase; }
     .btn-status { width: 100%; margin-bottom: 9px; text-align: left; background: #ffffff; color: #334155; border: 1.5px solid #e2e8f0; padding: 14px 16px; font-size: 15px; font-weight: 600; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
-    .btn-status-group { background: #f8fafc; border-color: #cbd5e1; }
+    .btn-status-group { background: #f8fafc; border-color: #cbd5e1; font-weight: 700; }
     .sub-status-box { background: #f1f5f9; border-radius: 12px; padding: 10px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 6px; }
     .btn-sub-status { width: 100%; text-align: left; background: white; border: 1px solid #cbd5e1; padding: 10px 14px; font-size: 13px; font-weight: 600; border-radius: 8px; cursor: pointer; }
 
@@ -79,14 +94,15 @@
     .btn-status-callback { background: #fffbebfb; color: #b45309; border-color: #fde68a; }
     .btn-status-ttk { background: #eff6ff; color: #1e40af; border-color: #bfdbfe; }
     .btn-status-hangup { background: #fff7ed; color: #c2410c; border-color: #ffedd5; }
-    .btn-status-blacklist { background: #1e293b; color: #ffffff; border-color: #0f172a; margin-top: 12px; }
+    .btn-status-blacklist { background: #1f2937; color: #ffffff; border-color: #111827; margin-top: 12px; }
 
-    .btn-reload { background: #10b981; color: white; border: none; font-weight: 700; border-radius: 12px; padding: 14px; margin-top: 15px; cursor: pointer; width: 100%; }
+    .btn-reload { background: #10b981; color: white; border: none; font-weight: 800; border-radius: 12px; padding: 14px; margin-top: 15px; cursor: pointer; width: 100%; }
     .hidden { display: none !important; }
     .status-msg { text-align: center; font-weight: 600; color: #64748b; margin: 20px 0; font-size: 15px; }
     .callback-box { background: #fffbebfb; border: 1.5px solid #fde68a; padding: 16px; border-radius: 14px; margin-top: 12px; }
     .success-box { background: #f0fdf4; border: 1.5px solid #bbf7d0; padding: 16px; border-radius: 14px; margin-top: 12px; }
 
+    /* Модальные окна */
     .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 1000; display: flex; justify-content: center; align-items: flex-end; }
     .modal-content { background: white; width: 100%; max-width: 500px; height: 85vh; border-radius: 24px 24px 0 0; padding: 20px; display: flex; flex-direction: column; box-shadow: 0 -10px 30px rgba(0,0,0,0.2); animation: slideUp 0.3s ease-out; }
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
@@ -96,7 +112,7 @@
 
     .admin-tabs { display: flex; gap: 8px; border-bottom: 1.5px solid #e2e8f0; margin-bottom: 14px; }
     .admin-tab-btn { flex: 1; padding: 8px; text-align: center; font-weight: 700; font-size: 12px; color: #64748b; border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; }
-    .admin-tab-btn.active { color: #4f46e5; border-color: #4f46e5; }
+    .admin-tab-btn.active { color: #e20613; border-color: #e20613; }
 
     .stat-card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
     .stat-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 12px; text-align: center; }
@@ -104,13 +120,14 @@
     .stat-lbl { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; }
 
     .progress-bar-bg { background: #e2e8f0; height: 10px; border-radius: 10px; overflow: hidden; margin: 8px 0; }
-    .progress-bar-fill { background: linear-gradient(135deg, #10b981 0%, #059669 100%); height: 100%; width: 0%; transition: width 0.3s; }
+    .progress-bar-fill { background: linear-gradient(135deg, #e20613 0%, #b9050f 100%); height: 100%; width: 0%; transition: width 0.3s; }
 
     .admin-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
     .admin-table th, .admin-table td { padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: left; }
     .admin-table th { background: #f8fafc; color: #64748b; font-weight: 700; }
 
-    .income-box { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 16px; }
+    /* Доходы */
+    .income-box { background: linear-gradient(135deg, #e20613 0%, #b9050f 100%); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 16px; box-shadow: 0 4px 14px rgba(226, 6, 19, 0.25); }
     .income-val { font-size: 32px; font-weight: 800; margin: 6px 0; }
     .income-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
     .income-stat-card { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 12px; text-align: center; }
@@ -118,13 +135,18 @@
 
     .faq-body { overflow-y: auto; flex: 1; padding-right: 4px; }
     .faq-section { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; margin-bottom: 10px; }
-    .faq-sec-title { font-weight: 800; font-size: 14px; color: #1e1b4b; margin-bottom: 6px; }
+    .faq-sec-title { font-weight: 800; font-size: 14px; color: #991b1b; margin-bottom: 6px; }
     .faq-text { font-size: 12px; color: #475569; margin: 4px 0; line-height: 1.4; }
 
+    /* Карточка тарифа */
     .tariff-list { overflow-y: auto; flex: 1; }
-    .tariff-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 14px; margin-bottom: 12px; }
-    .t-name { font-weight: 800; font-size: 16px; color: #1e1b4b; }
-    .t-price { font-size: 18px; font-weight: 800; color: #059669; margin: 6px 0; }
+    .tariff-card { background: #ffffff; border: 1.5px solid #fecaca; border-radius: 14px; padding: 14px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+    .t-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px; border-bottom: 1px solid #fee2e2; padding-bottom: 8px; }
+    .t-name { font-weight: 800; font-size: 16px; color: #0f172a; }
+    .t-price { font-size: 16px; font-weight: 800; color: #e20613; white-space: nowrap; }
+    .t-desc { font-size: 13px; color: #334155; margin-bottom: 6px; line-height: 1.4; }
+    .t-cond { font-size: 12px; color: #991b1b; background: #fff5f5; padding: 8px 10px; border-radius: 8px; margin-bottom: 6px; line-height: 1.4; border: 1px solid #fecaca; }
+    .t-cities { font-size: 11px; color: #64748b; margin-top: 4px; }
 
     #toast { visibility: hidden; min-width: 220px; background-color: #0f172a; color: #fff; text-align: center; border-radius: 30px; padding: 12px 20px; position: fixed; z-index: 2000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 14px; font-weight: 600; }
     #toast.show { visibility: visible; animation: fadein 0.3s, fadeout 0.3s 1.7s; }
@@ -151,8 +173,10 @@
         <button class="btn-faq" onclick="openFaqModal()">❓ FAQ</button>
       </div>
 
+      <!-- Кнопка завершения смены -->
       <button id="btn-end-shift-bar" class="btn-end-shift-bar hidden" onclick="endShiftAndLogout()">🛑 Завершить смену</button>
 
+      <!-- Плашка таймера и количества звонков -->
       <div id="shift-stats-bar" class="shift-stats-bar hidden">
         <div class="shift-timer-box">
           <span>⏱️ Время:</span>
@@ -164,6 +188,7 @@
       </div>
     </div>
     
+    <!-- Авторизация и регистрация -->
     <div id="auth-box">
       <div class="auth-tabs">
         <div id="tab-login" class="auth-tab active" onclick="switchAuthTab('login')">Вход</div>
@@ -199,6 +224,7 @@
       </div>
     </div>
 
+    <!-- Рабочая область оператора -->
     <div id="work-box" class="hidden">
       <div id="contact-card" class="contact-card hidden">
         <div class="client-name-label">
@@ -207,8 +233,9 @@
         </div>
         <div id="c-address" class="client-address"></div>
         
+        <!-- Исправленный блок тегов города и базы -->
         <div class="city-bar">
-          <div>
+          <div class="badge-container">
             <span id="c-city" class="client-city-tag"></span>
             <span id="c-db-tag" class="db-tag"></span>
           </div>
@@ -231,6 +258,7 @@
 
       <div id="loader" class="status-msg hidden">⌛ Загрузка...</div>
 
+      <!-- Фиксация результатов звонка -->
       <div id="status-buttons" class="hidden">
         <div class="status-group-label">Результат разговора</div>
         
@@ -271,7 +299,7 @@
             <label style="color:#166534;">Детали согласия (тариф, пожелания):</label>
             <textarea id="success-comment" placeholder="Например: Выбрал Комфорт, подключение во вторник..."></textarea>
           </div>
-          <button class="btn-primary" onclick="submitSuccess()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">Сохранить согласие</button>
+          <button class="btn-primary" onclick="submitSuccess()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow:0 4px 12px rgba(16, 185, 129, 0.3);">Сохранить согласие</button>
         </div>
 
         <!-- ФОРМА ПЕРЕЗВОНА -->
@@ -284,12 +312,13 @@
             <label style="color:#b45309;">Комментарий к звонку:</label>
             <textarea id="cb-comment" placeholder="О чем договорились..."></textarea>
           </div>
-          <button class="btn-primary" onclick="submitCallback()" style="background: linear-gradient(135deg, #d97706 0%, #b45309 100%);">Сохранить перезвон</button>
+          <button class="btn-primary" onclick="submitCallback()" style="background: linear-gradient(135deg, #d97706 0%, #b45309 100%); box-shadow:0 4px 12px rgba(217, 119, 6, 0.3);">Сохранить перезвон</button>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Модальное окно настроек сервера -->
   <div id="settings-modal" class="modal-overlay hidden">
     <div class="modal-content" style="height: auto; border-radius:24px;">
       <div class="modal-header">
@@ -304,6 +333,7 @@
     </div>
   </div>
 
+  <!-- Модальное окно Админ-панели -->
   <div id="admin-modal" class="modal-overlay hidden">
     <div class="modal-content">
       <div class="modal-header">
@@ -330,7 +360,7 @@
         <div class="stat-card-row" style="grid-template-columns: 1fr 1fr 1fr;">
           <div class="stat-box"><div id="adb-total" class="stat-val">0</div><div class="stat-lbl">Всего</div></div>
           <div class="stat-box"><div id="adb-done" class="stat-val">0</div><div class="stat-lbl">Обработано</div></div>
-          <div class="stat-box"><div id="adb-remaining" class="stat-val" style="color:#3b82f6;">0</div><div class="stat-lbl">Осталось</div></div>
+          <div class="stat-box"><div id="adb-remaining" class="stat-val" style="color:#e20613;">0</div><div class="stat-lbl">Осталось</div></div>
         </div>
 
         <div style="font-size:12px; font-weight:700; color:#475569;">Прогресс обзвона базы: <span id="adb-pct">0%</span></div>
@@ -367,6 +397,7 @@
     </div>
   </div>
 
+  <!-- FAQ модальное окно -->
   <div id="faq-modal" class="modal-overlay hidden">
     <div class="modal-content">
       <div class="modal-header">
@@ -383,13 +414,13 @@
           <div class="faq-sec-title">📞 Карточка абонента</div>
           <p class="faq-text"><b>📞 Позвонить:</b> запускает SIP-вызов (на iOS) или обычный набор (на Android).</p>
           <p class="faq-text"><b>📋 Скопировать:</b> копирует номер телефона в буфер обмена в 1 клик.</p>
-          <p class="faq-text"><b>🏷️ Тарифы:</b> открывает каталог актуальных тарифных планов ТТК с быстрым поиском по городам.</p>
+          <p class="faq-text"><b>🏷️ Тарифы:</b> открывает каталог актуальных тарифных планов ТТК. Город подставляется автоматически!</p>
         </div>
 
         <div class="faq-section">
           <div class="faq-sec-title">📝 Фиксация результатов</div>
-          <p class="faq-text"><b>🟢 Дозвон:</b> меню выбора результатов разговора (Согласие, Отказ, Сбросили, Абонент ТТК, Дорого, Качество и др.).</p>
-          <p class="faq-text"><b>⏰ Перезвонить:</b> позволяет установить дату, время и комментарий к повторному звонку.</p>
+          <p class="faq-text"><b>🟢 Дозвон:</b> выбор результата разговора (Согласие, Отказ, Сбросили, Абонент ТТК, Дорого, Качество и др.).</p>
+          <p class="faq-text"><b>⏰ Перезвонить:</b> установка даты, времени и комментария к повторному звонку.</p>
           <p class="faq-text"><b>📞 Недозвон / 🤖 Автоответчик:</b> фиксация отсутствия ответа.</p>
           <p class="faq-text"><b>🚫 Убрать из обзвона (ЧС):</b> навсегда исключает недействительный номер из базы.</p>
         </div>
@@ -402,6 +433,7 @@
     </div>
   </div>
 
+  <!-- Модальное окно дохода -->
   <div id="income-modal" class="modal-overlay hidden">
     <div class="modal-content">
       <div class="modal-header">
@@ -420,9 +452,9 @@
       </div>
 
       <div class="income-box">
-        <div style="font-size:12px; font-weight:600; text-transform:uppercase; opacity:0.9;">Расчётный заработок</div>
+        <div style="font-size:12px; font-weight:700; text-transform:uppercase; opacity:0.9;">Расчётный заработок</div>
         <div id="inc-total-val" class="income-val">0 ₽</div>
-        <div id="inc-rate-lbl" style="font-size:13px; font-weight:600; opacity:0.95;">Ставка: 100 ₽/час</div>
+        <div id="inc-rate-lbl" style="font-size:13px; font-weight:700; opacity:0.95;">Ставка: 100 ₽/час</div>
       </div>
 
       <div class="income-grid">
@@ -434,14 +466,15 @@
     </div>
   </div>
 
+  <!-- Обновленное модальное окно тарифов -->
   <div id="tariff-modal" class="modal-overlay hidden">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="modal-title">Тарифные планы</div>
+        <div class="modal-title">Тарифные планы ТТК</div>
         <button class="modal-close" onclick="closeTariffsModal()">✕</button>
       </div>
       <div style="margin-bottom:12px;">
-        <input type="text" id="city-search-input" style="padding:10px 14px; font-size:14px; border-radius:10px;" placeholder="🔍 Поиск по городу..." oninput="renderTariffs()">
+        <input type="text" id="city-search-input" style="padding:11px 14px; font-size:14px; border-radius:10px;" placeholder="🔍 Поиск по городу или названию..." oninput="renderTariffs()">
       </div>
       <div id="tariff-list-container" class="tariff-list"></div>
     </div>
@@ -478,11 +511,11 @@
       try { localStorage.removeItem(key); } catch(e) {}
     }
 
-    // Регистрация PWA Manifest и Service Worker через Blob URL
+    // Инициализация PWA через Blob URL
     (function initPWA() {
       if ('serviceWorker' in navigator) {
         const swCode = `
-          const CACHE_NAME = 'ttk-pwa-v3';
+          const CACHE_NAME = 'ttk-pwa-v4';
           self.addEventListener('install', e => { self.skipWaiting(); });
           self.addEventListener('activate', e => { e.waitUntil(clients.claim()); });
           self.addEventListener('fetch', e => {
@@ -496,7 +529,6 @@
           .catch(err => console.log('SW Reg Error:', err));
       }
 
-      // Генерация динамического Blob Manifest
       const manifestObj = {
         id: "./",
         name: "ТТК — Мобильный Дайлер",
@@ -505,11 +537,11 @@
         scope: "./",
         display: "standalone",
         orientation: "portrait",
-        background_color: "#f8fafc",
-        theme_color: "#4f46e5",
+        background_color: "#ffffff",
+        theme_color: "#e20613",
         icons: [
-          { src: "https://placehold.co/192x192/4f46e5/ffffff.png?text=TTK", sizes: "192x192", type: "image/png", purpose: "any maskable" },
-          { src: "https://placehold.co/512x512/4f46e5/ffffff.png?text=TTK", sizes: "512x512", type: "image/png", purpose: "any maskable" }
+          { src: "https://placehold.co/192x192/e20613/ffffff.png?text=TTK", sizes: "192x192", type: "image/png", purpose: "any maskable" },
+          { src: "https://placehold.co/512x512/e20613/ffffff.png?text=TTK", sizes: "512x512", type: "image/png", purpose: "any maskable" }
         ]
       };
       const blobManifest = new Blob([JSON.stringify(manifestObj)], { type: 'application/json' });
@@ -879,6 +911,7 @@
       }
     }
 
+    // Рендеринг карточки с исправленным выравниванием города и базы
     function renderCurrentContactCard(card, activeDb) {
       document.getElementById('c-address').innerText = card.address || 'Адрес не указан';
       document.getElementById('c-city').innerText = card.city ? ('📍 ' + card.city) : '📍 Город не указан';
@@ -1073,29 +1106,54 @@
         .catch(()=>{});
     }
 
+    // Автоматический подхват города при открытии каталога тарифов
     function openTariffsModal() {
       document.getElementById('tariff-modal').classList.remove('hidden');
+      const clientCity = (currentCard && currentCard.city) ? currentCard.city.trim() : "";
+      document.getElementById('city-search-input').value = clientCity;
       renderTariffs();
     }
     function closeTariffsModal() { document.getElementById('tariff-modal').classList.add('hidden'); }
 
+    // Полный рендеринг тарифов со всеми примечаниями
     function renderTariffs() {
       const query = document.getElementById('city-search-input').value.trim().toLowerCase();
       const container = document.getElementById('tariff-list-container');
       container.innerHTML = "";
+      
       const filtered = TARIFFS_DB.filter(function(t) {
-        return !query || t.cities.toLowerCase().indexOf(query) !== -1 || t.name.toLowerCase().indexOf(query) !== -1;
+        if (!query) return true;
+        return (t.cities && t.cities.toLowerCase().indexOf(query) !== -1) || 
+               (t.name && t.name.toLowerCase().indexOf(query) !== -1) ||
+               (t.desc && t.desc.toLowerCase().indexOf(query) !== -1) ||
+               (t.cond && t.cond.toLowerCase().indexOf(query) !== -1);
       });
 
       if (filtered.length === 0) {
-        container.innerHTML = '<div style="color:#94a3b8; font-size:14px; text-align:center; padding:20px;">Тарифы не найдены.</div>';
+        container.innerHTML = '<div style="color:#94a3b8; font-size:14px; text-align:center; padding:20px;">Тарифы по данному запросу не найдены.</div>';
         return;
       }
 
       filtered.forEach(function(t) {
         const item = document.createElement('div');
         item.className = 'tariff-card';
-        item.innerHTML = '<div class="t-name">' + t.name + ' (' + t.desc + ')</div><div class="t-price">' + t.price + '</div>';
+        
+        let html = '<div class="t-header">';
+        html += '<div class="t-name">' + (t.name || 'Тариф') + '</div>';
+        html += '<div class="t-price">' + (t.price || '') + (t.period ? (' / ' + t.period) : '') + '</div>';
+        html += '</div>';
+
+        if (t.desc) {
+          html += '<div class="t-desc">⚡ <b>Описание / Скорость:</b> ' + t.desc + '</div>';
+        }
+        if (t.cond) {
+          html += '<div class="t-cond">📝 <b>Условия / Примечания:</b> ' + t.cond + '</div>';
+        }
+        if (t.cities) {
+          html += '<div class="t-cities">📍 <b>Города:</b> ' + t.cities + '</div>';
+        }
+
+        item.innerHTML = html;
         container.appendChild(item);
       });
     }
