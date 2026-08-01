@@ -10,9 +10,7 @@
   <meta name="apple-mobile-web-app-title" content="ТТК Дайлер">
   
   <title>ТТК — Мобильный Дайлер PWA</title>
-
-  <!-- PWA Manifest Direct Data URI (гарантирует распознавание PWA браузером) -->
-  <link rel="manifest" href='data:application/manifest+json;utf8,{"id":"./","name":"ТТК — Мобильный Дайлер","short_name":"ТТК Дайлер","start_url":"./index.html","scope":"./","display":"standalone","orientation":"portrait","background_color":"#f8fafc","theme_color":"#4f46e5","description":"Рабочий дайлер обзвона ТТК","icons":[{"src":"https://placehold.co/192x192/4f46e5/ffffff.png?text=TTK","sizes":"192x192","type":"image/png","purpose":"any maskable"},{"src":"https://placehold.co/512x512/4f46e5/ffffff.png?text=TTK","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}'>
+  
   <link rel="apple-touch-icon" href="https://placehold.co/192x192/4f46e5/ffffff.png?text=TTK">
 
   <style>
@@ -34,10 +32,10 @@
     .btn-fullscreen { background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
     .btn-settings { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
     
-    .btn-logout { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: #ffffff; border: none; font-size: 12px; font-weight: 800; cursor: pointer; padding: 6px 12px; border-radius: 10px; box-shadow: 0 3px 8px rgba(220, 38, 38, 0.3); display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s ease; }
+    .btn-logout { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: #ffffff; border: none; font-size: 13px; font-weight: 800; cursor: pointer; padding: 8px 14px; border-radius: 10px; box-shadow: 0 4px 10px rgba(220, 38, 38, 0.35); display: inline-flex; align-items: center; gap: 4px; transition: all 0.2s ease; margin-left: auto; }
     .btn-logout:active { transform: scale(0.96); opacity: 0.9; }
 
-    .shift-stats-bar { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); color: #ffffff; padding: 10px 14px; border-radius: 14px; margin-top: 10px; font-size: 13px; font-weight: 700; box-shadow: 0 4px 12px rgba(30, 27, 75, 0.15); flex-wrap: wrap; gap: 6px; }
+    .shift-stats-bar { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); color: #ffffff; padding: 10px 14px; border-radius: 14px; margin-top: 10px; font-size: 13px; font-weight: 700; box-shadow: 0 4px 12px rgba(30, 27, 75, 0.15); flex-wrap: wrap; gap: 8px; }
     .shift-timer-box { display: flex; align-items: center; gap: 6px; }
     .shift-timer-val { font-family: monospace; font-size: 16px; font-weight: 800; color: #38bdf8; }
     .shift-calls-box { background: rgba(255, 255, 255, 0.15); padding: 4px 10px; border-radius: 8px; }
@@ -382,8 +380,9 @@
       </div>
       <div class="faq-body">
         <div class="faq-section">
-          <div class="faq-sec-title">📱 Использование мобильного Дайлера PWA</div>
-          <p class="faq-text">Дайлер работает автономно без рамок и открывается в 1 клик с экрана смартфона.</p>
+          <div class="faq-sec-title">📱 Установка как приложение (PWA)</div>
+          <p class="faq-text"><b>Android:</b> Нажмите 3 точки в правом верхнем углу Chrome и выберите «Установить приложение» или «Добавить на главный экран».</p>
+          <p class="faq-text"><b>iOS (iPhone):</b> Откройте сайт в Safari, нажмите кнопку «Поделиться» 📤 внизу и выберите «На экран "Домой"».</p>
         </div>
       </div>
     </div>
@@ -465,21 +464,47 @@
       try { localStorage.removeItem(key); } catch(e) {}
     }
 
-    // Регистрация встроенного Service Worker для PWA
-    if ('serviceWorker' in navigator) {
-      const swCode = `
-        const CACHE_NAME = 'ttk-pwa-v2';
-        self.addEventListener('install', e => { self.skipWaiting(); });
-        self.addEventListener('activate', e => { e.waitUntil(clients.claim()); });
-        self.addEventListener('fetch', e => {
-          e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
-        });
-      `;
-      const swDataUrl = 'data:text/javascript;charset=utf-8,' + encodeURIComponent(swCode);
-      navigator.serviceWorker.register(swDataUrl, { scope: './' })
-        .then(() => console.log('SW Registered successfully'))
-        .catch(err => console.log('SW Reg Error:', err));
-    }
+    // Регистрация PWA Manifest и Service Worker через Blob URL
+    (function initPWA() {
+      if ('serviceWorker' in navigator) {
+        const swCode = `
+          const CACHE_NAME = 'ttk-pwa-v3';
+          self.addEventListener('install', e => { self.skipWaiting(); });
+          self.addEventListener('activate', e => { e.waitUntil(clients.claim()); });
+          self.addEventListener('fetch', e => {
+            e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+          });
+        `;
+        const blobSW = new Blob([swCode], { type: 'application/javascript' });
+        const swUrl = URL.createObjectURL(blobSW);
+        navigator.serviceWorker.register(swUrl, { scope: './' })
+          .then(() => console.log('SW Registered via Blob'))
+          .catch(err => console.log('SW Reg Error:', err));
+      }
+
+      // Генерация динамического Blob Manifest
+      const manifestObj = {
+        id: "./",
+        name: "ТТК — Мобильный Дайлер",
+        short_name: "ТТК Дайлер",
+        start_url: "./",
+        scope: "./",
+        display: "standalone",
+        orientation: "portrait",
+        background_color: "#f8fafc",
+        theme_color: "#4f46e5",
+        icons: [
+          { src: "https://placehold.co/192x192/4f46e5/ffffff.png?text=TTK", sizes: "192x192", type: "image/png", purpose: "any maskable" },
+          { src: "https://placehold.co/512x512/4f46e5/ffffff.png?text=TTK", sizes: "512x512", type: "image/png", purpose: "any maskable" }
+        ]
+      };
+      const blobManifest = new Blob([JSON.stringify(manifestObj)], { type: 'application/json' });
+      const manifestUrl = URL.createObjectURL(blobManifest);
+      const link = document.createElement('link');
+      link.rel = 'manifest';
+      link.href = manifestUrl;
+      document.head.appendChild(link);
+    })();
 
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
