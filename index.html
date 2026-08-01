@@ -1139,8 +1139,13 @@
         item.className = 'tariff-card';
         
         let html = '<div class="t-header">';
+        html += '<div>';
         html += '<div class="t-name">' + (t.name || 'Тариф') + '</div>';
-        html += '<div class="t-price">' + (t.price || '') + (t.period ? (' / ' + t.period) : '') + '</div>';
+        if (t.period) {
+          html += '<div style="font-size:12px; font-weight:600; color:#64748b; margin-top:3px;">⏱️ ' + t.period + '</div>';
+        }
+        html += '</div>';
+        html += '<div class="t-price">' + (t.price || '') + '</div>';
         html += '</div>';
 
         if (t.desc) {
