@@ -98,15 +98,16 @@
         <span>💰</span>
         <span class="hidden sm:inline">Доход</span>
       </button>
-      <button onclick="openStatsModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white text-xs font-bold flex items-center space-x-1" title="Статистика">
+      <button onclick="openStatsModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white text-xs font-bold flex items-center space-x-1" title="Моя статистика">
         <span>📊</span>
-        <span class="hidden sm:inline">Статистика</span>
+        <span class="hidden sm:inline">Моя стата</span>
       </button>
       <button onclick="openFaqModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white/90" title="Справка">
         ❓
       </button>
-      <button id="adminPanelBtn" onclick="openAdminModal()" class="hidden p-2 hover:bg-white/10 rounded-full transition-colors text-amber-300" title="Панель администратора">
-        👑
+      <button id="adminPanelBtn" onclick="openAdminModal()" class="hidden p-2 hover:bg-white/10 rounded-full transition-colors text-amber-300 font-bold flex items-center space-x-1" title="Панель администратора">
+        <span>👑</span>
+        <span class="hidden sm:inline">Админка</span>
       </button>
       <button id="serverConfigBtn" onclick="openServerModal()" class="hidden p-2 hover:bg-white/10 rounded-full transition-colors text-white/90" title="Настройки сервера">
         ⚙️
@@ -233,23 +234,7 @@
           </div>
         </div>
 
-        <!-- Sheet Selector Chips (ADMIN ONLY) -->
-        <div id="adminSheetSelector" class="hidden md-card p-3">
-          <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 text-center">Выбор базы (Администратор)</label>
-          <div class="grid grid-cols-3 gap-2">
-            <button type="button" onclick="selectSheet('90+')" id="sheetBtn90" class="sheet-chip py-2 px-1 text-xs font-bold rounded-xl border border-gray-200 text-gray-600 transition-all text-center">
-              90+
-            </button>
-            <button type="button" onclick="selectSheet('180+')" id="sheetBtn180" class="sheet-chip py-2 px-1 text-xs font-bold rounded-xl border border-gray-200 text-gray-600 transition-all text-center">
-              180+
-            </button>
-            <button type="button" onclick="selectSheet('Закрытые')" id="sheetBtnClosed" class="sheet-chip py-2 px-1 text-xs font-bold rounded-xl border border-gray-200 text-gray-600 transition-all text-center">
-              Закрытые
-            </button>
-          </div>
-        </div>
-
-        <!-- GET CONTACT BUTTON -->
+        <!-- GET CONTACT BUTTON (USED AS FALLBACK IF BASE EMPTY) -->
         <button onclick="fetchNextContact()" id="getContactBtn" class="hidden w-full py-4 bg-[#e20613] text-white font-extrabold text-base rounded-2xl shadow-lg hover:bg-[#c00410] active:scale-95 transition-all flex items-center justify-center space-x-2">
           <span>📞 ПОЛУЧИТЬ КЛИЕНТА</span>
         </button>
@@ -331,6 +316,105 @@
       </div>
     </section>
   </main>
+
+  <!-- ADMIN PANEL MODAL -->
+  <div id="adminModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
+    <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[90vh] flex flex-col space-y-4">
+      <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
+      
+      <div class="flex justify-between items-center border-b border-gray-100 pb-3">
+        <div class="flex items-center space-x-2">
+          <span class="text-xl">👑</span>
+          <h3 class="text-lg font-black text-gray-900">Панель Администратора</h3>
+        </div>
+        <button onclick="closeAdminModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
+      </div>
+
+      <!-- Admin Tabs Navigation -->
+      <div class="grid grid-cols-3 gap-1 bg-gray-100 p-1 rounded-xl text-xs font-bold">
+        <button type="button" onclick="switchAdminTab('sheets')" id="adminTabSheets" class="py-2 text-center rounded-lg bg-white text-[#e20613] shadow-sm">
+          📁 Базы
+        </button>
+        <button type="button" onclick="switchAdminTab('users')" id="adminTabUsers" class="py-2 text-center rounded-lg text-gray-600 hover:bg-white/50">
+          👥 Пользователи
+        </button>
+        <button type="button" onclick="switchAdminTab('stats')" id="adminTabStats" class="py-2 text-center rounded-lg text-gray-600 hover:bg-white/50">
+          📊 Статистика
+        </button>
+      </div>
+
+      <!-- Admin Content Sections -->
+      <div class="overflow-y-auto flex-grow space-y-4 pr-1">
+        
+        <!-- SECTION 1: DATABASE SELECTOR -->
+        <div id="adminSectionSheets" class="space-y-3">
+          <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 font-medium leading-relaxed">
+            Выберите активную базу клиентов. Все операторы без прав администратора будут автоматически брать вызовы из этой выбранной базы.
+          </div>
+
+          <div class="space-y-2">
+            <button onclick="selectSheet('90+')" id="adminSheet90" class="w-full p-4 rounded-2xl border-2 text-left flex justify-between items-center transition-all border-gray-200 hover:border-[#e20613]">
+              <div>
+                <div class="font-black text-sm text-gray-800">База «90+»</div>
+                <div class="text-xs text-gray-500">Клиенты с давностью 90 дней</div>
+              </div>
+              <span id="activeCheck90" class="text-lg"></span>
+            </button>
+
+            <button onclick="selectSheet('180+')" id="adminSheet180" class="w-full p-4 rounded-2xl border-2 text-left flex justify-between items-center transition-all border-gray-200 hover:border-[#e20613]">
+              <div>
+                <div class="font-black text-sm text-gray-800">База «180+»</div>
+                <div class="text-xs text-gray-500">Клиенты с давностью 180 дней</div>
+              </div>
+              <span id="activeCheck180" class="text-lg"></span>
+            </button>
+
+            <button onclick="selectSheet('Закрытые')" id="adminSheetClosed" class="w-full p-4 rounded-2xl border-2 text-left flex justify-between items-center transition-all border-gray-200 hover:border-[#e20613]">
+              <div>
+                <div class="font-black text-sm text-gray-800">База «Закрытые»</div>
+                <div class="text-xs text-gray-500">Закрытые адреса и архив</div>
+              </div>
+              <span id="activeCheckClosed" class="text-lg"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- SECTION 2: USER MANAGEMENT -->
+        <div id="adminSectionUsers" class="hidden space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-bold text-gray-500 uppercase">Список операторов</span>
+            <button onclick="loadUsersList()" class="text-xs text-[#e20613] font-bold hover:underline">🔄 Обновить</button>
+          </div>
+
+          <div id="adminUsersList" class="space-y-2">
+            <div class="text-center py-6 text-xs text-gray-400">Загрузка пользователей...</div>
+          </div>
+        </div>
+
+        <!-- SECTION 3: SYSTEM STATS -->
+        <div id="adminSectionStats" class="hidden space-y-3">
+          <div class="grid grid-cols-2 gap-3">
+            <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center">
+              <div class="text-[10px] font-bold text-gray-400 uppercase">Всего операторов</div>
+              <div id="adminTotalUsers" class="text-xl font-black text-gray-800">0</div>
+            </div>
+            <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center">
+              <div class="text-[10px] font-bold text-gray-400 uppercase">Всего смен</div>
+              <div id="adminTotalShifts" class="text-xl font-black text-[#e20613]">0</div>
+            </div>
+          </div>
+
+          <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 space-y-2">
+            <div class="text-xs font-bold text-gray-800">📊 Выгрузка отчетов:</div>
+            <p class="text-xs text-gray-600 leading-relaxed">
+              Все звонки, логи перезвонов и зафиксированное время смен операторов передаются и хранятся в Google Таблице.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
   <!-- INCOME CALCULATOR MODAL -->
   <div id="incomeModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
@@ -466,7 +550,7 @@
     let shiftTimerInterval = null;
     let deferredPrompt = null;
     
-    // Default Tariffs Fallback List
+    // Fallback Tariffs
     let cachedTariffs = [
       { name: "ТТК Технологичный 100", cities: "Москва, Самара, Новосибирск, Все", price: "450", desc: "До 100 Мбит/с + ТВ", cond: "Бесплатное подключение при согласии сегодня", period: "Ежемесячно" },
       { name: "ТТК Игровой 300", cities: "Москва, Екатеринбург, Вся Россия", price: "750", desc: "До 300 Мбит/с, низкий пинг", cond: "Премиум роутер в подарок", period: "Ежемесячно" },
@@ -705,7 +789,6 @@
         document.getElementById('startShiftCard').classList.add('hidden');
         document.getElementById('activeShiftCard').classList.remove('hidden');
         
-        // Автоматический поиск первого клиента
         if (!currentContact) {
           fetchNextContact();
         } else {
@@ -765,9 +848,35 @@
 
     function selectSheet(sheetName) {
       selectedSheet = sheetName;
+      updateAdminSheetUI();
+      showToast('База переключена на ' + sheetName, 'success');
     }
 
-    // --- UMBRELLA CONTACT NORMALIZER (Fixes swapped columns & Phone formatting) ---
+    function updateAdminSheetUI() {
+      ['90', '180', 'Closed'].forEach(key => {
+        const check = document.getElementById(`activeCheck${key}`);
+        const card = document.getElementById(`adminSheet${key}`);
+        if (check) check.innerText = '';
+        if (card) {
+          card.classList.remove('border-[#e20613]', 'bg-red-50/50');
+          card.classList.add('border-gray-200');
+        }
+      });
+
+      let targetKey = '90';
+      if (selectedSheet === '180+') targetKey = '180';
+      if (selectedSheet === 'Закрытые') targetKey = 'Closed';
+
+      const activeCheck = document.getElementById(`activeCheck${targetKey}`);
+      const activeCard = document.getElementById(`adminSheet${targetKey}`);
+      if (activeCheck) activeCheck.innerText = '✅';
+      if (activeCard) {
+        activeCard.classList.remove('border-gray-200');
+        activeCard.classList.add('border-[#e20613]', 'bg-red-50/50');
+      }
+    }
+
+    // --- UMBRELLA CONTACT NORMALIZER ---
     function normalizeContact(contact) {
       if (!contact) return { name: 'Без имени', phone: '', dialable: '', city: 'Город не указан' };
 
@@ -778,12 +887,10 @@
       let digits2 = val2.replace(/\D/g, '');
 
       let hasLetters1 = /[а-яА-Яa-zA-Z]/.test(val1);
-      let hasLetters2 = /[а-яА-Яa-zA-Z]/.test(val2);
 
       let phoneVal = val1;
       let cityVal = val2;
 
-      // Swap if val1 contains street/city text and val2 is actually a phone number with digits
       if ((hasLetters1 || digits1.length < 7) && digits2.length >= 7) {
         phoneVal = val2;
         cityVal = val1;
@@ -923,23 +1030,27 @@
         document.getElementById('recallContainer').classList.add('hidden');
         currentContact = null;
         
-        // Автоматически сразу выдаем следующего клиента
         fetchNextContact();
       } else {
         showToast(res.message || 'Ошибка сохранения', 'error');
       }
     }
 
+    // --- TARIFFS MODAL FIX ---
     async function openTariffsModal() {
       document.getElementById('tariffsModal').classList.remove('hidden');
       const norm = normalizeContact(currentContact);
       document.getElementById('tariffSearchInput').value = norm.city;
+      
+      // Instantly render cached/fallback tariffs
+      filterTariffs();
 
+      // Fetch fresh tariffs from GAS backend
       const res = await apiRequest('getTariffs');
       if (res.success && res.tariffs && res.tariffs.length > 0) {
         cachedTariffs = res.tariffs;
+        filterTariffs();
       }
-      filterTariffs();
     }
 
     function closeTariffsModal() {
@@ -957,6 +1068,11 @@
         return cityMatch || titleMatch || query === '';
       });
 
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="text-center text-xs text-gray-400 py-6">Тарифы по вашему запросу не найдены</div>';
+        return;
+      }
+
       filtered.forEach(t => {
         const card = document.createElement('div');
         card.className = 'p-3.5 bg-gray-50 rounded-2xl border border-gray-200 space-y-1.5';
@@ -973,6 +1089,110 @@
         `;
         container.appendChild(card);
       });
+    }
+
+    // --- ADMIN PANEL CONTROLS ---
+    function openAdminModal() {
+      updateAdminSheetUI();
+      document.getElementById('adminModal').classList.remove('hidden');
+      switchAdminTab('sheets');
+    }
+
+    function closeAdminModal() {
+      document.getElementById('adminModal').classList.add('hidden');
+    }
+
+    function switchAdminTab(tab) {
+      const btnSheets = document.getElementById('adminTabSheets');
+      const btnUsers = document.getElementById('adminTabUsers');
+      const btnStats = document.getElementById('adminTabStats');
+
+      const secSheets = document.getElementById('adminSectionSheets');
+      const secUsers = document.getElementById('adminSectionUsers');
+      const secStats = document.getElementById('adminSectionStats');
+
+      [btnSheets, btnUsers, btnStats].forEach(b => {
+        b.classList.remove('bg-white', 'text-[#e20613]', 'shadow-sm');
+        b.classList.add('text-gray-600');
+      });
+
+      [secSheets, secUsers, secStats].forEach(s => s.classList.add('hidden'));
+
+      if (tab === 'sheets') {
+        btnSheets.classList.add('bg-white', 'text-[#e20613]', 'shadow-sm');
+        secSheets.classList.remove('hidden');
+      } else if (tab === 'users') {
+        btnUsers.classList.add('bg-white', 'text-[#e20613]', 'shadow-sm');
+        secUsers.classList.remove('hidden');
+        loadUsersList();
+      } else if (tab === 'stats') {
+        btnStats.classList.add('bg-white', 'text-[#e20613]', 'shadow-sm');
+        secStats.classList.remove('hidden');
+        loadAdminStats();
+      }
+    }
+
+    async function loadUsersList() {
+      const container = document.getElementById('adminUsersList');
+      container.innerHTML = '<div class="text-center py-6 text-xs text-gray-400">⌛ Загрузка списка операторов...</div>';
+
+      const res = await apiRequest('getUsers');
+      if (res.success && res.users) {
+        container.innerHTML = '';
+        res.users.forEach(u => {
+          const item = document.createElement('div');
+          item.className = 'p-3 bg-gray-50 rounded-xl border border-gray-200 flex justify-between items-center';
+          item.innerHTML = `
+            <div>
+              <div class="font-bold text-xs text-gray-800">${u.fullName}</div>
+              <div class="text-[10px] text-gray-400 font-mono">@${u.login} • ${u.role}</div>
+            </div>
+            <div class="flex items-center space-x-1">
+              <button onclick="changeUserRole('${u.login}', '${u.role === 'Админ' ? 'Агент' : 'Админ'}')" class="px-2.5 py-1 bg-white hover:bg-gray-100 border border-gray-300 rounded-lg text-[10px] font-bold text-gray-700">
+                ${u.role === 'Админ' ? '⬇️ В Агенты' : '👑 В Админы'}
+              </button>
+              <button onclick="fireUser('${u.login}')" class="px-2.5 py-1 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg text-[10px] font-bold text-red-600">
+                🚫 Уволить
+              </button>
+            </div>
+          `;
+          container.appendChild(item);
+        });
+      } else {
+        container.innerHTML = '<div class="text-center py-6 text-xs text-red-500">Не удалось загрузить пользователей</div>';
+      }
+    }
+
+    async function changeUserRole(login, newRole) {
+      if (!confirm(`Изменить роль пользователя @${login} на «${newRole}»?`)) return;
+      showToast('Обновление роли...');
+      const res = await apiRequest('updateUserRole', { login, role: newRole });
+      if (res.success) {
+        showToast('Роль успешно обновлена!', 'success');
+        loadUsersList();
+      } else {
+        showToast(res.message || 'Ошибка обновления', 'error');
+      }
+    }
+
+    async function fireUser(login) {
+      if (!confirm(`Уволить пользователя @${login} и удалить из системы?`)) return;
+      showToast('Удаление пользователя...');
+      const res = await apiRequest('deleteUser', { login });
+      if (res.success) {
+        showToast('Пользователь уволен!', 'success');
+        loadUsersList();
+      } else {
+        showToast(res.message || 'Ошибка удаления', 'error');
+      }
+    }
+
+    async function loadAdminStats() {
+      const res = await apiRequest('getAdminAnalytics');
+      if (res.success && res.analytics) {
+        document.getElementById('adminTotalUsers').innerText = res.analytics.totalUsers || '0';
+        document.getElementById('adminTotalShifts').innerText = res.analytics.totalShifts || '0';
+      }
     }
 
     // Modal Helpers
