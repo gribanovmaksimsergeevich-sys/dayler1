@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ТТК Дайлер">
+  
+  <title>ТТК — Мобильный Дайлер PWA</title>
+
+  <!-- PWA Manifest Dynamic Generation -->
+  <script>
+    (function() {
+      const manifest = {
+        name: "ТТК — Мобильный Дайлер",
+        short_name: "ТТК Дайлер",
+        start_url: "./index.html",
+        display: "standalone",
+        background_color: "#f8fafc",
+        theme_color: "#4f46e5",
+        description: "Рабочий дайлер обзвона ТТК для агентов и операторов",
+        icons: [
+          {
+            src: "https://placehold.co/192x192/4f46e5/ffffff?text=TTK",
+            sizes: "192x192",
+            type: "image/png"
+          },
+          {
+            src: "https://placehold.co/512x512/4f46e5/ffffff?text=TTK",
+            sizes: "512x512",
+            type: "image/png"
+          }
+        ]
+      };
+      const stringManifest = JSON.stringify(manifest);
+      const blob = new Blob([stringManifest], {type: 'application/json'});
+      const manifestUrl = URL.createObjectURL(blob);
+      const link = document.createElement('link');
+      link.rel = 'manifest';
+      link.href = manifestUrl;
+      document.head.appendChild(link);
+    })();
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { width: 100vw; min-height: 100vh; margin: 0; padding: 0; background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%); font-family: 'Inter', -apple-system, sans-serif; color: #1e293b; }
+    body { padding: 12px; display: flex; justify-content: center; align-items: flex-start; }
+    
+    .card { background: #ffffff; padding: 22px; border-radius: 20px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); width: 100%; max-width: 480px; margin: 0 auto; border: 1px solid rgba(226, 232, 240, 0.8); }
+    .header { text-align: center; margin-bottom: 18px; }
+    .header h2 { margin: 0; font-weight: 800; font-size: 22px; background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    
+    .top-buttons { display: flex; gap: 6px; justify-content: center; margin-top: 8px; flex-wrap: wrap; }
+    .agent-badge { display: inline-flex; align-items: center; gap: 6px; background: #f1f5f9; color: #475569; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+    .btn-admin { background: #fef3c7; color: #d97706; border: 1px solid #fde68a; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .btn-income { background: #ecfdf5; color: #059669; border: 1px solid #a7f3d0; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .btn-stats { background: #e0e7ff; color: #3730a3; border: 1px solid #c7d2fe; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none; display: inline-block; }
+    .btn-faq { background: #f0f9ff; color: #0284c7; border: 1px solid #bae6fd; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .btn-fullscreen { background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .btn-settings { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 6px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .btn-logout { background: #fee2e2; border: none; color: #dc2626; font-size: 11px; font-weight: 700; cursor: pointer; padding: 4px 8px; border-radius: 6px; }
+
+    .shift-stats-bar { display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); color: #ffffff; padding: 10px 16px; border-radius: 14px; margin-top: 10px; font-size: 13px; font-weight: 700; box-shadow: 0 4px 12px rgba(30, 27, 75, 0.15); }
+    .shift-timer-box { display: flex; align-items: center; gap: 6px; }
+    .shift-timer-val { font-family: monospace; font-size: 16px; font-weight: 800; color: #38bdf8; }
+    .shift-calls-box { background: rgba(255, 255, 255, 0.15); padding: 4px 10px; border-radius: 8px; }
+
+    .pwa-install-banner { background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); color: white; padding: 12px; border-radius: 14px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; }
+    .btn-install { background: white; color: #4f46e5; border: none; padding: 6px 12px; border-radius: 8px; font-weight: 800; font-size: 12px; cursor: pointer; }
+
+    .auth-tabs { display: flex; border-bottom: 2px solid #e2e8f0; margin-bottom: 16px; }
+    .auth-tab { flex: 1; padding: 10px; text-align: center; font-weight: 700; font-size: 14px; color: #64748b; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; }
+    .auth-tab.active { color: #4f46e5; border-color: #4f46e5; }
+
+    .form-group { margin-bottom: 16px; }
+    label { font-weight: 600; display: block; margin-bottom: 8px; color: #475569; font-size: 13px; text-transform: uppercase; }
+    input, textarea, select { width: 100%; padding: 14px 16px; border-radius: 12px; border: 1.5px solid #e2e8f0; font-size: 15px; font-family: inherit; background: #f8fafc; }
+    textarea { resize: vertical; height: 75px; }
+
+    .btn-primary { width: 100%; padding: 15px; border-radius: 12px; background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%); color: white; border: none; font-weight: 700; font-size: 16px; cursor: pointer; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25); }
+
+    .contact-card { background: #f8fafc; border: 1.5px solid #e2e8f0; padding: 18px; border-radius: 16px; margin: 16px 0; }
+    .client-name-label { font-size: 11px; color: #94a3b8; font-weight: 700; text-transform: uppercase; display: flex; justify-content: space-between; }
+    .client-address { font-size: 17px; font-weight: 700; color: #0f172a; margin-top: 2px; }
+    .city-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; margin-bottom: 12px; }
+    .client-city-tag { background: #e0e7ff; color: #3730a3; padding: 5px 12px; border-radius: 8px; font-size: 13px; font-weight: 700; }
+    .db-tag { background: #fef3c7; color: #b45309; padding: 5px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; margin-left: 4px; }
+    .btn-tariff-open { background: #4f46e5; color: white; border: none; padding: 7px 14px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+
+    .phone-box { background: #ffffff; padding: 14px; border-radius: 14px; border: 1.5px solid #cbd5e1; text-align: center; }
+    .phone-num { font-size: 24px; font-weight: 800; color: #1e1b4b; display: block; margin-bottom: 10px; }
+    .phone-actions { display: flex; gap: 10px; }
+    .btn-phone-action { flex: 1; padding: 12px; font-size: 14px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-weight: 600; border: none; cursor: pointer; }
+    .btn-copy { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; }
+    .btn-call { background: #10b981; color: white; }
+
+    .status-group-label { margin: 18px 0 10px 0; font-size: 12px; font-weight: 700; color: #64748b; text-transform: uppercase; }
+    .btn-status { width: 100%; margin-bottom: 9px; text-align: left; background: #ffffff; color: #334155; border: 1.5px solid #e2e8f0; padding: 14px 16px; font-size: 15px; font-weight: 600; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; }
+    .btn-status-group { background: #f8fafc; border-color: #cbd5e1; }
+    .sub-status-box { background: #f1f5f9; border-radius: 12px; padding: 10px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 6px; }
+    .btn-sub-status { width: 100%; text-align: left; background: white; border: 1px solid #cbd5e1; padding: 10px 14px; font-size: 13px; font-weight: 600; border-radius: 8px; cursor: pointer; }
+
+    .btn-status-success { background: #f0fdf4; color: #166534; border-color: #bbf7d0; }
+    .btn-status-refuse { background: #fef2f2; color: #991b1b; border-color: #fecaca; }
+    .btn-status-callback { background: #fffbebfb; color: #b45309; border-color: #fde68a; }
+    .btn-status-ttk { background: #eff6ff; color: #1e40af; border-color: #bfdbfe; }
+    .btn-status-hangup { background: #fff7ed; color: #c2410c; border-color: #ffedd5; }
+    .btn-status-blacklist { background: #1e293b; color: #ffffff; border-color: #0f172a; margin-top: 12px; }
+
+    .btn-reload { background: #10b981; color: white; border: none; font-weight: 700; border-radius: 12px; padding: 14px; margin-top: 15px; cursor: pointer; width: 100%; }
+    .hidden { display: none !important; }
+    .status-msg { text-align: center; font-weight: 600; color: #64748b; margin: 20px 0; font-size: 15px; }
+    .callback-box { background: #fffbebfb; border: 1.5px solid #fde68a; padding: 16px; border-radius: 14px; margin-top: 12px; }
+    .success-box { background: #f0fdf4; border: 1.5px solid #bbf7d0; padding: 16px; border-radius: 14px; margin-top: 12px; }
+
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 1000; display: flex; justify-content: center; align-items: flex-end; }
+    .modal-content { background: white; width: 100%; max-width: 500px; height: 85vh; border-radius: 24px 24px 0 0; padding: 20px; display: flex; flex-direction: column; box-shadow: 0 -10px 30px rgba(0,0,0,0.2); animation: slideUp 0.3s ease-out; }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1.5px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 10px; }
+    .modal-title { font-size: 18px; font-weight: 800; color: #0f172a; }
+    .modal-close { background: #f1f5f9; border: none; font-size: 18px; font-weight: bold; color: #64748b; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; }
+
+    .admin-tabs { display: flex; gap: 8px; border-bottom: 1.5px solid #e2e8f0; margin-bottom: 14px; }
+    .admin-tab-btn { flex: 1; padding: 8px; text-align: center; font-weight: 700; font-size: 12px; color: #64748b; border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; }
+    .admin-tab-btn.active { color: #4f46e5; border-color: #4f46e5; }
+
+    .stat-card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    .stat-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 12px; text-align: center; }
+    .stat-val { font-size: 20px; font-weight: 800; color: #0f172a; }
+    .stat-lbl { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; }
+
+    .progress-bar-bg { background: #e2e8f0; height: 10px; border-radius: 10px; overflow: hidden; margin: 8px 0; }
+    .progress-bar-fill { background: linear-gradient(135deg, #10b981 0%, #059669 100%); height: 100%; width: 0%; transition: width 0.3s; }
+
+    .admin-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
+    .admin-table th, .admin-table td { padding: 8px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+    .admin-table th { background: #f8fafc; color: #64748b; font-weight: 700; }
+
+    .income-box { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 20px; border-radius: 16px; text-align: center; margin-bottom: 16px; }
+    .income-val { font-size: 32px; font-weight: 800; margin: 6px 0; }
+    .income-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+    .income-stat-card { background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 12px; text-align: center; }
+    .stat-num { font-size: 18px; font-weight: 800; color: #0f172a; }
+
+    .tariff-list { overflow-y: auto; flex: 1; }
+    .tariff-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+    .t-name { font-weight: 800; font-size: 16px; color: #1e1b4b; }
+    .t-price { font-size: 18px; font-weight: 800; color: #059669; margin: 6px 0; }
+
+    .faq-body { overflow-y: auto; flex: 1; padding-right: 4px; }
+    .faq-section { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+    .faq-sec-title { font-size: 15px; font-weight: 800; color: #4f46e5; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+    .faq-text { font-size: 13px; color: #334155; line-height: 1.5; margin: 0 0 8px 0; }
+
+    #toast { visibility: hidden; min-width: 220px; background-color: #0f172a; color: #fff; text-align: center; border-radius: 30px; padding: 12px 20px; position: fixed; z-index: 2000; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 14px; font-weight: 600; }
+    #toast.show { visibility: visible; animation: fadein 0.3s, fadeout 0.3s 1.7s; }
+    @keyframes fadein { from { bottom: 0; opacity: 0; } to { bottom: 30px; opacity: 1; } }
+    @keyframes fadeout { from { bottom: 30px; opacity: 1; } to { bottom: 0; opacity: 0; } }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <h2>ТТК — Мобильный Дайлер</h2>
+      
+      <div id="pwa-install-container" class="pwa-install-banner hidden">
+        <span>Установите Дайлер как приложение!</span>
+        <button class="btn-install" onclick="installPWA()">Установить</button>
+      </div>
+
+      <div id="top-bar" class="top-buttons hidden">
+        <div class="agent-badge">👤 <span id="display-agent"></span></div>
+        <button id="admin-panel-btn" class="btn-admin hidden" onclick="openAdminModal()">👑 Админ-панель</button>
+        <button class="btn-income" onclick="openIncomeModal()">💰 Доход</button>
+        <a id="stats-link" href="https://maxkoch23.github.io/itmstat/" target="_blank" class="btn-stats">📊 Статистика</a>
+        <button class="btn-faq" onclick="openFaqModal()">❓ FAQ</button>
+        <button class="btn-settings" onclick="openSettingsModal()">⚙️ Сервер</button>
+        <button class="btn-fullscreen" onclick="toggleFullScreen()">⛶ На весь экран</button>
+        <button class="btn-logout" onclick="endShiftAndLogout()">Завершить</button>
+      </div>
+
+      <div id="shift-stats-bar" class="shift-stats-bar hidden">
+        <div class="shift-timer-box">
+          <span>⏱️ Время:</span>
+          <span id="shift-timer" class="shift-timer-val">00:00:00</span>
+        </div>
+        <div class="shift-calls-box">
+          📞 Звонков: <span id="shift-calls-count">0</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- ФОРМА АВТОРИЗАЦИИ И РЕГИСТРАЦИИ -->
+    <div id="auth-box">
+      <div class="auth-tabs">
+        <div id="tab-login" class="auth-tab active" onclick="switchAuthTab('login')">Вход</div>
+        <div id="tab-reg" class="auth-tab" onclick="switchAuthTab('reg')">Регистрация</div>
+      </div>
+
+      <div id="form-login">
+        <div class="form-group">
+          <label>Логин:</label>
+          <input type="text" id="login-input" placeholder="Введите логин">
+        </div>
+        <div class="form-group">
+          <label>Пароль:</label>
+          <input type="password" id="pass-input" placeholder="Введите пароль">
+        </div>
+        <button class="btn-primary" onclick="handleLogin()">Войти</button>
+      </div>
+
+      <div id="form-reg" class="hidden">
+        <div class="form-group">
+          <label>ФИО (Фамилия Имя):</label>
+          <input type="text" id="reg-fullname" placeholder="Иванов Иван">
+        </div>
+        <div class="form-group">
+          <label>Придумайте Логин:</label>
+          <input type="text" id="reg-login" placeholder="например, ivanov">
+        </div>
+        <div class="form-group">
+          <label>Придумайте Пароль:</label>
+          <input type="password" id="reg-pass" placeholder="не менее 4 символов">
+        </div>
+        <button class="btn-primary" onclick="handleRegister()">Зарегистрироваться</button>
+      </div>
+    </div>
+
+    <!-- КАРТОЧКА ЗВОНКА И РАБОЧАЯ ОБЛАСТЬ -->
+    <div id="work-box" class="hidden">
+      <div id="contact-card" class="contact-card hidden">
+        <div class="client-name-label">
+          <span>Адрес абонента</span>
+          <span id="os-indicator-badge"></span>
+        </div>
+        <div id="c-address" class="client-address"></div>
+        
+        <div class="city-bar">
+          <div>
+            <span id="c-city" class="client-city-tag"></span>
+            <span id="c-db-tag" class="db-tag"></span>
+          </div>
+          <button class="btn-tariff-open" onclick="openTariffsModal()">🏷️ Тарифы</button>
+        </div>
+        
+        <div class="phone-box">
+          <span id="c-phone" class="phone-num"></span>
+          <div class="phone-actions">
+            <button class="btn-phone-action btn-copy" onclick="copyPhone()">📋 Скопировать</button>
+            <a id="c-call-link" href="#" class="btn-phone-action btn-call">📞 Позвонить</a>
+          </div>
+        </div>
+      </div>
+
+      <div id="empty-box" class="hidden">
+        <div id="empty-msg" class="status-msg"></div>
+        <button class="btn-reload" onclick="loadNext()">🔄 Проверить базу снова</button>
+      </div>
+
+      <div id="loader" class="status-msg hidden">⌛ Загрузка...</div>
+
+      <!-- КНОПКИ СТАТУСОВ -->
+      <div id="status-buttons" class="hidden">
+        <div class="status-group-label">Результат разговора</div>
+        
+        <button class="btn-status btn-status-group" onclick="toggleSubMenu('dozvon-box')">
+          <span>📞 Дозвон</span><span id="dozvon-arrow">▼</span>
+        </button>
+        
+        <div id="dozvon-box" class="sub-status-box hidden">
+          <button class="btn-sub-status btn-status-success" onclick="showSuccessForm()">✅ Согласие</button>
+          <button class="btn-sub-status btn-status-refuse" onclick="sendResult('Дозвон - Отказ')">❌ Отказ</button>
+          <button class="btn-sub-status btn-status-hangup" onclick="sendResult('Дозвон - Сбросили')">📵 Сбросили</button>
+          <button class="btn-sub-status btn-status-ttk" onclick="sendResult('Дозвон - Абонент ТТК')">🌐 Абонент ТТК</button>
+          <button class="btn-sub-status" onclick="sendResult('Дозвон - Дорого')">💰 Дорого</button>
+          <button class="btn-sub-status" onclick="sendResult('Дозвон - Не устроило качество')">👎 Не устроило качество</button>
+          <button class="btn-sub-status" onclick="sendResult('Дозвон - Подумает')">🤔 Подумает</button>
+          <button class="btn-sub-status" onclick="sendResult('Дозвон - Мобильная связь')">📱 Мобильная связь</button>
+        </div>
+
+        <button class="btn-status btn-status-callback" onclick="showCallbackForm()">
+          <span>⏰ Перезвонить</span><span>➔</span>
+        </button>
+
+        <button class="btn-status" onclick="sendResult('Недозвон')">
+          <span>📞 Недозвон</span><span>➔</span>
+        </button>
+        
+        <button class="btn-status" onclick="sendResult('Автоответчик')">
+          <span>🤖 Автоответчик</span><span>➔</span>
+        </button>
+
+        <button class="btn-status btn-status-blacklist" onclick="blacklistContact()">
+          <span>🚫 Убрать из обзвона (ЧС)</span><span>➔</span>
+        </button>
+
+        <!-- ФОРМА СОГЛАСИЯ -->
+        <div id="success-form" class="success-box hidden">
+          <div class="form-group">
+            <label style="color:#166534;">Детали согласия (тариф, пожелания):</label>
+            <textarea id="success-comment" placeholder="Например: Выбрал Комфорт, подключение во вторник..."></textarea>
+          </div>
+          <button class="btn-primary" onclick="submitSuccess()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">Сохранить согласие</button>
+        </div>
+
+        <!-- ФОРМА ПЕРЕЗВОНА -->
+        <div id="callback-form" class="callback-box hidden">
+          <div class="form-group">
+            <label style="color:#b45309;">Дата и время перезвона:</label>
+            <input type="datetime-local" id="cb-date">
+          </div>
+          <div class="form-group">
+            <label style="color:#b45309;">Комментарий к звонку:</label>
+            <textarea id="cb-comment" placeholder="О чем договорились..."></textarea>
+          </div>
+          <button class="btn-primary" onclick="submitCallback()" style="background: linear-gradient(135deg, #d97706 0%, #b45309 100%);">Сохранить перезвон</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- МОДАЛЬНЫЕ ОКНА -->
+  <div id="settings-modal" class="modal-overlay hidden">
+    <div class="modal-content" style="height: auto; border-radius:24px;">
+      <div class="modal-header">
+        <div class="modal-title">⚙️ Подключение к Google Таблице</div>
+        <button class="modal-close" onclick="closeSettingsModal()">✕</button>
+      </div>
+      <div class="form-group">
+        <label>URL Веб-приложения Google Apps Script:</label>
+        <input type="text" id="api-url-input" placeholder="https://script.google.com/macros/s/.../exec">
+      </div>
+      <button class="btn-primary" onclick="saveApiUrl()">Сохранить URL Сервера</button>
+    </div>
+  </div>
+
+  <div id="admin-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">👑 Админ-панель</div>
+        <button class="modal-close" onclick="closeAdminModal()">✕</button>
+      </div>
+
+      <div class="admin-tabs">
+        <button id="atab-db" class="admin-tab-btn active" onclick="switchAdminTab('db')">📊 База</button>
+        <button id="atab-agents" class="admin-tab-btn" onclick="switchAdminTab('agents')">👥 Агенты</button>
+        <button id="atab-roles" class="admin-tab-btn" onclick="switchAdminTab('roles')">⚙️ Роли</button>
+      </div>
+
+      <div id="admin-sec-db">
+        <div class="form-group">
+          <label>Активная база обзвона:</label>
+          <select id="admin-db-select" onchange="changeActiveDb()">
+            <option value="90+">База 90+</option>
+            <option value="180+">База 180+</option>
+            <option value="Закрытые">Закрытые (бывшие Контакты)</option>
+          </select>
+        </div>
+
+        <div class="stat-card-row" style="grid-template-columns: 1fr 1fr 1fr;">
+          <div class="stat-box"><div id="adb-total" class="stat-val">0</div><div class="stat-lbl">Всего</div></div>
+          <div class="stat-box"><div id="adb-done" class="stat-val">0</div><div class="stat-lbl">Обработано</div></div>
+          <div class="stat-box"><div id="adb-remaining" class="stat-val" style="color:#3b82f6;">0</div><div class="stat-lbl">Осталось</div></div>
+        </div>
+
+        <div style="font-size:12px; font-weight:700; color:#475569;">Прогресс обзвона базы: <span id="adb-pct">0%</span></div>
+        <div class="progress-bar-bg"><div id="adb-bar" class="progress-bar-fill"></div></div>
+
+        <div class="stat-card-row" style="margin-top:10px;">
+          <div class="stat-box"><div id="adb-dozvon" class="stat-val" style="color:#0284c7;">0</div><div class="stat-lbl">Дозвоны</div></div>
+          <div class="stat-box"><div id="adb-nedozvon" class="stat-val" style="color:#d97706;">0</div><div class="stat-lbl">Недозвоны</div></div>
+        </div>
+
+        <div class="stat-card-row" style="margin-top:10px;">
+          <div class="stat-box"><div id="adb-agreed" class="stat-val" style="color:#10b981;">0</div><div class="stat-lbl">Согласия</div></div>
+          <div class="stat-box"><div id="adb-refused" class="stat-val" style="color:#ef4444;">0</div><div class="stat-lbl">Отказы</div></div>
+        </div>
+      </div>
+
+      <div id="admin-sec-agents" class="hidden" style="overflow-y:auto; flex:1;">
+        <table class="admin-table">
+          <thead>
+            <tr><th>Агент</th><th>Часы</th><th>Звонков</th><th>Скорость</th></tr>
+          </thead>
+          <tbody id="admin-agents-table-body"></tbody>
+        </table>
+      </div>
+
+      <div id="admin-sec-roles" class="hidden" style="overflow-y:auto; flex:1;">
+        <table class="admin-table">
+          <thead>
+            <tr><th>Пользователь</th><th>Текущая Роль</th><th>Действие</th></tr>
+          </thead>
+          <tbody id="admin-roles-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="faq-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">📖 Инструкция и FAQ</div>
+        <button class="modal-close" onclick="closeFaqModal()">✕</button>
+      </div>
+      <div class="faq-body">
+        <div class="faq-section">
+          <div class="faq-sec-title">📱 Использование мобильного Дайлера PWA</div>
+          <p class="faq-text">Дайлер работает автономно без рамок и открывается в 1 клик с экрана смартфона.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="income-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">💰 Личный кабинет</div>
+        <button class="modal-close" onclick="closeIncomeModal()">✕</button>
+      </div>
+
+      <div class="form-group" style="margin-bottom: 10px;">
+        <label>Выберите месяц:</label>
+        <select id="income-month-select" onchange="loadIncomeStats()">
+          <option value="6">Июль 2026</option>
+          <option value="7">Август 2026</option>
+          <option value="8">Сентябрь 2026</option>
+          <option value="9">Октябрь 2026</option>
+        </select>
+      </div>
+
+      <div class="income-box">
+        <div style="font-size:12px; font-weight:600; text-transform:uppercase; opacity:0.9;">Расчётный заработок</div>
+        <div id="inc-total-val" class="income-val">0 ₽</div>
+        <div id="inc-rate-lbl" style="font-size:13px; font-weight:600; opacity:0.95;">Ставка: 100 ₽/час</div>
+      </div>
+
+      <div class="income-grid">
+        <div class="income-stat-card"><div id="inc-hours-val" class="stat-num">0 ч</div><div class="stat-lbl">Всего часов</div></div>
+        <div class="income-stat-card"><div id="inc-calls-val" class="stat-num">0</div><div class="stat-lbl">Звонков за месяц</div></div>
+        <div class="income-stat-card"><div id="inc-weekday-val" class="stat-num">0 ч</div><div class="stat-lbl">Будни</div></div>
+        <div class="income-stat-card"><div id="inc-weekend-val" class="stat-num">0 ч</div><div class="stat-lbl">Выходные (x1.5)</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tariff-modal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Тарифные планы</div>
+        <button class="modal-close" onclick="closeTariffsModal()">✕</button>
+      </div>
+      <div style="margin-bottom:12px;">
+        <input type="text" id="city-search-input" style="padding:10px 14px; font-size:14px; border-radius:10px;" placeholder="🔍 Поиск по городу..." oninput="renderTariffs()">
+      </div>
+      <div id="tariff-list-container" class="tariff-list"></div>
+    </div>
+  </div>
+
+  <div id="toast">📋 Скопировано!</div>
+
+  <script>
+    let API_URL = safeGetStorage('ttk_api_url') || "";
+    let TARIFFS_DB = [];
+    let currentAgent = "";
+    let userToken = "";
+    let isAdmin = false;
+    let isIOS = false;
+    let deferredPrompt = null;
+    
+    let currentCard = null;
+    let currentShiftRow = null;
+    let shiftStartTimeMs = null;
+    let timerInterval = null;
+    let shiftCallsCount = 0;
+
+    function safeGetStorage(key) {
+      try { return localStorage.getItem(key); } catch(e) { return null; }
+    }
+    function safeSetStorage(key, val) {
+      try { localStorage.setItem(key, val); } catch(e) {}
+    }
+    function safeRemoveStorage(key) {
+      try { localStorage.removeItem(key); } catch(e) {}
+    }
+
+    // Регистрация встроенного Service Worker для PWA
+    if ('serviceWorker' in navigator) {
+      const swCode = `
+        const CACHE_NAME = 'ttk-pwa-v1';
+        self.addEventListener('install', e => { self.skipWaiting(); });
+        self.addEventListener('activate', e => { e.waitUntil(clients.claim()); });
+        self.addEventListener('fetch', e => { e.respondWith(fetch(e.request).catch(() => caches.match(e.request))); });
+      `;
+      const blob = new Blob([swCode], { type: 'text/javascript' });
+      const swUrl = URL.createObjectURL(blob);
+      navigator.serviceWorker.register(swUrl).catch(err => console.log('SW Reg Error', err));
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('pwa-install-container').classList.remove('hidden');
+    });
+
+    function installPWA() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+          deferredPrompt = null;
+          document.getElementById('pwa-install-container').classList.add('hidden');
+        });
+      }
+    }
+
+    function detectOS() {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        isIOS = true;
+        document.getElementById('os-indicator-badge').innerText = ' iOS SIP';
+      } else {
+        isIOS = false;
+        document.getElementById('os-indicator-badge').innerText = '🤖 Android';
+      }
+    }
+
+    async function apiCall(action, payload = {}) {
+      if (!API_URL) {
+        openSettingsModal();
+        throw new Error("Не настроен URL Google Apps Script!");
+      }
+      payload.action = action;
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+        return await response.json();
+      } catch (e) {
+        console.error("API Call Error:", e);
+        throw e;
+      }
+    }
+
+    window.onload = function() {
+      detectOS();
+      const savedToken = safeGetStorage('ttk_user_token');
+      const now = new Date();
+      document.getElementById('income-month-select').value = now.getMonth();
+
+      if (!API_URL) {
+        openSettingsModal();
+        return;
+      }
+
+      if (savedToken) {
+        document.getElementById('loader').innerText = '⌛ Проверка авторизации...';
+        document.getElementById('loader').classList.remove('hidden');
+
+        apiCall('verifyToken', { token: savedToken })
+          .then(res => {
+            document.getElementById('loader').classList.add('hidden');
+            if (res && res.success) {
+              userToken = savedToken;
+              currentAgent = res.fullName;
+              isAdmin = res.isAdmin;
+
+              if (isAdmin) {
+                document.getElementById('admin-panel-btn').classList.remove('hidden');
+              } else {
+                document.getElementById('admin-panel-btn').classList.add('hidden');
+              }
+
+              resumeOrStartShift();
+            } else {
+              safeRemoveStorage('ttk_user_token');
+              document.getElementById('auth-box').classList.remove('hidden');
+            }
+          })
+          .catch(err => {
+            document.getElementById('loader').classList.add('hidden');
+            safeRemoveStorage('ttk_user_token');
+            document.getElementById('auth-box').classList.remove('hidden');
+          });
+      } else {
+        document.getElementById('auth-box').classList.remove('hidden');
+      }
+    };
+
+    function openSettingsModal() {
+      document.getElementById('api-url-input').value = API_URL;
+      document.getElementById('settings-modal').classList.remove('hidden');
+    }
+    function closeSettingsModal() { document.getElementById('settings-modal').classList.add('hidden'); }
+
+    function saveApiUrl() {
+      const url = document.getElementById('api-url-input').value.trim();
+      if (!url) { alert("Введите корректный URL сервиса!"); return; }
+      API_URL = url;
+      safeSetStorage('ttk_api_url', API_URL);
+      closeSettingsModal();
+      showToast("URL Сервера сохранен!");
+      location.reload();
+    }
+
+    function switchAuthTab(tab) {
+      document.getElementById('tab-login').classList.remove('active');
+      document.getElementById('tab-reg').classList.remove('active');
+      document.getElementById('form-login').classList.add('hidden');
+      document.getElementById('form-reg').classList.add('hidden');
+
+      if (tab === 'login') {
+        document.getElementById('tab-login').classList.add('active');
+        document.getElementById('form-login').classList.remove('hidden');
+      } else {
+        document.getElementById('tab-reg').classList.add('active');
+        document.getElementById('form-reg').classList.remove('hidden');
+      }
+    }
+
+    function handleLogin() {
+      const l = document.getElementById('login-input').value.trim();
+      const p = document.getElementById('pass-input').value.trim();
+
+      if (!l || !p) { alert("Заполните логин и пароль!"); return; }
+
+      document.getElementById('loader').innerText = '⌛ Вход...';
+      document.getElementById('loader').classList.remove('hidden');
+
+      apiCall('login', { login: l, password: p })
+        .then(res => {
+          document.getElementById('loader').classList.add('hidden');
+          if (res && res.success) {
+            userToken = res.token;
+            currentAgent = res.fullName;
+            isAdmin = res.isAdmin;
+
+            safeSetStorage('ttk_user_token', userToken);
+
+            if (isAdmin) {
+              document.getElementById('admin-panel-btn').classList.remove('hidden');
+            } else {
+              document.getElementById('admin-panel-btn').classList.add('hidden');
+            }
+
+            resumeOrStartShift();
+          } else {
+            alert((res && res.message) ? res.message : "Ошибка входа!");
+          }
+        })
+        .catch(err => {
+          document.getElementById('loader').classList.add('hidden');
+          alert("Ошибка подключения к серверу!");
+        });
+    }
+
+    function handleRegister() {
+      const fn = document.getElementById('reg-fullname').value.trim();
+      const l = document.getElementById('reg-login').value.trim();
+      const p = document.getElementById('reg-pass').value.trim();
+
+      if (!fn || !l || !p) { alert("Заполните все поля регистрации!"); return; }
+
+      document.getElementById('loader').innerText = '⌛ Регистрация...';
+      document.getElementById('loader').classList.remove('hidden');
+
+      apiCall('register', { fullName: fn, login: l, password: p })
+        .then(res => {
+          document.getElementById('loader').classList.add('hidden');
+          if (res && res.success) {
+            userToken = res.token;
+            currentAgent = res.fullName;
+            isAdmin = res.isAdmin;
+
+            safeSetStorage('ttk_user_token', userToken);
+
+            if (isAdmin) {
+              document.getElementById('admin-panel-btn').classList.remove('hidden');
+            } else {
+              document.getElementById('admin-panel-btn').classList.add('hidden');
+            }
+
+            showToast("Успешная регистрация! Выполняется вход...");
+            resumeOrStartShift();
+          } else {
+            alert((res && res.message) ? res.message : "Ошибка регистрации!");
+          }
+        })
+        .catch(err => {
+          document.getElementById('loader').classList.add('hidden');
+          alert("Ошибка подключения к серверу!");
+        });
+    }
+
+    function resumeOrStartShift() {
+      document.getElementById('loader').innerText = '⌛ Проверка смены...';
+      document.getElementById('loader').classList.remove('hidden');
+
+      apiCall('getActiveShift', { agentName: currentAgent, shiftRow: 0 })
+        .then(shiftRes => {
+          document.getElementById('loader').classList.add('hidden');
+          if (shiftRes && shiftRes.active) {
+            currentShiftRow = shiftRes.shiftRow;
+            shiftStartTimeMs = shiftRes.startTimeMs;
+            shiftCallsCount = shiftRes.callCount || 0;
+            enterWorkArea();
+          } else {
+            initShift();
+          }
+        })
+        .catch(() => {
+          document.getElementById('loader').classList.add('hidden');
+          enterWorkArea();
+        });
+    }
+
+    function initShift() {
+      document.getElementById('loader').innerText = '⌛ Открытие смены...';
+      document.getElementById('loader').classList.remove('hidden');
+
+      apiCall('startShift', { agentName: currentAgent })
+        .then(res => {
+          document.getElementById('loader').classList.add('hidden');
+          if (res && res.success) {
+            currentShiftRow = res.shiftRow;
+            shiftStartTimeMs = res.startTimeMs || new Date().getTime();
+            shiftCallsCount = res.callCount || 0;
+            enterWorkArea();
+          } else {
+            alert("Ошибка смены: " + (res ? res.message : "Неизвестная ошибка"));
+            enterWorkArea();
+          }
+        })
+        .catch(() => {
+          document.getElementById('loader').classList.add('hidden');
+          enterWorkArea();
+        });
+    }
+
+    function enterWorkArea() {
+      document.getElementById('display-agent').innerText = currentAgent;
+      document.getElementById('top-bar').classList.remove('hidden');
+      document.getElementById('shift-stats-bar').classList.remove('hidden');
+      document.getElementById('auth-box').classList.add('hidden');
+      document.getElementById('work-box').classList.remove('hidden');
+
+      if (isAdmin) {
+        document.getElementById('admin-panel-btn').classList.remove('hidden');
+      } else {
+        document.getElementById('admin-panel-btn').classList.add('hidden');
+      }
+
+      updateCallsDisplay();
+      startShiftTimer();
+
+      apiCall('getTariffs').then(data => { TARIFFS_DB = data || []; }).catch(()=>{});
+      loadNext();
+    }
+
+    function startShiftTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      
+      function tick() {
+        if (!shiftStartTimeMs || isNaN(shiftStartTimeMs)) return;
+        const now = new Date().getTime();
+        const diffSec = Math.floor((now - shiftStartTimeMs) / 1000);
+        if (diffSec < 0) return;
+
+        const hrs = Math.floor(diffSec / 3600);
+        const mins = Math.floor((diffSec % 3600) / 60);
+        const secs = diffSec % 60;
+        const pad = function(n) { return n < 10 ? '0' + n : n; };
+
+        document.getElementById('shift-timer').innerText = pad(hrs) + ':' + pad(mins) + ':' + pad(secs);
+      }
+
+      tick();
+      timerInterval = setInterval(tick, 1000);
+    }
+
+    function updateCallsDisplay() {
+      document.getElementById('shift-calls-count').innerText = shiftCallsCount;
+    }
+
+    function incrementShiftCalls() {
+      shiftCallsCount++;
+      updateCallsDisplay();
+    }
+
+    function endShiftAndLogout() {
+      if(!confirm('Завершить смену и выйти?')) return;
+      
+      if (timerInterval) clearInterval(timerInterval);
+
+      document.getElementById('loader').innerText = '⌛ Завершение...';
+      document.getElementById('loader').classList.remove('hidden');
+
+      apiCall('endShift', { shiftRow: currentShiftRow, agentName: currentAgent })
+        .then(() => {
+          document.getElementById('loader').classList.add('hidden');
+          safeRemoveStorage('ttk_user_token');
+
+          currentAgent = ""; userToken = ""; isAdmin = false; currentShiftRow = null; shiftStartTimeMs = null; shiftCallsCount = 0; currentCard = null;
+
+          document.getElementById('top-bar').classList.add('hidden');
+          document.getElementById('shift-stats-bar').classList.add('hidden');
+          document.getElementById('work-box').classList.add('hidden');
+          document.getElementById('auth-box').classList.remove('hidden');
+          document.getElementById('admin-panel-btn').classList.add('hidden');
+        })
+        .catch(() => {
+          document.getElementById('loader').classList.add('hidden');
+          safeRemoveStorage('ttk_user_token');
+          location.reload();
+        });
+    }
+
+    function loadNext() {
+      document.getElementById('loader').innerText = '⌛ Загрузка...';
+      document.getElementById('loader').classList.remove('hidden');
+      document.getElementById('contact-card').classList.add('hidden');
+      document.getElementById('status-buttons').classList.add('hidden');
+      document.getElementById('dozvon-box').classList.add('hidden');
+      document.getElementById('success-form').classList.add('hidden');
+      document.getElementById('callback-form').classList.add('hidden');
+      document.getElementById('empty-box').classList.add('hidden');
+
+      apiCall('getNextContact', { agentName: currentAgent })
+        .then(onContactLoaded)
+        .catch(err => {
+          document.getElementById('loader').classList.add('hidden');
+          alert("Ошибка загрузки контакта!");
+        });
+    }
+
+    function onContactLoaded(res) {
+      document.getElementById('loader').classList.add('hidden');
+      if (res && res.success) {
+        currentCard = res.contact;
+        renderCurrentContactCard(currentCard, res.activeDb);
+      } else {
+        document.getElementById('empty-msg').innerText = (res && res.message) ? res.message : "Контакты отсутствуют";
+        document.getElementById('empty-box').classList.remove('hidden');
+      }
+    }
+
+    function renderCurrentContactCard(card, activeDb) {
+      document.getElementById('c-address').innerText = card.address || 'Адрес не указан';
+      document.getElementById('c-city').innerText = card.city ? ('📍 ' + card.city) : '📍 Город не указан';
+      document.getElementById('c-db-tag').innerText = 'База: ' + (activeDb || '90+');
+      document.getElementById('c-phone').innerText = card.phone;
+
+      const callBtn = document.getElementById('c-call-link');
+      if (isIOS) {
+        callBtn.href = 'sip:' + card.phone + '@20vatc006325-001.cloudpbx.ttk.ru';
+      } else {
+        callBtn.href = 'tel:' + card.phone;
+      }
+
+      document.getElementById('contact-card').classList.remove('hidden');
+      document.getElementById('status-buttons').classList.remove('hidden');
+    }
+
+    function toggleSubMenu(id) {
+      const elem = document.getElementById(id);
+      elem.classList.toggle('hidden');
+    }
+
+    function showSuccessForm() {
+      document.getElementById('success-form').classList.remove('hidden');
+      document.getElementById('callback-form').classList.add('hidden');
+    }
+
+    function submitSuccess() {
+      const commentVal = document.getElementById('success-comment').value.trim();
+      sendResult('Дозвон - Согласие', { comment: commentVal ? "Детали: " + commentVal : "Без детального описания" });
+    }
+
+    function showCallbackForm() {
+      document.getElementById('callback-form').classList.remove('hidden');
+      document.getElementById('success-form').classList.add('hidden');
+    }
+
+    function submitCallback() {
+      const dateVal = document.getElementById('cb-date').value;
+      const commentVal = document.getElementById('cb-comment').value.trim();
+      if (!dateVal) { alert("Укажите дату и время!"); return; }
+
+      const dt = new Date(dateVal);
+      const dateStr = (dt.getMonth() + 1) + '/' + dt.getDate() + '/' + dt.getFullYear();
+      const timeStr = dt.toLocaleTimeString("ru-RU", { hour: '2-digit', minute: '2-digit' });
+
+      sendResult('Перезвон', { dateStr: dateStr, timeStr: timeStr, comment: commentVal || "Без комментария" });
+    }
+
+    function sendResult(resultText, callbackInfo) {
+      document.getElementById('status-buttons').classList.add('hidden');
+      document.getElementById('loader').innerText = '⏳ Сохранение...';
+      document.getElementById('loader').classList.remove('hidden');
+
+      apiCall('saveCallResult', { row: currentCard.row, agentName: currentAgent, result: resultText, callbackInfo: callbackInfo || null })
+        .then(() => {
+          incrementShiftCalls();
+          loadNext();
+        })
+        .catch(() => {
+          document.getElementById('loader').classList.add('hidden');
+          loadNext();
+        });
+    }
+
+    function blacklistContact() {
+      if(!confirm('Убрать номер из обзвона навсегда?')) return;
+      document.getElementById('status-buttons').classList.add('hidden');
+      document.getElementById('loader').innerText = '⛔ В ЧС...';
+      document.getElementById('loader').classList.remove('hidden');
+
+      apiCall('addToBlacklist', { row: currentCard.row, phone: currentCard.phone, agentName: currentAgent })
+        .then(() => {
+          incrementShiftCalls();
+          loadNext();
+        })
+        .catch(() => {
+          document.getElementById('loader').classList.add('hidden');
+          loadNext();
+        });
+    }
+
+    function openAdminModal() {
+      document.getElementById('admin-modal').classList.remove('hidden');
+      loadAdminData();
+    }
+    function closeAdminModal() { document.getElementById('admin-modal').classList.add('hidden'); }
+
+    function switchAdminTab(tab) {
+      document.getElementById('atab-db').classList.remove('active');
+      document.getElementById('atab-agents').classList.remove('active');
+      document.getElementById('atab-roles').classList.remove('active');
+      document.getElementById('admin-sec-db').classList.add('hidden');
+      document.getElementById('admin-sec-agents').classList.add('hidden');
+      document.getElementById('admin-sec-roles').classList.add('hidden');
+
+      if (tab === 'db') {
+        document.getElementById('atab-db').classList.add('active');
+        document.getElementById('admin-sec-db').classList.remove('hidden');
+      } else if (tab === 'agents') {
+        document.getElementById('atab-agents').classList.add('active');
+        document.getElementById('admin-sec-agents').classList.remove('hidden');
+      } else {
+        document.getElementById('atab-roles').classList.add('active');
+        document.getElementById('admin-sec-roles').classList.remove('hidden');
+      }
+    }
+
+    function loadAdminData() {
+      apiCall('getAdminAnalytics')
+        .then(data => {
+          if (!data) return;
+          document.getElementById('admin-db-select').value = data.activeDb;
+          document.getElementById('adb-total').innerText = data.dbStats.total;
+          document.getElementById('adb-done').innerText = data.dbStats.done;
+          document.getElementById('adb-remaining').innerText = data.dbStats.remaining;
+          document.getElementById('adb-dozvon').innerText = data.dbStats.dozvon;
+          document.getElementById('adb-nedozvon').innerText = data.dbStats.nedozvon;
+          document.getElementById('adb-pct').innerText = data.dbStats.progressPct + '%';
+          document.getElementById('adb-bar').style.width = data.dbStats.progressPct + '%';
+          document.getElementById('adb-agreed').innerText = data.dbStats.breakdown.agreed;
+          document.getElementById('adb-refused').innerText = data.dbStats.breakdown.refused;
+
+          const aBody = document.getElementById('admin-agents-table-body');
+          aBody.innerHTML = "";
+          data.agents.forEach(function(a) {
+            aBody.innerHTML += '<tr><td>' + (a.isOnline ? '🟢 ' : '') + a.name + '</td><td>' + a.totalHours + '</td><td>' + a.totalCalls + '</td><td>' + a.callsPerHour + '/ч</td></tr>';
+          });
+
+          const rBody = document.getElementById('admin-roles-table-body');
+          rBody.innerHTML = "";
+          data.users.forEach(function(u) {
+            const btnTxt = u.role === 'Суперпользователь' ? 'Сделать Агентом' : 'Сделать Админом';
+            const nextRole = u.role === 'Суперпользователь' ? 'Агент' : 'Суперпользователь';
+            rBody.innerHTML += '<tr><td>' + u.fullName + '<br><small style="color:#64748b;">(' + u.login + ')</small></td><td>' + u.role + '</td><td><div style="display:flex; gap:4px; flex-wrap:wrap;"><button onclick="changeRole(\'' + u.login + '\', \'' + nextRole + '\')" style="font-size:10px; padding:4px 6px; border-radius:6px; cursor:pointer;">' + btnTxt + '</button><button onclick="deleteUserAccount(\'' + u.login + '\')" style="font-size:10px; padding:4px 6px; border-radius:6px; background:#fee2e2; color:#dc2626; border:1px solid #fecaca; cursor:pointer; font-weight:700;">Уволить</button></div></td></tr>';
+          });
+        })
+        .catch(() => {});
+    }
+
+    function changeActiveDb() {
+      const selectedDb = document.getElementById('admin-db-select').value;
+      apiCall('setActiveDb', { dbName: selectedDb })
+        .then(() => {
+          showToast("База переключена на " + selectedDb);
+          loadAdminData();
+        });
+    }
+
+    function changeRole(login, newRole) {
+      apiCall('updateRole', { targetLogin: login, newRole: newRole })
+        .then(res => {
+          if (res && res.success) {
+            showToast("Роль обновлена");
+            loadAdminData();
+          } else { alert(res ? res.message : "Ошибка обновления роли"); }
+        });
+    }
+
+    function deleteUserAccount(login) {
+      if (!confirm("Вы действительно хотите уволить пользователя '" + login + "'? Учетная запись будет удалена.")) return;
+      apiCall('deleteUser', { targetLogin: login })
+        .then(res => {
+          if (res && res.success) {
+            showToast("Пользователь уволен");
+            loadAdminData();
+          } else { alert(res ? res.message : "Ошибка удаления"); }
+        });
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(function(){});
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    function openFaqModal() { document.getElementById('faq-modal').classList.remove('hidden'); }
+    function closeFaqModal() { document.getElementById('faq-modal').classList.add('hidden'); }
+
+    function openIncomeModal() {
+      document.getElementById('income-modal').classList.remove('hidden');
+      loadIncomeStats();
+    }
+    function closeIncomeModal() { document.getElementById('income-modal').classList.add('hidden'); }
+
+    function loadIncomeStats() {
+      const m = parseInt(document.getElementById('income-month-select').value);
+      apiCall('getIncomeStats', { agentName: currentAgent, monthNum: m, yearNum: 2026 })
+        .then(res => {
+          if (!res) return;
+          document.getElementById('inc-total-val').innerText = res.estimatedIncome.toLocaleString("ru-RU") + " ₽";
+          document.getElementById('inc-rate-lbl').innerText = "Текущая ставка: " + res.rate + " ₽/час";
+          document.getElementById('inc-hours-val').innerText = res.totalHours + " ч";
+          document.getElementById('inc-calls-val').innerText = res.totalCalls;
+          document.getElementById('inc-weekday-val').innerText = res.weekdayHours + " ч";
+          document.getElementById('inc-weekend-val').innerText = res.weekendHours + " ч";
+        })
+        .catch(()=>{});
+    }
+
+    function openTariffsModal() {
+      document.getElementById('tariff-modal').classList.remove('hidden');
+      renderTariffs();
+    }
+    function closeTariffsModal() { document.getElementById('tariff-modal').classList.add('hidden'); }
+
+    function renderTariffs() {
+      const query = document.getElementById('city-search-input').value.trim().toLowerCase();
+      const container = document.getElementById('tariff-list-container');
+      container.innerHTML = "";
+      const filtered = TARIFFS_DB.filter(function(t) {
+        return !query || t.cities.toLowerCase().indexOf(query) !== -1 || t.name.toLowerCase().indexOf(query) !== -1;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div style="color:#94a3b8; font-size:14px; text-align:center; padding:20px;">Тарифы не найдены.</div>';
+        return;
+      }
+
+      filtered.forEach(function(t) {
+        const item = document.createElement('div');
+        item.className = 'tariff-card';
+        item.innerHTML = '<div class="t-name">' + t.name + ' (' + t.desc + ')</div><div class="t-price">' + t.price + '</div>';
+        container.appendChild(item);
+      });
+    }
+
+    function copyPhone() {
+      const phoneText = document.getElementById('c-phone').innerText;
+      if (!phoneText) return;
+      navigator.clipboard.writeText(phoneText).then(showToast).catch(function() {
+        const tempInput = document.createElement("input");
+        tempInput.value = phoneText; document.body.appendChild(tempInput); tempInput.select(); document.execCommand("copy"); document.body.removeChild(tempInput); showToast();
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      if (msg) toast.innerText = msg;
+      else toast.innerText = "📋 Номер скопирован!";
+      toast.className = "show";
+      setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 2000);
+    }
+  </script>
+</body>
+</html>
