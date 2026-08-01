@@ -250,7 +250,7 @@
         </div>
 
         <!-- GET CONTACT BUTTON -->
-        <button onclick="fetchNextContact()" id="getContactBtn" class="w-full py-4 bg-[#e20613] text-white font-extrabold text-base rounded-2xl shadow-lg hover:bg-[#c00410] active:scale-95 transition-all flex items-center justify-center space-x-2">
+        <button onclick="fetchNextContact()" id="getContactBtn" class="hidden w-full py-4 bg-[#e20613] text-white font-extrabold text-base rounded-2xl shadow-lg hover:bg-[#c00410] active:scale-95 transition-all flex items-center justify-center space-x-2">
           <span>📞 ПОЛУЧИТЬ КЛИЕНТА</span>
         </button>
 
@@ -322,7 +322,7 @@
               <textarea id="callComment" rows="2" placeholder="Примечание к звонку (тариф, адрес, комментарий)..." class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#e20613]"></textarea>
             </div>
 
-            <button onclick="submitCallResult()" class="w-full py-3.5 bg-gray-900 hover:bg-black text-white font-bold rounded-xl shadow transition-all active:scale-95">
+            <button id="submitResultBtn" onclick="submitCallResult()" class="w-full py-3.5 bg-gray-900 hover:bg-black text-white font-bold rounded-xl shadow transition-all active:scale-95">
               💾 Сохранить и продолжить
             </button>
           </div>
@@ -704,6 +704,13 @@
       if (currentShift) {
         document.getElementById('startShiftCard').classList.add('hidden');
         document.getElementById('activeShiftCard').classList.remove('hidden');
+        
+        // Автоматический поиск первого клиента, если его нет
+        if (!currentContact) {
+          fetchNextContact();
+        } else {
+          renderContactCard();
+        }
       } else {
         document.getElementById('startShiftCard').classList.remove('hidden');
         document.getElementById('activeShiftCard').classList.add('hidden');
@@ -762,21 +769,25 @@
 
     async function fetchNextContact() {
       const btn = document.getElementById('getContactBtn');
+      const card = document.getElementById('contactCard');
+      
+      btn.classList.remove('hidden');
+      card.classList.add('hidden');
       btn.disabled = true;
-      btn.innerText = '⌛ Загрузка абонента...';
+      btn.innerHTML = '<span>⌛ Поиск абонента в базе...</span>';
 
       const res = await apiRequest('getNextContact', {
         agentName: currentUser.fullName || currentUser.login,
         sheetName: selectedSheet
       });
 
-      btn.disabled = false;
-      btn.innerHTML = '<span>📞 ПОЛУЧИТЬ КЛИЕНТА</span>';
-
       if (res.success && res.contact) {
         currentContact = res.contact;
+        btn.classList.add('hidden');
         renderContactCard();
       } else {
+        btn.disabled = false;
+        btn.innerHTML = '<span>🔄 БАЗА ПУСТА. ПОВТОРИТЬ ПОИСК</span>';
         showToast(res.message || 'Свободных контактов не найдено', 'error');
       }
     }
@@ -839,8 +850,11 @@
 
       const comment = document.getElementById('callComment').value.trim();
       const datetime = document.getElementById('recallDatetime').value;
+      const submitBtn = document.getElementById('submitResultBtn');
 
-      showToast('Сохранение результата...');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '💾 Сохранение...';
+
       const res = await apiRequest('saveCallResult', {
         agentName: currentUser.fullName || currentUser.login,
         contactId: currentContact.id,
@@ -850,14 +864,20 @@
         recallDatetime: datetime,
         sheetName: selectedSheet
       });
+      
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '💾 Сохранить и продолжить';
 
       if (res.success) {
         showToast('Результат сохранен!', 'success');
-        document.getElementById('contactCard').classList.add('hidden');
         document.getElementById('callStatusSelect').value = '';
         document.getElementById('callComment').value = '';
         document.getElementById('recallDatetime').value = '';
+        document.getElementById('recallContainer').classList.add('hidden');
         currentContact = null;
+        
+        // Автоматически сразу выдаем следующего клиента
+        fetchNextContact();
       } else {
         showToast(res.message || 'Ошибка сохранения', 'error');
       }
