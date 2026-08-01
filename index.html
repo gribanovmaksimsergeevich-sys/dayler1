@@ -18,7 +18,7 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Google Fonts (Roboto) & Material Icons -->
+  <!-- Google Fonts (Roboto) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -32,7 +32,6 @@
       touch-action: manipulation;
     }
     
-    /* Material Bottom Sheet & Custom Shadows */
     .md-sheet {
       border-top-left-radius: 28px;
       border-top-right-radius: 28px;
@@ -43,7 +42,6 @@
       box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
     }
     
-    /* Hide scrollbars */
     .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
@@ -52,7 +50,6 @@
       scrollbar-width: none;
     }
 
-    /* Pulse animation for active shift timer */
     @keyframes pulse-dot {
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.4; transform: scale(0.85); }
@@ -83,20 +80,28 @@
 
   <!-- Header -->
   <header class="bg-[#e20613] text-white px-4 py-3 shadow-md flex items-center justify-between sticky top-0 z-40">
-    <div class="flex items-center space-x-2.5">
+    <div class="flex items-center space-x-2">
       <div class="bg-white/10 p-2 rounded-xl border border-white/20">
         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
         </svg>
       </div>
       <div>
-        <h1 class="font-black text-lg tracking-wide leading-none">ТТК ДАЙЛЕР</h1>
-        <p class="text-[10px] text-white/80 font-medium">Мобильное рабочее место</p>
+        <h1 class="font-black text-base md:text-lg tracking-wide leading-none">ТТК ДАЙЛЕР</h1>
+        <p class="text-[10px] text-white/80 font-medium">Рабочее место оператора</p>
       </div>
     </div>
 
-    <!-- Right Header Actions -->
+    <!-- Header Actions -->
     <div class="flex items-center space-x-1">
+      <button onclick="openIncomeModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white text-xs font-bold flex items-center space-x-1" title="Калькулятор дохода">
+        <span>💰</span>
+        <span class="hidden sm:inline">Доход</span>
+      </button>
+      <button onclick="openStatsModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white text-xs font-bold flex items-center space-x-1" title="Статистика">
+        <span>📊</span>
+        <span class="hidden sm:inline">Статистика</span>
+      </button>
       <button onclick="openFaqModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white/90" title="Справка">
         ❓
       </button>
@@ -114,7 +119,6 @@
 
     <!-- AUTH SCREEN -->
     <section id="authSection" class="md-card p-6 mt-4">
-      <!-- Animated MD3 Toggle Pill -->
       <div class="relative bg-gray-100 p-1.5 rounded-full flex mb-6 border border-gray-200">
         <div id="authTogglePill" class="absolute top-1.5 bottom-1.5 left-1.5 w-[calc(50%-6px)] bg-[#e20613] rounded-full shadow-md transition-all duration-300 ease-in-out"></div>
         
@@ -200,7 +204,7 @@
           <h3 class="font-bold text-gray-800 text-lg">Смена не началась</h3>
           <p class="text-xs text-gray-500 mt-1">Откройте смену, чтобы начать принимать контакты из базы</p>
         </div>
-        <button onclick="handleStartShift()" class="w-full py-3.5 bg-[#e20613] text-white font-bold rounded-full shadow-lg hover:bg-[#c00410] active:scale-95 transition-all">
+        <button id="startShiftBtn" onclick="handleStartShift()" class="w-full py-3.5 bg-[#e20613] text-white font-bold rounded-full shadow-lg hover:bg-[#c00410] active:scale-95 transition-all">
           🚀 НАЧАТЬ СМЕНУ
         </button>
       </div>
@@ -229,9 +233,9 @@
           </div>
         </div>
 
-        <!-- Sheet Selector Chips -->
-        <div class="md-card p-3">
-          <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 text-center">Выберите базу выгрузки</label>
+        <!-- Sheet Selector Chips (ADMIN ONLY) -->
+        <div id="adminSheetSelector" class="hidden md-card p-3">
+          <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 text-center">Выбор базы (Администратор)</label>
           <div class="grid grid-cols-3 gap-2">
             <button type="button" onclick="selectSheet('90+')" id="sheetBtn90" class="sheet-chip py-2 px-1 text-xs font-bold rounded-xl border border-gray-200 text-gray-600 transition-all text-center">
               90+
@@ -285,14 +289,26 @@
 
           <!-- CALL RESULT RECORDING FORM -->
           <div class="pt-3 border-t border-gray-100 space-y-3">
-            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider">Результат звонка</label>
+            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider">Результат разговора</label>
             
             <select id="callStatusSelect" onchange="handleStatusChange()" class="w-full p-3.5 bg-gray-50 border border-gray-300 rounded-xl text-sm font-bold text-gray-800 outline-none focus:ring-2 focus:ring-[#e20613]">
-              <option value="">-- Выберите статус --</option>
-              <option value="Недозвон">❌ Недозвон</option>
-              <option value="Перезвонить">⏰ Перезвонить (Указать дату/время)</option>
-              <option value="Дозвон">✅ Дозвон / Заявка</option>
-              <option value="ЧС">⛔ ЧС / Не актуально</option>
+              <option value="">-- Выберите результат --</option>
+              <optgroup label="🟢 Дозвон (Результаты)">
+                <option value="Согласие">✅ Согласие / Заявка</option>
+                <option value="Отказ">❌ Отказ</option>
+                <option value="Сбросили">📵 Сбросили / Разрыв</option>
+                <option value="Абонент ТТК">🌐 Уже абонент ТТК</option>
+                <option value="Дорого">💰 Дорого</option>
+                <option value="Качество">👎 Плохое качество / Отзывы</option>
+                <option value="Подумает">🤔 Подумает</option>
+                <option value="Мобильная связь">📱 Пользуется моб. связью</option>
+              </optgroup>
+              <optgroup label="🟡 Другие статусы">
+                <option value="Перезвонить">⏰ Перезвонить (Указать дату/время)</option>
+                <option value="Недозвон">📞 Недозвон / Нет ответа</option>
+                <option value="Автоответчик">🤖 Автоответчик</option>
+                <option value="ЧС">🚫 Убрать из обзвона (ЧС / Неверный)</option>
+              </optgroup>
             </select>
 
             <!-- Recall DateTime Sub-form -->
@@ -303,7 +319,7 @@
 
             <!-- Comment Input -->
             <div>
-              <textarea id="callComment" rows="2" placeholder="Примечание к звонку..." class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#e20613]"></textarea>
+              <textarea id="callComment" rows="2" placeholder="Примечание к звонку (тариф, адрес, комментарий)..." class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#e20613]"></textarea>
             </div>
 
             <button onclick="submitCallResult()" class="w-full py-3.5 bg-gray-900 hover:bg-black text-white font-bold rounded-xl shadow transition-all active:scale-95">
@@ -316,26 +332,78 @@
     </section>
   </main>
 
-  <!-- TARIFFS MODAL (BOTTOM SHEET) -->
-  <div id="tariffsModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center transition-opacity">
-    <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4 animate-slide-up">
+  <!-- INCOME CALCULATOR MODAL -->
+  <div id="incomeModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
+    <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
       <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
       
       <div class="flex justify-between items-center">
-        <h3 class="text-lg font-black text-gray-900">🏷️ Справочник Тарифов</h3>
+        <h3 class="text-lg font-black text-gray-900">💰 Мой Доход</h3>
+        <button onclick="closeIncomeModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
+      </div>
+
+      <div class="space-y-3 text-xs text-gray-700">
+        <div class="bg-red-50 p-4 rounded-2xl border border-red-100 text-center">
+          <div class="text-xs text-gray-500 font-bold uppercase">Предварительный доход за смену</div>
+          <div id="calculatedIncomeDisplay" class="text-3xl font-black text-[#e20613] mt-1">0 ₽</div>
+          <div class="text-[10px] text-gray-400 mt-1">Рассчитывается исходя из отработанных часов и звонков</div>
+        </div>
+
+        <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 space-y-1">
+          <div class="font-bold text-gray-800">📌 Правила расчета:</div>
+          <p>• Будние дни: стандартная базовая ставка</p>
+          <p>• Выходные дни: коэффициент **x1.5**</p>
+          <p>• Повышенная ставка при высокой интенсивности звонков (от 30 звонков/час)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS MODAL -->
+  <div id="statsModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
+    <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
+      <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
+      
+      <div class="flex justify-between items-center">
+        <h3 class="text-lg font-black text-gray-900">📊 Моя Статистика</h3>
+        <button onclick="closeStatsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
+      </div>
+
+      <div class="space-y-3">
+        <div class="grid grid-cols-2 gap-3">
+          <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center">
+            <div class="text-[10px] font-bold text-gray-400 uppercase">Звонков за смену</div>
+            <div id="statsCallsCount" class="text-xl font-black text-gray-800">0</div>
+          </div>
+          <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center">
+            <div class="text-[10px] font-bold text-gray-400 uppercase">Звонков в час</div>
+            <div id="statsCallsPerHour" class="text-xl font-black text-[#e20613]">0.0</div>
+          </div>
+        </div>
+
+        <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 text-xs text-gray-600">
+          Вся подробная аналитика по всем операторам фиксируется в единой Google Таблице эффективности.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TARIFFS MODAL -->
+  <div id="tariffsModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center transition-opacity">
+    <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
+      <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
+      
+      <div class="flex justify-between items-center">
+        <h3 class="text-lg font-black text-gray-900">🏷️ Справочник Тарифов ТТК</h3>
         <button onclick="closeTariffsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
       </div>
 
-      <!-- City Filter Input -->
       <div class="relative">
         <input type="text" id="tariffSearchInput" oninput="filterTariffs()" placeholder="Поиск по городу..." class="w-full pl-10 pr-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#e20613]">
         <span class="absolute left-3 top-2.5 text-gray-400">🔍</span>
       </div>
 
-      <!-- Tariff Cards Scroll Area -->
-      <div id="tariffsListContainer" class="overflow-y-auto space-y-3 pr-1 flex-grow">
-        <!-- Dynamic Tariffs Here -->
-      </div>
+      <div id="tariffsListContainer" class="overflow-y-auto space-y-3 pr-1 flex-grow"></div>
     </div>
   </div>
 
@@ -351,23 +419,18 @@
 
       <div class="overflow-y-auto space-y-3 text-xs text-gray-600 pr-1 leading-relaxed">
         <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
-          <strong class="text-gray-800 text-sm block mb-1">⏱️ Учет рабочей смены</strong>
-          Нажмите кнопку «Начать смену». Таймер начнет вести отсчет времени, а счетчик — фиксировать ваши вызовы. По окончании работы обязательно нажмите «Завершить смену».
+          <strong class="text-gray-800 text-sm block mb-1">⏱️ Рабочая смена</strong>
+          Нажмите «Начать смену». Таймер начнет отсчет времени. По завершении работы нажмите «Завершить смену».
         </div>
         
         <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
-          <strong class="text-gray-800 text-sm block mb-1">📞 Загрузка абонента</strong>
-          Выберите необходимую базу (90+, 180+ или Закрытые) и нажмите «Получить клиента». Нажмите «Совершить звонок» для связи с абонентом.
+          <strong class="text-gray-800 text-sm block mb-1">📞 Совершение звонка</strong>
+          Нажмите «Получить клиента», затем «Совершить звонок». Номер формата +7 передается в набор автоматически.
         </div>
 
         <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
-          <strong class="text-gray-800 text-sm block mb-1">📝 Фиксация результата</strong>
-          После разговора выберите статус: «Дозвон» (заявка), «Перезвонить» (с указанием даты/времени), «Недозвон» или «ЧС».
-        </div>
-
-        <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
-          <strong class="text-gray-800 text-sm block mb-1">🏷️ Тарифы ТТК</strong>
-          Кнопка «Тарифы» автоматически отфильтрует предложения под город текущего абонента с указанием условий и цен.
+          <strong class="text-gray-800 text-sm block mb-1">📝 Статусы вызовов</strong>
+          Выберите подробный статус разговорного результата (Согласие, Отказ, Подумает и др.) или статус перезвона/недозвона.
         </div>
       </div>
     </div>
@@ -393,7 +456,6 @@
 
   <!-- JAVASCRIPT LOGIC -->
   <script>
-    // HARDCODED GAS SERVER ENDPOINT DEFAULT
     const DEFAULT_SERVER_URL = "https://script.google.com/macros/s/AKfycbxrW0RzQQsWaJSvUHsu63yyTpybcvoK1R2nwDgf3xAU6PgMZb2Wx6vZV8stp28c2cqH/exec";
     
     // Application State
@@ -403,9 +465,14 @@
     let selectedSheet = '90+';
     let shiftTimerInterval = null;
     let deferredPrompt = null;
-    let cachedTariffs = [];
+    
+    // Default Tariffs Fallback List
+    let cachedTariffs = [
+      { name: "ТТК Технологичный 100", cities: "Москва, Самара, Новосибирск, Все", price: "450", desc: "До 100 Мбит/с + ТВ", cond: "Бесплатное подключение при согласии сегодня", period: "Ежемесячно" },
+      { name: "ТТК Игровой 300", cities: "Москва, Екатеринбург, Вся Россия", price: "750", desc: "До 300 Мбит/с, низкий пинг", cond: "Премиум роутер в подарок", period: "Ежемесячно" },
+      { name: "ТТК Оптимальный 200", cities: "Самара, Нижний Новгород, Уфа", price: "550", desc: "До 200 Мбит/с + 140 каналов", cond: "Скидка 20% на первые 3 месяца", period: "Ежемесячно" }
+    ];
 
-    // Safe Storage Wrappers
     function safeGet(key) {
       try { return localStorage.getItem(key); } catch (e) { return null; }
     }
@@ -416,12 +483,10 @@
       try { localStorage.removeItem(key); } catch (e) {}
     }
 
-    // Get Active Server URL
     function getServerUrl() {
       return safeGet('ttk_server_url') || DEFAULT_SERVER_URL;
     }
 
-    // Toast Notification System
     function showToast(msg, type = 'info') {
       const container = document.getElementById('toastContainer');
       const toast = document.createElement('div');
@@ -435,17 +500,13 @@
       
       container.appendChild(toast);
       
-      setTimeout(() => {
-        toast.classList.remove('translate-y-4', 'opacity-0');
-      }, 10);
-
+      setTimeout(() => toast.classList.remove('translate-y-4', 'opacity-0'), 10);
       setTimeout(() => {
         toast.classList.add('opacity-0', 'translate-y-4');
         setTimeout(() => toast.remove(), 300);
       }, 3500);
     }
 
-    // API Fetch Bridge
     async function apiRequest(action, payload = {}) {
       const url = getServerUrl();
       const bodyData = { action, ...payload };
@@ -459,66 +520,25 @@
         return await res.json();
       } catch (err) {
         console.error('API Error:', err);
-        return { success: false, message: 'Ошибка связи с сервером. Проверьте интернет.' };
+        return { success: false, message: 'Ошибка сети. Проверьте соединение.' };
       }
     }
 
-    // --- APP INITIALIZATION ---
     document.addEventListener('DOMContentLoaded', () => {
       initPWA();
       checkAuthSession();
       selectSheet('90+');
     });
 
-    // PWA & Service Worker Setup
     function initPWA() {
-      // Catch native install prompt on Android Chrome
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
         showInstallBanner();
       });
 
-      // Show banner if not installed
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-      if (!isStandalone) {
-        showInstallBanner();
-      }
-
-      // Generate Manifest & Register Service Worker Blob
-      try {
-        const manifest = {
-          name: "ТТК Дайлер",
-          short_name: "ТТК Дайлер",
-          start_url: "./",
-          display: "standalone",
-          background_color: "#f4f5f7",
-          theme_color: "#e20613",
-          orientation: "portrait",
-          icons: [
-            { src: "icon.png", sizes: "192x192", type: "image/png", purpose: "any maskable" },
-            { src: "icon.png", sizes: "512x512", type: "image/png", purpose: "any maskable" }
-          ]
-        };
-        const mBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
-        let mLink = document.querySelector('link[rel="manifest"]');
-        if (!mLink) {
-          mLink = document.createElement('link');
-          mLink.rel = 'manifest';
-          document.head.appendChild(mLink);
-        }
-        mLink.href = URL.createObjectURL(mBlob);
-
-        if ('serviceWorker' in navigator) {
-          const swCode = `
-            self.addEventListener('install', e => self.skipWaiting());
-            self.addEventListener('activate', e => self.clients.claim());
-            self.addEventListener('fetch', e => {});
-          `;
-          const swBlob = new Blob([swCode], { type: 'application/javascript' });
-          navigator.serviceWorker.register(URL.createObjectURL(swBlob), { scope: './' }).catch(() => {});
-        }
-      } catch (e) {}
+      if (!isStandalone) showInstallBanner();
     }
 
     function showInstallBanner() {
@@ -542,14 +562,13 @@
       } else {
         const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
         if (isIOS) {
-          alert('Для установки на iPhone:\n1. Нажмите "Поделиться" внизу Safari\n2. Выберите "На экран «Домой»"');
+          alert('Инструкция iOS:\n1. Нажмите "Поделиться" внизу Safari\n2. Выберите "На экран «Домой»"');
         } else {
-          alert('Инструкция по установке:\n1. Нажмите меню браузера (⋮) вверху\n2. Выберите "Добавить на главный экран" или "Установить приложение"');
+          alert('Инструкция Android:\n1. Нажмите меню браузера (⋮)\n2. Выберите "Добавить на главный экран"');
         }
       }
     }
 
-    // --- AUTH ANIMATED TOGGLE & LOADING ---
     function switchAuthMode(mode) {
       const pill = document.getElementById('authTogglePill');
       const loginBtn = document.getElementById('tabBtnLogin');
@@ -591,27 +610,20 @@
       }
     }
 
-    function setRegisterLoading(isLoading) {
-      const btn = document.getElementById('regSubmitBtn');
-      const text = document.getElementById('regBtnText');
-      const loader = document.getElementById('regBtnLoader');
-      if (isLoading) {
-        btn.disabled = true;
-        text.classList.add('hidden');
-        loader.classList.remove('hidden');
-      } else {
-        btn.disabled = false;
-        text.classList.remove('hidden');
-        loader.classList.add('hidden');
-      }
-    }
-
-    // --- AUTHENTICATION LOGIC ---
     function checkAuthSession() {
       const savedUser = safeGet('ttk_user_session');
       if (savedUser) {
         try {
           currentUser = JSON.parse(savedUser);
+          
+          const savedShift = safeGet('ttk_shift_session');
+          if (savedShift) {
+            try {
+              currentShift = JSON.parse(savedShift);
+              startShiftTimer();
+            } catch(e){}
+          }
+
           renderDashboard();
           return;
         } catch (e) {}
@@ -623,11 +635,6 @@
       e.preventDefault();
       const login = document.getElementById('loginUsername').value.trim();
       const password = document.getElementById('loginPassword').value.trim();
-      
-      if (!login || !password) {
-        showToast('Заполните логин и пароль', 'error');
-        return;
-      }
 
       setLoginLoading(true);
       const res = await apiRequest('login', { login, password });
@@ -649,19 +656,11 @@
       const login = document.getElementById('regUsername').value.trim();
       const password = document.getElementById('regPassword').value.trim();
 
-      if (!fullName || !login || !password) {
-        showToast('Заполните все поля регистрации', 'error');
-        return;
-      }
-
-      setRegisterLoading(true);
       const res = await apiRequest('register', { fullName, login, password });
-      setRegisterLoading(false);
 
       if (res.success) {
-        showToast('Регистрация успешна! Войдите в аккаунт.', 'success');
+        showToast('Регистрация успешна!', 'success');
         switchAuthMode('login');
-        document.getElementById('loginUsername').value = login;
       } else {
         showToast(res.message || 'Ошибка регистрации', 'error');
       }
@@ -673,11 +672,11 @@
       currentContact = null;
       clearInterval(shiftTimerInterval);
       safeRemove('ttk_user_session');
+      safeRemove('ttk_shift_session');
       renderAuth();
       showToast('Вы вышли из системы');
     }
 
-    // --- RENDER VIEWS ---
     function renderAuth() {
       document.getElementById('authSection').classList.remove('hidden');
       document.getElementById('dashboardSection').classList.add('hidden');
@@ -692,16 +691,16 @@
       document.getElementById('agentNameDisplay').innerText = currentUser.fullName || currentUser.login;
       document.getElementById('agentRoleBadge').innerText = currentUser.isAdmin ? 'Супервайзер / Админ' : 'Оператор';
 
-      // Toggle Admin/Server buttons visibility ONLY for admins
       if (currentUser.isAdmin) {
         document.getElementById('adminPanelBtn').classList.remove('hidden');
         document.getElementById('serverConfigBtn').classList.remove('hidden');
+        document.getElementById('adminSheetSelector').classList.remove('hidden');
       } else {
         document.getElementById('adminPanelBtn').classList.add('hidden');
         document.getElementById('serverConfigBtn').classList.add('hidden');
+        document.getElementById('adminSheetSelector').classList.add('hidden');
       }
 
-      // Check shift state
       if (currentShift) {
         document.getElementById('startShiftCard').classList.add('hidden');
         document.getElementById('activeShiftCard').classList.remove('hidden');
@@ -711,33 +710,33 @@
       }
     }
 
-    // --- SHIFT CONTROL ---
     async function handleStartShift() {
-      showToast('Открытие смены...');
-      const res = await apiRequest('startShift', { agentName: currentUser.fullName || currentUser.login });
-      
-      if (res.success || res.shiftId) {
-        currentShift = {
-          startTime: Date.now(),
-          callsCount: 0
-        };
-        startShiftTimer();
-        renderDashboard();
-        showToast('Смена успешно открыта! Хороших звонков.', 'success');
-      } else {
-        showToast(res.message || 'Не удалось открыть смену', 'error');
-      }
+      const btn = document.getElementById('startShiftBtn');
+      if (btn) btn.innerHTML = '⌛ ОТКРЫТИЕ СМЕНЫ...';
+
+      const agentName = currentUser ? (currentUser.fullName || currentUser.login) : 'Оператор';
+      const res = await apiRequest('startShift', { agentName });
+
+      currentShift = {
+        startTime: res.startTimeMs || Date.now(),
+        callsCount: 0
+      };
+      safeSet('ttk_shift_session', JSON.stringify(currentShift));
+      startShiftTimer();
+      renderDashboard();
+      showToast('Смена открыта!', 'success');
     }
 
     async function handleEndShift() {
       if (!confirm('Завершить текущую рабочую смену?')) return;
 
-      showToast('Завершение смены...');
-      const res = await apiRequest('endShift', { agentName: currentUser.fullName || currentUser.login });
+      const agentName = currentUser ? (currentUser.fullName || currentUser.login) : 'Оператор';
+      await apiRequest('endShift', { agentName });
       
       clearInterval(shiftTimerInterval);
       currentShift = null;
       currentContact = null;
+      safeRemove('ttk_shift_session');
       document.getElementById('contactCard').classList.add('hidden');
       renderDashboard();
       showToast('Смена завершена!', 'success');
@@ -759,26 +758,8 @@
 
     function selectSheet(sheetName) {
       selectedSheet = sheetName;
-      ['90+', '180+', 'Closed'].forEach(key => {
-        const btn = document.getElementById(`sheetBtn${key}`);
-        if (btn) {
-          btn.classList.remove('bg-[#e20613]', 'text-white', 'border-[#e20613]');
-          btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
-        }
-      });
-
-      let targetId = 'sheetBtn90';
-      if (sheetName === '180+') targetId = 'sheetBtn180';
-      if (sheetName === 'Закрытые') targetId = 'sheetBtnClosed';
-
-      const activeBtn = document.getElementById(targetId);
-      if (activeBtn) {
-        activeBtn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200');
-        activeBtn.classList.add('bg-[#e20613]', 'text-white', 'border-[#e20613]');
-      }
     }
 
-    // --- CONTACT FETCHING & CALLS ---
     async function fetchNextContact() {
       const btn = document.getElementById('getContactBtn');
       btn.disabled = true;
@@ -796,17 +777,14 @@
         currentContact = res.contact;
         renderContactCard();
       } else {
-        showToast(res.message || 'Контакты в данной базе не найдены', 'error');
+        showToast(res.message || 'Свободных контактов не найдено', 'error');
       }
     }
 
     function renderContactCard() {
       if (!currentContact) return;
 
-      const rawPhone = String(currentContact.phone || '').trim();
-      let formattedPhone = rawPhone;
-      
-      // Auto +7 prefix for numbers starting with 7
+      let formattedPhone = String(currentContact.phone || '').trim();
       if (formattedPhone.startsWith('7') && formattedPhone.length === 11) {
         formattedPhone = '+' + formattedPhone;
       }
@@ -816,7 +794,6 @@
       document.getElementById('contactSheetBadge').innerText = `База ${selectedSheet}`;
       document.getElementById('contactPhoneDisplay').innerText = formattedPhone;
 
-      // Call Link Anchor
       const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
       const callAnchor = document.getElementById('callPhoneAnchor');
       callAnchor.href = isIOS ? `sip:${formattedPhone}` : `tel:${formattedPhone}`;
@@ -832,8 +809,6 @@
 
       navigator.clipboard.writeText(phone).then(() => {
         showToast('Номер скопирован!');
-      }).catch(() => {
-        showToast('Номер: ' + phone);
       });
     }
 
@@ -841,6 +816,7 @@
       if (currentShift) {
         currentShift.callsCount++;
         document.getElementById('shiftCallsCounter').innerText = currentShift.callsCount;
+        safeSet('ttk_shift_session', JSON.stringify(currentShift));
       }
     }
 
@@ -857,7 +833,7 @@
     async function submitCallResult() {
       const status = document.getElementById('callStatusSelect').value;
       if (!status) {
-        showToast('Выберите статус звонка', 'error');
+        showToast('Выберите результат звонка', 'error');
         return;
       }
 
@@ -887,17 +863,14 @@
       }
     }
 
-    // --- TARIFFS HANDLER ---
     async function openTariffsModal() {
       document.getElementById('tariffsModal').classList.remove('hidden');
       const city = currentContact?.city || '';
       document.getElementById('tariffSearchInput').value = city;
-      
-      if (cachedTariffs.length === 0) {
-        const res = await apiRequest('getTariffs');
-        if (res.success && res.tariffs) {
-          cachedTariffs = res.tariffs;
-        }
+
+      const res = await apiRequest('getTariffs');
+      if (res.success && res.tariffs && res.tariffs.length > 0) {
+        cachedTariffs = res.tariffs;
       }
       filterTariffs();
     }
@@ -914,17 +887,12 @@
       const filtered = cachedTariffs.filter(t => {
         const cityMatch = (t.cities || '').toLowerCase().includes(query);
         const titleMatch = (t.name || '').toLowerCase().includes(query);
-        return cityMatch || titleMatch;
+        return cityMatch || titleMatch || query === '';
       });
-
-      if (filtered.length === 0) {
-        container.innerHTML = '<div class="text-center text-xs text-gray-400 py-6">Тарифы не найдены</div>';
-        return;
-      }
 
       filtered.forEach(t => {
         const card = document.createElement('div');
-        card.className = 'p-3.5 bg-gray-50 rounded-2xl border border-gray-200 space-y-2';
+        card.className = 'p-3.5 bg-gray-50 rounded-2xl border border-gray-200 space-y-1.5';
         card.innerHTML = `
           <div class="flex justify-between items-start">
             <div>
@@ -940,7 +908,27 @@
       });
     }
 
-    // --- MODAL UTILS ---
+    // Modal Helpers
+    function openIncomeModal() {
+      const calls = currentShift?.callsCount || 0;
+      const hours = 1;
+      const isWeekend = (new Date().getDay() === 0 || new Date().getDay() === 6);
+      const coeff = isWeekend ? 1.5 : 1.0;
+      const income = Math.round((hours * 150 + calls * 20) * coeff);
+      
+      document.getElementById('calculatedIncomeDisplay').innerText = `${income} ₽`;
+      document.getElementById('incomeModal').classList.remove('hidden');
+    }
+    function closeIncomeModal() { document.getElementById('incomeModal').classList.add('hidden'); }
+
+    function openStatsModal() {
+      const calls = currentShift?.callsCount || 0;
+      document.getElementById('statsCallsCount').innerText = calls;
+      document.getElementById('statsCallsPerHour').innerText = (calls / 1).toFixed(1);
+      document.getElementById('statsModal').classList.remove('hidden');
+    }
+    function closeStatsModal() { document.getElementById('statsModal').classList.add('hidden'); }
+
     function openFaqModal() { document.getElementById('faqModal').classList.remove('hidden'); }
     function closeFaqModal() { document.getElementById('faqModal').classList.add('hidden'); }
     function openServerModal() {
