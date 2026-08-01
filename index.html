@@ -272,34 +272,65 @@
             <span>📞 СОВЕРШИТЬ ЗВОНОК</span>
           </a>
 
-          <!-- CALL RESULT RECORDING FORM -->
+          <!-- CALL RESULT RECORDING FORM (INTERACTIVE BUTTONS) -->
           <div class="pt-3 border-t border-gray-100 space-y-3">
             <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider">Результат разговора</label>
             
-            <select id="callStatusSelect" onchange="handleStatusChange()" class="w-full p-3.5 bg-gray-50 border border-gray-300 rounded-xl text-sm font-bold text-gray-800 outline-none focus:ring-2 focus:ring-[#e20613]">
-              <option value="">-- Выберите результат --</option>
-              <optgroup label="🟢 Дозвон (Результаты)">
-                <option value="Согласие">✅ Согласие / Заявка</option>
-                <option value="Отказ">❌ Отказ</option>
-                <option value="Сбросили">📵 Сбросили / Разрыв</option>
-                <option value="Абонент ТТК">🌐 Уже абонент ТТК</option>
-                <option value="Дорого">💰 Дорого</option>
-                <option value="Качество">👎 Плохое качество / Отзывы</option>
-                <option value="Подумает">🤔 Подумает</option>
-                <option value="Мобильная связь">📱 Пользуется моб. связью</option>
-              </optgroup>
-              <optgroup label="🟡 Другие статусы">
-                <option value="Перезвонить">⏰ Перезвонить (Указать дату/время)</option>
-                <option value="Недозвон">📞 Недозвон / Нет ответа</option>
-                <option value="Автоответчик">🤖 Автоответчик</option>
-                <option value="ЧС">🚫 Убрать из обзвона (ЧС / Неверный)</option>
-              </optgroup>
-            </select>
+            <!-- BUTTONS GRID FOR MAIN STATUSES -->
+            <div class="grid grid-cols-2 gap-2">
+              <!-- 🟢 Дозвон main toggle button -->
+              <button type="button" onclick="toggleDozvonMenu()" id="btnStatusDozvon" class="status-btn p-3 bg-emerald-50 border-2 border-emerald-200 hover:border-emerald-500 text-emerald-800 font-bold rounded-xl text-xs flex items-center justify-between transition-all">
+                <span class="flex items-center space-x-1">
+                  <span>🟢</span>
+                  <span id="dozvonSelectedLabel">Дозвон</span>
+                </span>
+                <span id="dozvonArrow" class="text-[10px]">▼</span>
+              </button>
+
+              <!-- ⏰ Перезвонить button -->
+              <button type="button" onclick="selectMainStatus('Перезвонить')" id="btnStatusRecall" class="status-btn p-3 bg-amber-50 border-2 border-amber-200 hover:border-amber-500 text-amber-800 font-bold rounded-xl text-xs flex items-center space-x-1.5 transition-all">
+                <span>⏰</span>
+                <span>Перезвонить</span>
+              </button>
+
+              <!-- 📞 Недозвон button -->
+              <button type="button" onclick="selectMainStatus('Недозвон')" id="btnStatusNoAnswer" class="status-btn p-3 bg-gray-50 border-2 border-gray-200 hover:border-gray-400 text-gray-700 font-bold rounded-xl text-xs flex items-center space-x-1.5 transition-all">
+                <span>📞</span>
+                <span>Недозвон</span>
+              </button>
+
+              <!-- 🤖 Автоответчик button -->
+              <button type="button" onclick="selectMainStatus('Автоответчик')" id="btnStatusAnsweringMachine" class="status-btn p-3 bg-gray-50 border-2 border-gray-200 hover:border-gray-400 text-gray-700 font-bold rounded-xl text-xs flex items-center space-x-1.5 transition-all">
+                <span>🤖</span>
+                <span>Автоответчик</span>
+              </button>
+            </div>
+
+            <!-- Full-width ЧС / Убрать из обзвона button -->
+            <button type="button" onclick="selectMainStatus('ЧС')" id="btnStatusBlacklist" class="status-btn w-full p-3 bg-rose-50 border-2 border-rose-200 hover:border-rose-500 text-rose-700 font-bold rounded-xl text-xs flex items-center justify-center space-x-2 transition-all">
+              <span>🚫</span>
+              <span>Убрать из обзвона (ЧС)</span>
+            </button>
+
+            <!-- Collapsible Sub-menu for Дозвон Reasons -->
+            <div id="dozvonSubMenu" class="hidden p-3 bg-emerald-50/70 border border-emerald-200 rounded-2xl space-y-2">
+              <div class="text-[11px] font-bold text-emerald-900 uppercase tracking-wider text-center">Причина / Результат дозвона:</div>
+              <div class="grid grid-cols-2 gap-1.5">
+                <button type="button" onclick="selectDozvonReason('Согласие')" id="reason_Согласие" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">✅ Согласие / Заявка</button>
+                <button type="button" onclick="selectDozvonReason('Отказ')" id="reason_Отказ" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">❌ Отказ</button>
+                <button type="button" onclick="selectDozvonReason('Сбросили')" id="reason_Сбросили" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">📵 Сбросили</button>
+                <button type="button" onclick="selectDozvonReason('Абонент ТТК')" id="reason_Абонент_ТТК" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">🌐 Абонент ТТК</button>
+                <button type="button" onclick="selectDozvonReason('Дорого')" id="reason_Дорого" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">💰 Дорого</button>
+                <button type="button" onclick="selectDozvonReason('Качество')" id="reason_Качество" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">👎 Качество</button>
+                <button type="button" onclick="selectDozvonReason('Подумает')" id="reason_Подумает" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">🤔 Подумает</button>
+                <button type="button" onclick="selectDozvonReason('Мобильная связь')" id="reason_Мобильная_связь" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">📱 Моб. связь</button>
+              </div>
+            </div>
 
             <!-- Recall DateTime Sub-form -->
             <div id="recallContainer" class="hidden space-y-2 bg-amber-50 p-3.5 rounded-xl border border-amber-200">
-              <label class="block text-xs font-bold text-amber-800">Дата и время перезвона</label>
-              <input type="datetime-local" id="recallDatetime" class="w-full p-2.5 bg-white border border-amber-300 rounded-lg text-sm">
+              <label class="block text-xs font-bold text-amber-800">📅 Дата и время перезвона</label>
+              <input type="datetime-local" id="recallDatetime" class="w-full p-2.5 bg-white border border-amber-300 rounded-lg text-sm font-medium outline-none focus:ring-2 focus:ring-amber-500">
             </div>
 
             <!-- Comment Input -->
@@ -349,7 +380,7 @@
         <!-- SECTION 1: DATABASE SELECTOR -->
         <div id="adminSectionSheets" class="space-y-3">
           <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 font-medium leading-relaxed">
-            Выберите активную базу клиентов. Все операторы без прав администратора будут автоматически брать вызовы из этой выбранной базы.
+            Выберите активную базу клиентов. Все операторы будут брать вызовы из выбранной базы.
           </div>
 
           <div class="space-y-2">
@@ -437,7 +468,7 @@
           <div class="font-bold text-gray-800">📌 Правила расчета:</div>
           <p>• Будние дни: стандартная базовая ставка</p>
           <p>• Выходные дни: коэффициент **x1.5**</p>
-          <p>• Повышенная ставка при высокой интенсивности звонков (от 30 звонков/час)</p>
+          <p>• Повышенная ставка при высокой интенсивности звонков</p>
         </div>
       </div>
     </div>
@@ -463,10 +494,6 @@
             <div class="text-[10px] font-bold text-gray-400 uppercase">Звонков в час</div>
             <div id="statsCallsPerHour" class="text-xl font-black text-[#e20613]">0.0</div>
           </div>
-        </div>
-
-        <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 text-xs text-gray-600">
-          Вся подробная аналитика по всем операторам фиксируется в единой Google Таблице эффективности.
         </div>
       </div>
     </div>
@@ -504,17 +531,11 @@
       <div class="overflow-y-auto space-y-3 text-xs text-gray-600 pr-1 leading-relaxed">
         <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
           <strong class="text-gray-800 text-sm block mb-1">⏱️ Рабочая смена</strong>
-          Нажмите «Начать смену». Таймер начнет отсчет времени. По завершении работы нажмите «Завершить смену».
+          Нажмите «Начать смену». По завершении работы нажмите «Завершить смену».
         </div>
-        
         <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
-          <strong class="text-gray-800 text-sm block mb-1">📞 Совершение звонка</strong>
-          Нажмите «Получить клиента», затем «Совершить звонок». Номер формата +7 передается в набор автоматически.
-        </div>
-
-        <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
-          <strong class="text-gray-800 text-sm block mb-1">📝 Статусы вызовов</strong>
-          Выберите подробный статус разговорного результата (Согласие, Отказ, Подумает и др.) или статус перезвона/недозвона.
+          <strong class="text-gray-800 text-sm block mb-1">📞 Звонки и Статусы</strong>
+          Выберите статус из кнопок: Дозвон (с причиной), Перезвонить, Недозвон, Автоответчик или ЧС.
         </div>
       </div>
     </div>
@@ -524,7 +545,7 @@
   <div id="serverModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-md rounded-2xl p-6 space-y-4">
       <h3 class="text-lg font-black text-gray-900">⚙️ Настройки Сервера</h3>
-      <p class="text-xs text-gray-500">URL вашего бэкенда Google Apps Script</p>
+      <p class="text-xs text-gray-500">URL бэкенда Google Apps Script</p>
       
       <textarea id="serverUrlInput" rows="3" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-xs font-mono outline-none focus:ring-2 focus:ring-[#e20613]"></textarea>
       
@@ -547,6 +568,7 @@
     let currentShift = null;
     let currentContact = null;
     let selectedSheet = '90+';
+    let selectedCallStatus = ''; // Currently selected status string
     let shiftTimerInterval = null;
     let deferredPrompt = null;
     
@@ -604,7 +626,7 @@
         return await res.json();
       } catch (err) {
         console.error('API Error:', err);
-        return { success: false, message: 'Ошибка сети. Проверьте соединение.' };
+        return { success: false, message: 'Ошибка связи с сервером.' };
       }
     }
 
@@ -778,11 +800,9 @@
       if (currentUser.isAdmin) {
         document.getElementById('adminPanelBtn').classList.remove('hidden');
         document.getElementById('serverConfigBtn').classList.remove('hidden');
-        document.getElementById('adminSheetSelector').classList.remove('hidden');
       } else {
         document.getElementById('adminPanelBtn').classList.add('hidden');
         document.getElementById('serverConfigBtn').classList.add('hidden');
-        document.getElementById('adminSheetSelector').classList.add('hidden');
       }
 
       if (currentShift) {
@@ -927,6 +947,8 @@
       btn.disabled = true;
       btn.innerHTML = '<span>⌛ Поиск абонента в базе...</span>';
 
+      resetStatusButtons();
+
       const res = await apiRequest('getNextContact', {
         agentName: currentUser.fullName || currentUser.login,
         sheetName: selectedSheet
@@ -983,27 +1005,110 @@
       }
     }
 
-    function handleStatusChange() {
-      const status = document.getElementById('callStatusSelect').value;
-      const recallContainer = document.getElementById('recallContainer');
-      if (status === 'Перезвонить') {
-        recallContainer.classList.remove('hidden');
+    // --- STATUS BUTTON SELECTION LOGIC ---
+    function resetStatusButtons() {
+      selectedCallStatus = '';
+      document.getElementById('dozvonSelectedLabel').innerText = 'Дозвон';
+      document.getElementById('dozvonArrow').innerText = '▼';
+      document.getElementById('dozvonSubMenu').classList.add('hidden');
+      document.getElementById('recallContainer').classList.add('hidden');
+
+      // Reset styles
+      const allBtns = document.querySelectorAll('.status-btn');
+      allBtns.forEach(b => b.classList.remove('ring-2', 'ring-offset-1', 'ring-[#e20613]', 'border-[#e20613]'));
+
+      const allReasonBtns = document.querySelectorAll('.dozvon-reason-btn');
+      allReasonBtns.forEach(rb => {
+        rb.classList.remove('bg-emerald-600', 'text-white');
+        rb.classList.add('bg-white', 'text-emerald-800');
+      });
+    }
+
+    function toggleDozvonMenu() {
+      const sub = document.getElementById('dozvonSubMenu');
+      const arrow = document.getElementById('dozvonArrow');
+      if (sub.classList.contains('hidden')) {
+        sub.classList.remove('hidden');
+        arrow.innerText = '▲';
       } else {
-        recallContainer.classList.add('hidden');
+        sub.classList.add('hidden');
+        arrow.innerText = '▼';
       }
     }
 
+    function selectDozvonReason(reason) {
+      selectedCallStatus = reason;
+      document.getElementById('dozvonSelectedLabel').innerText = `Дозвон: ${reason}`;
+      document.getElementById('recallContainer').classList.add('hidden');
+
+      // Highlight main Dozvon button
+      const dozvonBtn = document.getElementById('btnStatusDozvon');
+      const allBtns = document.querySelectorAll('.status-btn');
+      allBtns.forEach(b => b.classList.remove('ring-2', 'ring-offset-1', 'ring-[#e20613]'));
+      dozvonBtn.classList.add('ring-2', 'ring-offset-1', 'ring-[#e20613]');
+
+      // Highlight reason button
+      const allReasonBtns = document.querySelectorAll('.dozvon-reason-btn');
+      allReasonBtns.forEach(rb => {
+        rb.classList.remove('bg-emerald-600', 'text-white');
+        rb.classList.add('bg-white', 'text-emerald-800');
+      });
+
+      const activeReasonBtn = document.getElementById(`reason_${reason.replace(/\s+/g, '_')}`);
+      if (activeReasonBtn) {
+        activeReasonBtn.classList.remove('bg-white', 'text-emerald-800');
+        activeReasonBtn.classList.add('bg-emerald-600', 'text-white');
+      }
+
+      showToast(`Выбрано: Дозвон (${reason})`);
+    }
+
+    function selectMainStatus(status) {
+      selectedCallStatus = status;
+      document.getElementById('dozvonSubMenu').classList.add('hidden');
+      document.getElementById('dozvonArrow').innerText = '▼';
+      document.getElementById('dozvonSelectedLabel').innerText = 'Дозвон';
+
+      const recallCont = document.getElementById('recallContainer');
+      if (status === 'Перезвонить') {
+        recallCont.classList.remove('hidden');
+      } else {
+        recallCont.classList.add('hidden');
+      }
+
+      // Highlight active status button
+      const allBtns = document.querySelectorAll('.status-btn');
+      allBtns.forEach(b => b.classList.remove('ring-2', 'ring-offset-1', 'ring-[#e20613]'));
+
+      let targetId = '';
+      if (status === 'Перезвонить') targetId = 'btnStatusRecall';
+      if (status === 'Недозвон') targetId = 'btnStatusNoAnswer';
+      if (status === 'Автоответчик') targetId = 'btnStatusAnsweringMachine';
+      if (status === 'ЧС') targetId = 'btnStatusBlacklist';
+
+      const activeBtn = document.getElementById(targetId);
+      if (activeBtn) {
+        activeBtn.classList.add('ring-2', 'ring-offset-1', 'ring-[#e20613]');
+      }
+
+      showToast(`Выбран статус: ${status}`);
+    }
+
     async function submitCallResult() {
-      const status = document.getElementById('callStatusSelect').value;
-      if (!status) {
-        showToast('Выберите результат звонка', 'error');
+      if (!selectedCallStatus) {
+        showToast('Пожалуйста, выберите результат звонка!', 'error');
         return;
       }
 
       const comment = document.getElementById('callComment').value.trim();
       const datetime = document.getElementById('recallDatetime').value;
-      const submitBtn = document.getElementById('submitResultBtn');
+      
+      if (selectedCallStatus === 'Перезвонить' && !datetime) {
+        showToast('Укажите дату и время перезвона!', 'error');
+        return;
+      }
 
+      const submitBtn = document.getElementById('submitResultBtn');
       submitBtn.disabled = true;
       submitBtn.innerHTML = '💾 Сохранение...';
 
@@ -1013,7 +1118,7 @@
         agentName: currentUser.fullName || currentUser.login,
         contactId: currentContact.id,
         phone: norm.phone,
-        status,
+        status: selectedCallStatus,
         comment,
         recallDatetime: datetime,
         sheetName: selectedSheet
@@ -1024,28 +1129,26 @@
 
       if (res.success) {
         showToast('Результат сохранен!', 'success');
-        document.getElementById('callStatusSelect').value = '';
         document.getElementById('callComment').value = '';
         document.getElementById('recallDatetime').value = '';
-        document.getElementById('recallContainer').classList.add('hidden');
+        resetStatusButtons();
         currentContact = null;
         
+        // Auto-fetch next client immediately
         fetchNextContact();
       } else {
         showToast(res.message || 'Ошибка сохранения', 'error');
       }
     }
 
-    // --- TARIFFS MODAL FIX ---
+    // --- TARIFFS MODAL ---
     async function openTariffsModal() {
       document.getElementById('tariffsModal').classList.remove('hidden');
       const norm = normalizeContact(currentContact);
       document.getElementById('tariffSearchInput').value = norm.city;
       
-      // Instantly render cached/fallback tariffs
       filterTariffs();
 
-      // Fetch fresh tariffs from GAS backend
       const res = await apiRequest('getTariffs');
       if (res.success && res.tariffs && res.tariffs.length > 0) {
         cachedTariffs = res.tariffs;
@@ -1069,7 +1172,7 @@
       });
 
       if (filtered.length === 0) {
-        container.innerHTML = '<div class="text-center text-xs text-gray-400 py-6">Тарифы по вашему запросу не найдены</div>';
+        container.innerHTML = '<div class="text-center text-xs text-gray-400 py-6">Тарифы не найдены</div>';
         return;
       }
 
@@ -1134,7 +1237,7 @@
 
     async function loadUsersList() {
       const container = document.getElementById('adminUsersList');
-      container.innerHTML = '<div class="text-center py-6 text-xs text-gray-400">⌛ Загрузка списка операторов...</div>';
+      container.innerHTML = '<div class="text-center py-6 text-xs text-gray-400">⌛ Загрузка операторов...</div>';
 
       const res = await apiRequest('getUsers');
       if (res.success && res.users) {
@@ -1168,7 +1271,7 @@
       showToast('Обновление роли...');
       const res = await apiRequest('updateUserRole', { login, role: newRole });
       if (res.success) {
-        showToast('Роль успешно обновлена!', 'success');
+        showToast('Роль обновлена!', 'success');
         loadUsersList();
       } else {
         showToast(res.message || 'Ошибка обновления', 'error');
