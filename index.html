@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>ТТК Дайлер</title>
   
-  <!-- PWA & Apple Meta -->
+  <!-- PWA & Apple Meta Tags -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -61,7 +61,6 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between select-none pb-safe">
 
-  <!-- PWA Install Banner -->
   <div id="pwaInstallBanner" class="hidden bg-gray-900 text-white p-3.5 px-4 flex items-center justify-between shadow-lg sticky top-0 z-50 border-b border-gray-800">
     <div class="flex items-center space-x-3">
       <img src="icon.png" onerror="this.src='https://placehold.co/80x80/e20613/ffffff?text=ТТК'" class="w-10 h-10 rounded-xl shadow border border-white/20">
@@ -78,7 +77,6 @@
     </div>
   </div>
 
-  <!-- Header -->
   <header class="bg-[#e20613] text-white px-4 py-3 shadow-md flex items-center justify-between sticky top-0 z-40">
     <div class="flex items-center space-x-2">
       <div class="bg-white/10 p-2 rounded-xl border border-white/20">
@@ -92,7 +90,6 @@
       </div>
     </div>
 
-    <!-- Header Actions -->
     <div class="flex items-center space-x-1">
       <button onclick="openIncomeModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white text-xs font-bold flex items-center space-x-1" title="Калькулятор дохода">
         <span>💰</span>
@@ -100,7 +97,7 @@
       </button>
       <button onclick="openStatsModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white text-xs font-bold flex items-center space-x-1" title="Моя статистика">
         <span>📊</span>
-        <span class="hidden sm:inline">Моя стата</span>
+        <span class="hidden sm:inline">Стата</span>
       </button>
       <button onclick="openFaqModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white/90" title="Справка">
         ❓
@@ -115,7 +112,6 @@
     </div>
   </header>
 
-  <!-- MAIN APP CONTAINER -->
   <main class="flex-grow max-w-lg w-full mx-auto p-4 space-y-4">
 
     <!-- AUTH SCREEN -->
@@ -154,7 +150,6 @@
         </button>
       </form>
 
-      <!-- Register Form -->
       <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-4 hidden">
         <div>
           <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">ФИО Оператора</label>
@@ -182,7 +177,6 @@
       </form>
     </section>
 
-    <!-- WORK DASHBOARD SECTION -->
     <section id="dashboardSection" class="hidden space-y-4">
       
       <!-- Agent Profile Banner -->
@@ -213,12 +207,10 @@
       <!-- ACTIVE SHIFT CONTROLS -->
       <div id="activeShiftCard" class="hidden space-y-4">
         
-        <!-- Full-width End Shift Button -->
         <button onclick="handleEndShift()" class="w-full py-3.5 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white font-extrabold rounded-2xl shadow-lg active:scale-[0.98] transition-all flex items-center justify-center space-x-2 text-base">
           <span>🛑 ЗАВЕРШИТЬ СМЕНУ</span>
         </button>
 
-        <!-- Timer & Call Counter Grid -->
         <div class="grid grid-cols-2 gap-3">
           <div class="md-card p-4 text-center relative overflow-hidden">
             <div class="flex items-center justify-center space-x-1 text-xs text-gray-400 font-bold mb-1">
@@ -234,12 +226,10 @@
           </div>
         </div>
 
-        <!-- GET CONTACT BUTTON (USED AS FALLBACK IF BASE EMPTY) -->
         <button onclick="fetchNextContact()" id="getContactBtn" class="hidden w-full py-4 bg-[#e20613] text-white font-extrabold text-base rounded-2xl shadow-lg hover:bg-[#c00410] active:scale-95 transition-all flex items-center justify-center space-x-2">
           <span>📞 ПОЛУЧИТЬ КЛИЕНТА</span>
         </button>
 
-        <!-- CONTACT CARD CONTAINER -->
         <div id="contactCard" class="hidden md-card p-5 space-y-4 border border-red-100">
           <div class="flex justify-between items-start">
             <div>
@@ -272,13 +262,12 @@
             <span>📞 СОВЕРШИТЬ ЗВОНОК</span>
           </a>
 
-          <!-- CALL RESULT RECORDING FORM (INTERACTIVE BUTTONS) -->
+          <!-- CALL RESULT RECORDING FORM -->
           <div class="pt-3 border-t border-gray-100 space-y-3">
             <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider">Результат разговора</label>
             
             <!-- BUTTONS GRID FOR MAIN STATUSES -->
             <div class="grid grid-cols-2 gap-2">
-              <!-- 🟢 Дозвон main toggle button -->
               <button type="button" onclick="toggleDozvonMenu()" id="btnStatusDozvon" class="status-btn p-3 bg-emerald-50 border-2 border-emerald-200 hover:border-emerald-500 text-emerald-800 font-bold rounded-xl text-xs flex items-center justify-between transition-all">
                 <span class="flex items-center space-x-1">
                   <span>🟢</span>
@@ -287,19 +276,16 @@
                 <span id="dozvonArrow" class="text-[10px]">▼</span>
               </button>
 
-              <!-- ⏰ Перезвонить button -->
               <button type="button" onclick="selectMainStatus('Перезвонить')" id="btnStatusRecall" class="status-btn p-3 bg-amber-50 border-2 border-amber-200 hover:border-amber-500 text-amber-800 font-bold rounded-xl text-xs flex items-center space-x-1.5 transition-all">
                 <span>⏰</span>
                 <span>Перезвонить</span>
               </button>
 
-              <!-- 📞 Недозвон button -->
               <button type="button" onclick="selectMainStatus('Недозвон')" id="btnStatusNoAnswer" class="status-btn p-3 bg-gray-50 border-2 border-gray-200 hover:border-gray-400 text-gray-700 font-bold rounded-xl text-xs flex items-center space-x-1.5 transition-all">
                 <span>📞</span>
                 <span>Недозвон</span>
               </button>
 
-              <!-- 🤖 Автоответчик button -->
               <button type="button" onclick="selectMainStatus('Автоответчик')" id="btnStatusAnsweringMachine" class="status-btn p-3 bg-gray-50 border-2 border-gray-200 hover:border-gray-400 text-gray-700 font-bold rounded-xl text-xs flex items-center space-x-1.5 transition-all">
                 <span>🤖</span>
                 <span>Автоответчик</span>
@@ -312,7 +298,6 @@
               <span>Убрать из обзвона (ЧС)</span>
             </button>
 
-            <!-- Collapsible Sub-menu for Дозвон Reasons -->
             <div id="dozvonSubMenu" class="hidden p-3 bg-emerald-50/70 border border-emerald-200 rounded-2xl space-y-2">
               <div class="text-[11px] font-bold text-emerald-900 uppercase tracking-wider text-center">Причина / Результат дозвона:</div>
               <div class="grid grid-cols-2 gap-1.5">
@@ -348,7 +333,6 @@
     </section>
   </main>
 
-  <!-- ADMIN PANEL MODAL -->
   <div id="adminModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
     <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[90vh] flex flex-col space-y-4">
       <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
@@ -374,7 +358,6 @@
         </button>
       </div>
 
-      <!-- Admin Content Sections -->
       <div class="overflow-y-auto flex-grow space-y-4 pr-1">
         
         <!-- SECTION 1: DATABASE SELECTOR -->
@@ -434,20 +417,12 @@
               <div id="adminTotalShifts" class="text-xl font-black text-[#e20613]">0</div>
             </div>
           </div>
-
-          <div class="p-3 bg-gray-50 rounded-xl border border-gray-200 space-y-2">
-            <div class="text-xs font-bold text-gray-800">📊 Выгрузка отчетов:</div>
-            <p class="text-xs text-gray-600 leading-relaxed">
-              Все звонки, логи перезвонов и зафиксированное время смен операторов передаются и хранятся в Google Таблице.
-            </p>
-          </div>
         </div>
 
       </div>
     </div>
   </div>
 
-  <!-- INCOME CALCULATOR MODAL -->
   <div id="incomeModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
     <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
       <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
@@ -474,7 +449,6 @@
     </div>
   </div>
 
-  <!-- STATS MODAL -->
   <div id="statsModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
     <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
       <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
@@ -499,7 +473,6 @@
     </div>
   </div>
 
-  <!-- TARIFFS MODAL -->
   <div id="tariffsModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center transition-opacity">
     <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
       <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
@@ -518,7 +491,6 @@
     </div>
   </div>
 
-  <!-- FAQ MODAL -->
   <div id="faqModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
     <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
       <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
@@ -541,7 +513,6 @@
     </div>
   </div>
 
-  <!-- SERVER CONFIG MODAL (ADMIN ONLY) -->
   <div id="serverModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-md rounded-2xl p-6 space-y-4">
       <h3 class="text-lg font-black text-gray-900">⚙️ Настройки Сервера</h3>
@@ -556,10 +527,8 @@
     </div>
   </div>
 
-  <!-- TOAST NOTIFICATIONS -->
   <div id="toastContainer" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 space-y-2 pointer-events-none w-full max-w-xs px-4"></div>
 
-  <!-- JAVASCRIPT LOGIC -->
   <script>
     const DEFAULT_SERVER_URL = "https://script.google.com/macros/s/AKfycbxrW0RzQQsWaJSvUHsu63yyTpybcvoK1R2nwDgf3xAU6PgMZb2Wx6vZV8stp28c2cqH/exec";
     
@@ -568,11 +537,10 @@
     let currentShift = null;
     let currentContact = null;
     let selectedSheet = safeGet('ttk_selected_sheet') || '90+';
-    let selectedCallStatus = ''; // Currently selected status string
+    let selectedCallStatus = '';
     let shiftTimerInterval = null;
     let deferredPrompt = null;
     
-    // Fallback Tariffs
     let cachedTariffs = [
       { name: "ТТК Технологичный 100", cities: "Москва, Самара, Новосибирск, Все", price: "450", desc: "До 100 Мбит/с + ТВ", cond: "Бесплатное подключение при согласии сегодня", period: "Ежемесячно" },
       { name: "ТТК Игровой 300", cities: "Москва, Екатеринбург, Вся Россия", price: "750", desc: "До 300 Мбит/с, низкий пинг", cond: "Премиум роутер в подарок", period: "Ежемесячно" },
@@ -618,11 +586,16 @@
       const bodyData = { action, ...payload };
       
       try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 12000);
+
         const res = await fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify(bodyData)
+          body: JSON.stringify(bodyData),
+          signal: controller.signal
         });
+        clearTimeout(timeoutId);
         return await res.json();
       } catch (err) {
         console.error('API Error:', err);
@@ -630,26 +603,20 @@
       }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       initPWA();
+      await syncActiveSheetFromServer();
       checkAuthSession();
-      syncActiveSheet();
     });
 
-    async function syncActiveSheet() {
-      const saved = safeGet('ttk_selected_sheet');
-      if (saved) {
-        selectedSheet = saved;
-      }
-      updateAdminSheetUI();
-
-      // Fetch from server if possible
-      const res = await apiRequest('getActiveSheet');
-      if (res && res.success && res.sheetName) {
-        selectedSheet = res.sheetName;
-        safeSet('ttk_selected_sheet', selectedSheet);
-        updateAdminSheetUI();
-      }
+    async function syncActiveSheetFromServer() {
+      try {
+        const res = await apiRequest('getActiveSheet');
+        if (res && res.success && res.sheetName) {
+          selectedSheet = res.sheetName;
+          safeSet('ttk_selected_sheet', selectedSheet);
+        }
+      } catch (e) {}
     }
 
     function initPWA() {
@@ -838,19 +805,32 @@
 
     async function handleStartShift() {
       const btn = document.getElementById('startShiftBtn');
-      if (btn) btn.innerHTML = '⌛ ОТКРЫТИЕ СМЕНЫ...';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '⌛ ОТКРЫТИЕ СМЕНЫ...';
+      }
 
-      const agentName = currentUser ? (currentUser.fullName || currentUser.login) : 'Оператор';
-      const res = await apiRequest('startShift', { agentName });
+      try {
+        const agentName = currentUser ? (currentUser.fullName || currentUser.login) : 'Оператор';
+        const res = await apiRequest('startShift', { agentName });
 
-      currentShift = {
-        startTime: res.startTimeMs || Date.now(),
-        callsCount: 0
-      };
-      safeSet('ttk_shift_session', JSON.stringify(currentShift));
-      startShiftTimer();
-      renderDashboard();
-      showToast('Смена открыта!', 'success');
+        currentShift = {
+          startTime: (res && res.startTimeMs) ? Number(res.startTimeMs) : Date.now(),
+          callsCount: 0
+        };
+        safeSet('ttk_shift_session', JSON.stringify(currentShift));
+        startShiftTimer();
+        renderDashboard();
+        showToast('Смена открыта!', 'success');
+      } catch (err) {
+        console.error('Shift start error:', err);
+        showToast('Произошла ошибка при открытии смены', 'error');
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '🚀 НАЧАТЬ СМЕНУ';
+        }
+      }
     }
 
     async function handleEndShift() {
@@ -888,8 +868,9 @@
       updateAdminSheetUI();
       showToast('База переключена на ' + sheetName, 'success');
 
-      // Send active sheet change to server for all operators
-      await apiRequest('setActiveSheet', { sheetName });
+      if (currentUser && currentUser.isAdmin) {
+        await apiRequest('setActiveSheet', { sheetName });
+      }
     }
 
     function updateAdminSheetUI() {
@@ -916,7 +897,6 @@
       }
     }
 
-    // --- UMBRELLA CONTACT NORMALIZER ---
     function normalizeContact(contact) {
       if (!contact) return { name: 'Без имени', phone: '', dialable: '', city: 'Город не указан' };
 
@@ -1025,7 +1005,6 @@
       }
     }
 
-    // --- STATUS BUTTON SELECTION LOGIC ---
     function resetStatusButtons() {
       selectedCallStatus = '';
       document.getElementById('dozvonSelectedLabel').innerText = 'Дозвон';
@@ -1033,7 +1012,6 @@
       document.getElementById('dozvonSubMenu').classList.add('hidden');
       document.getElementById('recallContainer').classList.add('hidden');
 
-      // Reset styles
       const allBtns = document.querySelectorAll('.status-btn');
       allBtns.forEach(b => b.classList.remove('ring-2', 'ring-offset-1', 'ring-[#e20613]', 'border-[#e20613]'));
 
@@ -1061,13 +1039,11 @@
       document.getElementById('dozvonSelectedLabel').innerText = `Дозвон: ${reason}`;
       document.getElementById('recallContainer').classList.add('hidden');
 
-      // Highlight main Dozvon button
       const dozvonBtn = document.getElementById('btnStatusDozvon');
       const allBtns = document.querySelectorAll('.status-btn');
       allBtns.forEach(b => b.classList.remove('ring-2', 'ring-offset-1', 'ring-[#e20613]'));
       dozvonBtn.classList.add('ring-2', 'ring-offset-1', 'ring-[#e20613]');
 
-      // Highlight reason button
       const allReasonBtns = document.querySelectorAll('.dozvon-reason-btn');
       allReasonBtns.forEach(rb => {
         rb.classList.remove('bg-emerald-600', 'text-white');
@@ -1096,7 +1072,6 @@
         recallCont.classList.add('hidden');
       }
 
-      // Highlight active status button
       const allBtns = document.querySelectorAll('.status-btn');
       allBtns.forEach(b => b.classList.remove('ring-2', 'ring-offset-1', 'ring-[#e20613]'));
 
@@ -1137,6 +1112,8 @@
       const res = await apiRequest('saveCallResult', {
         agentName: currentUser.fullName || currentUser.login,
         contactId: currentContact.id,
+        contactName: norm.name,
+        city: norm.city,
         phone: norm.phone,
         status: selectedCallStatus,
         comment,
@@ -1161,7 +1138,6 @@
       }
     }
 
-    // --- TARIFFS MODAL ---
     async function openTariffsModal() {
       document.getElementById('tariffsModal').classList.remove('hidden');
       const norm = normalizeContact(currentContact);
@@ -1214,7 +1190,6 @@
       });
     }
 
-    // --- ADMIN PANEL CONTROLS ---
     function openAdminModal() {
       updateAdminSheetUI();
       document.getElementById('adminModal').classList.remove('hidden');
