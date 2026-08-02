@@ -680,7 +680,7 @@
       
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 12000);
+        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 секунд таймаут
 
         const res = await fetch(url, {
           method: 'POST',
@@ -907,14 +907,18 @@
         const agentName = currentUser ? (currentUser.fullName || currentUser.login) : 'Оператор';
         const res = await apiRequest('startShift', { agentName });
 
-        currentShift = {
-          startTime: (res && res.startTimeMs) ? Number(res.startTimeMs) : Date.now(),
-          callsCount: 0
-        };
-        safeSet('ttk_shift_session', JSON.stringify(currentShift));
-        startShiftTimer();
-        renderDashboard();
-        showToast('Смена открыта!', 'success');
+        if (res && res.success) {
+          currentShift = {
+            startTime: res.startTimeMs ? Number(res.startTimeMs) : Date.now(),
+            callsCount: 0
+          };
+          safeSet('ttk_shift_session', JSON.stringify(currentShift));
+          startShiftTimer();
+          renderDashboard();
+          showToast('Смена открыта!', 'success');
+        } else {
+          showToast(res.message || 'Ошибка при открытии смены', 'error');
+        }
       } catch (err) {
         console.error('Shift start error:', err);
         showToast('Произошла ошибка при открытии смены', 'error');
