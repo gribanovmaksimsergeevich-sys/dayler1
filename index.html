@@ -1250,7 +1250,6 @@
       }
     }
 
-    // --- STREAMING_CHUNK:Handling tariff data display and smart search... ---
     async function openTariffsModal() {
       document.getElementById('tariffsModal').classList.remove('hidden');
       const norm = normalizeContact(currentContact);
@@ -1426,7 +1425,7 @@
     function populateMonthSelect() {
       const select = document.getElementById('incomeMonthSelect');
       if (!select) return;
-      if (select.children.length > 0) return; // Уже заполнено
+      if (select.children.length > 0) return;
 
       const monthNames = [
         "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
@@ -1436,7 +1435,6 @@
       const now = new Date();
       select.innerHTML = '';
       
-      // Последние 6 месяцев
       for (let i = 0; i < 6; i++) {
         const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
         const m = d.getMonth() + 1;
@@ -1469,7 +1467,6 @@
       let weekendMins = (res && res.weekendMinutes) ? res.weekendMinutes : 0;
       let totalCalls = (res && res.totalCalls) ? res.totalCalls : 0;
 
-      // Если выбран текущий месяц и у оператора идет смена, прибавляем живое время смены
       const now = new Date();
       if (currentShift && month === (now.getMonth() + 1) && year === now.getFullYear()) {
         const activeElapsedMins = Math.floor((Date.now() - currentShift.startTime) / 60000);
@@ -1485,10 +1482,6 @@
       const totalRawMins = weekdayMins + weekendMins;
       const totalRawHours = totalRawMins / 60;
 
-      // Ставка по градационной сетке:
-      // 1-79 ч: 100
-      // 80-89 ч: 120
-      // >= 90 ч: 150
       let baseRate = 100;
       if (totalRawHours >= 90) {
         baseRate = 150;
