@@ -402,6 +402,65 @@
               <span id="activeCheckClosed" class="text-lg"></span>
             </button>
           </div>
+
+          <!-- DATABASE CALLING STATS DISPLAY -->
+          <div id="adminSheetStatsCard" class="bg-gray-50 p-4 rounded-2xl border border-gray-200 space-y-3 mt-4">
+            <div class="flex justify-between items-center">
+              <div class="font-black text-xs text-gray-800 uppercase tracking-wider">
+                📊 Прогресс: <span id="adminStatsSheetName" class="text-[#e20613]">База 90+</span>
+              </div>
+              <button onclick="loadCurrentSheetStats()" class="text-[11px] text-[#e20613] font-bold hover:underline flex items-center space-x-1">
+                <span>🔄 Обновить</span>
+              </button>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-xs font-bold">
+                <span class="text-gray-500">Прогресс отработки</span>
+                <span id="adminStatsPercent" class="text-gray-800">0%</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                <div id="adminStatsProgressBar" class="bg-[#e20613] h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <!-- 3 Main Metrics -->
+            <div class="grid grid-cols-3 gap-2 text-center">
+              <div class="bg-white p-2.5 rounded-xl border border-gray-200">
+                <div class="text-[10px] text-gray-400 font-bold uppercase">Всего</div>
+                <div id="adminStatsTotal" class="text-base font-black text-gray-800">0</div>
+              </div>
+              <div class="bg-white p-2.5 rounded-xl border border-gray-200">
+                <div class="text-[10px] text-gray-400 font-bold uppercase">Отработано</div>
+                <div id="adminStatsProcessed" class="text-base font-black text-emerald-600">0</div>
+              </div>
+              <div class="bg-white p-2.5 rounded-xl border border-gray-200">
+                <div class="text-[10px] text-gray-400 font-bold uppercase">Осталось</div>
+                <div id="adminStatsRemaining" class="text-base font-black text-amber-600">0</div>
+              </div>
+            </div>
+
+            <!-- Detailed Counters -->
+            <div class="grid grid-cols-2 gap-2 text-xs font-bold pt-1">
+              <div class="flex justify-between items-center bg-white p-2 rounded-xl border border-gray-200">
+                <span class="text-emerald-700 flex items-center space-x-1"><span>🟢</span><span>Дозвонов:</span></span>
+                <span id="adminStatsDozvon" class="text-gray-900">0</span>
+              </div>
+              <div class="flex justify-between items-center bg-white p-2 rounded-xl border border-gray-200">
+                <span class="text-gray-600 flex items-center space-x-1"><span>📞</span><span>Недозвонов:</span></span>
+                <span id="adminStatsNedozvon" class="text-gray-900">0</span>
+              </div>
+              <div class="flex justify-between items-center bg-white p-2 rounded-xl border border-gray-200">
+                <span class="text-emerald-800 flex items-center space-x-1"><span>✅</span><span>Согласий:</span></span>
+                <span id="adminStatsSoglasie" class="text-emerald-600">0</span>
+              </div>
+              <div class="flex justify-between items-center bg-white p-2 rounded-xl border border-gray-200">
+                <span class="text-rose-700 flex items-center space-x-1"><span>❌</span><span>Отказов:</span></span>
+                <span id="adminStatsOtkaz" class="text-rose-600">0</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- SECTION 2: USER MANAGEMENT -->
@@ -901,6 +960,31 @@
 
       if (currentUser && currentUser.isAdmin) {
         await apiRequest('setActiveSheet', { sheetName });
+        loadCurrentSheetStats(sheetName);
+      }
+    }
+
+    async function loadCurrentSheetStats(sheetNameOverride) {
+      const targetSheet = sheetNameOverride || selectedSheet;
+      const nameDisplay = document.getElementById('adminStatsSheetName');
+      if (nameDisplay) nameDisplay.innerText = `База «${targetSheet}»`;
+
+      const res = await apiRequest('getSheetStats', { sheetName: targetSheet });
+      if (res && res.success && res.stats) {
+        const st = res.stats;
+        const pct = st.total > 0 ? Math.round((st.processed / st.total) * 100) : 0;
+        
+        document.getElementById('adminStatsPercent').innerText = `${pct}%`;
+        document.getElementById('adminStatsProgressBar').style.width = `${pct}%`;
+        
+        document.getElementById('adminStatsTotal').innerText = st.total;
+        document.getElementById('adminStatsProcessed').innerText = st.processed;
+        document.getElementById('adminStatsRemaining').innerText = st.remaining;
+        
+        document.getElementById('adminStatsDozvon').innerText = st.dozvon;
+        document.getElementById('adminStatsNedozvon').innerText = st.nedozvon;
+        document.getElementById('adminStatsSoglasie').innerText = st.soglasie;
+        document.getElementById('adminStatsOtkaz').innerText = st.otkaz;
       }
     }
 
@@ -1229,6 +1313,7 @@
       updateAdminSheetUI();
       document.getElementById('adminModal').classList.remove('hidden');
       switchAdminTab('sheets');
+      loadCurrentSheetStats();
     }
 
     function closeAdminModal() {
