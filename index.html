@@ -402,9 +402,25 @@
               <span id="activeCheckClosed" class="text-lg"></span>
             </button>
           </div>
+        </div>
 
+        <!-- SECTION 2: USER MANAGEMENT -->
+        <div id="adminSectionUsers" class="hidden space-y-3">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-bold text-gray-500 uppercase">Список операторов</span>
+            <button onclick="loadUsersList()" class="text-xs text-[#e20613] font-bold hover:underline">🔄 Обновить</button>
+          </div>
+
+          <div id="adminUsersList" class="space-y-2">
+            <div class="text-center py-6 text-xs text-gray-400">Загрузка пользователей...</div>
+          </div>
+        </div>
+
+        <!-- SECTION 3: SYSTEM STATS -->
+        <div id="adminSectionStats" class="hidden space-y-3">
+          
           <!-- DATABASE CALLING STATS DISPLAY -->
-          <div id="adminSheetStatsCard" class="bg-gray-50 p-4 rounded-2xl border border-gray-200 space-y-3 mt-4">
+          <div id="adminSheetStatsCard" class="bg-gray-50 p-4 rounded-2xl border border-gray-200 space-y-3">
             <div class="flex justify-between items-center">
               <div class="font-black text-xs text-gray-800 uppercase tracking-wider">
                 📊 Прогресс: <span id="adminStatsSheetName" class="text-[#e20613]">База 90+</span>
@@ -461,23 +477,9 @@
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- SECTION 2: USER MANAGEMENT -->
-        <div id="adminSectionUsers" class="hidden space-y-3">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-bold text-gray-500 uppercase">Список операторов</span>
-            <button onclick="loadUsersList()" class="text-xs text-[#e20613] font-bold hover:underline">🔄 Обновить</button>
-          </div>
-
-          <div id="adminUsersList" class="space-y-2">
-            <div class="text-center py-6 text-xs text-gray-400">Загрузка пользователей...</div>
-          </div>
-        </div>
-
-        <!-- SECTION 3: SYSTEM STATS -->
-        <div id="adminSectionStats" class="hidden space-y-3">
-          <div class="grid grid-cols-2 gap-3">
+          <!-- Overall System Stats -->
+          <div class="grid grid-cols-2 gap-3 pt-2">
             <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center">
               <div class="text-[10px] font-bold text-gray-400 uppercase">Всего операторов</div>
               <div id="adminTotalUsers" class="text-xl font-black text-gray-800">0</div>
@@ -1347,6 +1349,7 @@
         btnStats.classList.add('bg-white', 'text-[#e20613]', 'shadow-sm');
         secStats.classList.remove('hidden');
         loadAdminStats();
+        loadCurrentSheetStats();
       }
     }
 
