@@ -1098,50 +1098,51 @@
       document.getElementById(targetId)?.classList.add('ring-2', 'ring-offset-1', 'ring-[#e20613]');
     }
 
-    async function submitCallResult() {
-      resetInactivityTimer();
-      if (!selectedCallStatus) {
-        showToast('Пожалуйста, выберите результат звонка!', 'error');
-        return;
-      }
+   async function submitCallResult() {
+  resetInactivityTimer();
+  if (!selectedCallStatus) {
+    showToast('Пожалуйста, выберите результат звонка!', 'error');
+    return;
+  }
 
-      const comment = document.getElementById('callComment').value.trim();
-      const datetime = document.getElementById('recallDatetime').value;
-      if (selectedCallStatus === 'Перезвонить' && !datetime) {
-        showToast('Укажите дату и время перезвона!', 'error');
-        return;
-      }
+  const comment = document.getElementById('callComment').value.trim();
+  const datetime = document.getElementById('recallDatetime').value;
+  
+  if (selectedCallStatus === 'Перезвонить' && !datetime) {
+    showToast('Укажите дату и время перезвона!', 'error');
+    return;
+  }
 
-      const submitBtn = document.getElementById('submitResultBtn');
-      submitBtn.disabled = true; submitBtn.innerHTML = '💾 Сохранение...';
+  const norm = normalizeContact(currentContact);
 
-      const norm = normalizeContact(currentContact);
+  // 1. Формируем данные для отправки
+  const payload = {
+    agentName: currentUser.fullName || currentUser.login,
+    contactId: currentContact.id,
+    phone: norm.phone,
+    status: selectedCallStatus,
+    comment,
+    recallDatetime: datetime,
+    sheetName: selectedSheet
+  };
 
-      // Сохраняем результат текущего звонка
-      const res = await apiRequest('saveCallResult', {
-        agentName: currentUser.fullName || currentUser.login,
-        contactId: currentContact.id,
-        phone: norm.phone,
-        status: selectedCallStatus,
-        comment,
-        recallDatetime: datetime,
-        sheetName: selectedSheet
-      });
-      
-      submitBtn.disabled = false; submitBtn.innerHTML = '💾 Сохранить и продолжить';
+  // 2. ⚡ МОМЕНТАЛЬНЫЙ СБРОС И ПЕРЕХОД К СЛЕДУЮЩЕМУ КЛИЕНТУ (0.01 сек)
+  showToast('Результат сохранён!', 'success');
+  document.getElementById('callComment').value = '';
+  document.getElementById('recallDatetime').value = '';
+  currentContact = null;
 
-      if (res.success) {
-        showToast('Результат сохранен!', 'success');
-        document.getElementById('callComment').value = '';
-        document.getElementById('recallDatetime').value = '';
-        currentContact = null;
-        
-        // ⚡ МГНОВЕННО БЕРЁМ СЛЕДУЮЩИЙ ИЗ ОЧЕРЕДИ
-        getOrFetchNextContact();
-      } else {
-        showToast(res.message || 'Ошибка сохранения', 'error');
-      }
+  // Сразу открываем следующую карточку из буфера
+  getOrFetchNextContact();
+
+  // 3. 🚀 ОТПРАВКА НА СЕРВЕР В ФОНОВОМ РЕЖИМЕ (без блокировки интерфейса)
+  apiRequest('saveCallResult', payload).then(res => {
+    if (!res || !res.success) {
+      console.error('Фоновая ошибка сохранения:', res ? res.message : 'Сбой сети');
+      showToast('⚠️ Ошибка сохранения в Google Таблицу', 'error');
     }
+  });
+}
 
     async function openTariffsModal() {
       document.getElementById('tariffsModal').classList.remove('hidden');
