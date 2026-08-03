@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>ТТК Дайлер</title>
   
-  <!-- PWA & Apple Meta -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -15,10 +14,8 @@
   <link rel="icon" type="image/png" href="icon.png">
   <link rel="apple-touch-icon" href="icon.png">
 
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   
-  <!-- Google Fonts (Roboto) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -40,14 +37,6 @@
       border-radius: 20px;
       background: #ffffff;
       box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-    }
-    
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
     }
 
     @keyframes pulse-dot {
@@ -239,7 +228,7 @@
         </div>
 
         <!-- GET CONTACT BUTTON -->
-        <button onclick="fetchNextContact()" id="getContactBtn" class="hidden w-full py-4 bg-[#e20613] text-white font-extrabold text-base rounded-2xl shadow-lg hover:bg-[#c00410] active:scale-95 transition-all flex items-center justify-center space-x-2">
+        <button onclick="getOrFetchNextContact()" id="getContactBtn" class="hidden w-full py-4 bg-[#e20613] text-white font-extrabold text-base rounded-2xl shadow-lg hover:bg-[#c00410] active:scale-95 transition-all flex items-center justify-center space-x-2">
           <span>📞 ПОЛУЧИТЬ КЛИЕНТА</span>
         </button>
 
@@ -251,6 +240,7 @@
               <div id="badgeContainer" class="flex flex-wrap gap-1.5 mt-1.5">
                 <span id="contactCityBadge" class="bg-red-50 text-[#e20613] text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-red-100">Москва</span>
                 <span id="contactSheetBadge" class="bg-gray-100 text-gray-700 text-[11px] font-bold px-2.5 py-0.5 rounded-full">База 90+</span>
+                <span id="queueBadge" class="bg-emerald-50 text-emerald-700 text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-emerald-200">В очереди: 0</span>
               </div>
             </div>
             
@@ -374,10 +364,7 @@
         </button>
       </div>
 
-      <!-- Admin Content Sections -->
       <div class="overflow-y-auto flex-grow space-y-4 pr-1">
-        
-        <!-- SECTION 1: DATABASE SELECTOR -->
         <div id="adminSectionSheets" class="space-y-3">
           <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 font-medium leading-relaxed">
             Выберите активную базу клиентов. Все операторы будут брать вызовы из выбранной базы.
@@ -410,7 +397,6 @@
           </div>
         </div>
 
-        <!-- SECTION 2: USER MANAGEMENT -->
         <div id="adminSectionUsers" class="hidden space-y-3">
           <div class="flex justify-between items-center">
             <span class="text-xs font-bold text-gray-500 uppercase">Список операторов</span>
@@ -422,7 +408,6 @@
           </div>
         </div>
 
-        <!-- SECTION 3: SYSTEM STATS -->
         <div id="adminSectionStats" class="hidden space-y-4">
           <div class="grid grid-cols-2 gap-3">
             <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center">
@@ -435,7 +420,6 @@
             </div>
           </div>
 
-          <!-- Database Calling Progress Card -->
           <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 space-y-3">
             <div class="flex justify-between items-center border-b border-gray-200 pb-2">
               <span id="adminDbStatsTitle" class="font-bold text-xs text-gray-800 uppercase tracking-wider">Статистика базы «90+»</span>
@@ -457,7 +441,6 @@
               </div>
             </div>
 
-            <!-- Progress Bar -->
             <div>
               <div class="flex justify-between text-[10px] font-bold text-gray-500 mb-1">
                 <span>Прогресс обзвона</span>
@@ -468,7 +451,6 @@
               </div>
             </div>
 
-            <!-- Detailed Breakdown -->
             <div class="grid grid-cols-4 gap-1.5 pt-1 text-center">
               <div class="bg-emerald-50 p-2 rounded-xl border border-emerald-100">
                 <div class="text-[9px] text-emerald-800 font-bold uppercase">Дозвоны</div>
@@ -504,7 +486,6 @@
         <button onclick="closeIncomeModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
       </div>
 
-      <!-- Month Selector -->
       <div class="flex items-center justify-between bg-gray-50 p-2.5 rounded-xl border border-gray-200">
         <span class="text-xs font-bold text-gray-600">Выбор месяца:</span>
         <select id="incomeMonthSelect" onchange="fetchMonthlyIncome()" class="bg-white border border-gray-300 rounded-lg px-3 py-1.5 text-xs font-bold text-gray-800 outline-none focus:ring-2 focus:ring-[#e20613]"></select>
@@ -614,51 +595,41 @@
     </div>
   </div>
 
-  <!-- TOAST NOTIFICATIONS -->
   <div id="toastContainer" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 space-y-2 pointer-events-none w-full max-w-xs px-4"></div>
 
-  <!-- JAVASCRIPT LOGIC -->
+  <!-- JAVASCRIPT LOGIC WITH PREFETCH QUEUE -->
   <script>
     const DEFAULT_SERVER_URL = "https://script.google.com/macros/s/AKfycbxrW0RzQQsWaJSvUHsu63yyTpybcvoK1R2nwDgf3xAU6PgMZb2Wx6vZV8stp28c2cqH/exec";
     
-    // Application State
     let currentUser = null;
     let currentShift = null;
     let currentContact = null;
+    let contactQueue = []; // Локальная очередь (буфер штук)
+    let isFetchingBatch = false;
+    
     let selectedSheet = '90+';
     let selectedCallStatus = '';
     let shiftTimerInterval = null;
     let deferredPrompt = null;
     let inactivityTimer = null;
-    const INACTIVITY_TIMEOUT_MS = 20 * 60 * 1000; // 20 минут
+    const INACTIVITY_TIMEOUT_MS = 20 * 60 * 1000;
     
-    // Fallback Tariffs
     let cachedTariffs = [
       { name: "ТТК Технологичный 100", cities: "Москва, Самара, Новосибирск, Все", price: "450", desc: "До 100 Мбит/с + ТВ", cond: "Бесплатное подключение при согласии сегодня", period: "Ежемесячно" },
       { name: "ТТК Игровой 300", cities: "Москва, Екатеринбург, Вся Россия", price: "750", desc: "До 300 Мбит/с, низкий пинг", cond: "Премиум роутер в подарок", period: "Ежемесячно" },
       { name: "ТТК Оптимальный 200", cities: "Самара, Нижний Новгород, Уфа", price: "550", desc: "До 200 Мбит/с + 140 каналов", cond: "Скидка 20% на первые 3 месяца", period: "Ежемесячно" }
     ];
 
-    function safeGet(key) {
-      try { return localStorage.getItem(key); } catch (e) { return null; }
-    }
-    function safeSet(key, val) {
-      try { localStorage.setItem(key, val); } catch (e) {}
-    }
-    function safeRemove(key) {
-      try { localStorage.removeItem(key); } catch (e) {}
-    }
+    function safeGet(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+    function safeSet(key, val) { try { localStorage.setItem(key, val); } catch (e) {} }
+    function safeRemove(key) { try { localStorage.removeItem(key); } catch (e) {} }
 
-    function getServerUrl() {
-      return safeGet('ttk_server_url') || DEFAULT_SERVER_URL;
-    }
+    function getServerUrl() { return safeGet('ttk_server_url') || DEFAULT_SERVER_URL; }
 
     function resetInactivityTimer() {
       clearTimeout(inactivityTimer);
       if (currentShift && currentUser && !currentUser.isAdmin) {
-        inactivityTimer = setTimeout(() => {
-          autoEndShiftDueToInactivity();
-        }, INACTIVITY_TIMEOUT_MS);
+        inactivityTimer = setTimeout(() => { autoEndShiftDueToInactivity(); }, INACTIVITY_TIMEOUT_MS);
       }
     }
 
@@ -674,14 +645,12 @@
     function showToast(msg, type = 'info') {
       const container = document.getElementById('toastContainer');
       const toast = document.createElement('div');
-      
       let bg = 'bg-gray-900 text-white';
       if (type === 'error') bg = 'bg-red-600 text-white';
       if (type === 'success') bg = 'bg-emerald-600 text-white';
 
       toast.className = `${bg} px-4 py-3 rounded-2xl shadow-xl text-xs font-bold text-center transition-all duration-300 transform translate-y-4 opacity-0 pointer-events-auto`;
       toast.innerText = msg;
-      
       container.appendChild(toast);
       
       setTimeout(() => toast.classList.remove('translate-y-4', 'opacity-0'), 10);
@@ -694,9 +663,8 @@
     async function apiRequest(action, payload = {}) {
       const url = getServerUrl();
       const bodyData = { action, ...payload };
-      
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 sec timeout
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
       
       try {
         const res = await fetch(url, {
@@ -710,20 +678,35 @@
       } catch (err) {
         clearTimeout(timeoutId);
         console.error('API Error:', err);
-        return { success: false, message: 'Ошибка связи с сервером. Повторите попытку.' };
+        return { success: false, message: 'Ошибка связи с сервером.' };
       }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
       initPWA();
       initMonthSelect();
-      
       const savedSheet = safeGet('ttk_selected_sheet');
       if (savedSheet) selectedSheet = savedSheet;
+
+      // Загрузка очереди из хранилища
+      const savedQueue = safeGet('ttk_contact_queue');
+      if (savedQueue) {
+        try { contactQueue = JSON.parse(savedQueue); } catch(e) {}
+      }
 
       checkAuthSession();
       syncActiveSheetWithServer();
     });
+
+    function saveQueue() {
+      safeSet('ttk_contact_queue', JSON.stringify(contactQueue));
+      updateQueueBadge();
+    }
+
+    function updateQueueBadge() {
+      const badge = document.getElementById('queueBadge');
+      if (badge) badge.innerText = `В очереди: ${contactQueue.length}`;
+    }
 
     async function syncActiveSheetWithServer() {
       const res = await apiRequest('getActiveSheet');
@@ -737,61 +720,33 @@
     function initMonthSelect() {
       const select = document.getElementById('incomeMonthSelect');
       select.innerHTML = '';
-      
-      const monthNames = [
-        "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
-        "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
-      ];
-
+      const monthNames = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
       const now = new Date();
       for (let i = 0; i < 6; i++) {
         const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-        const y = d.getFullYear();
-        const m = d.getMonth();
-        
         const option = document.createElement('option');
-        option.value = `${y}-${String(m + 1).padStart(2, '0')}`;
-        option.innerText = `${monthNames[m]} ${y}`;
+        option.value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+        option.innerText = `${monthNames[d.getMonth()]} ${d.getFullYear()}`;
         select.appendChild(option);
       }
     }
 
     function initPWA() {
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        showInstallBanner();
-      });
-
+      window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; showInstallBanner(); });
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
       if (!isStandalone) showInstallBanner();
     }
 
-    function showInstallBanner() {
-      const banner = document.getElementById('pwaInstallBanner');
-      if (banner) banner.classList.remove('hidden');
-    }
-
-    function dismissInstallBanner() {
-      const banner = document.getElementById('pwaInstallBanner');
-      if (banner) banner.classList.add('hidden');
-    }
+    function showInstallBanner() { document.getElementById('pwaInstallBanner')?.classList.remove('hidden'); }
+    function dismissInstallBanner() { document.getElementById('pwaInstallBanner')?.classList.add('hidden'); }
 
     async function installPWA() {
       if (deferredPrompt) {
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-          deferredPrompt = null;
-          dismissInstallBanner();
-        }
+        if (outcome === 'accepted') { deferredPrompt = null; dismissInstallBanner(); }
       } else {
-        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-        if (isIOS) {
-          showToast('iOS: Нажмите "Поделиться" -> "На экран «Домой»"');
-        } else {
-          showToast('Android: Меню браузера (⋮) -> "На главный экран"');
-        }
+        showToast(/iPhone|iPad|iPod/i.test(navigator.userAgent) ? 'iOS: Нажмите "Поделиться" -> "На экран «Домой»"' : 'Android: Меню браузера -> "На главный экран"');
       }
     }
 
@@ -804,36 +759,23 @@
       
       if (mode === 'login') {
         pill.style.transform = 'translateX(0%)';
-        loginBtn.classList.remove('text-gray-600');
-        loginBtn.classList.add('text-white');
-        regBtn.classList.remove('text-white');
-        regBtn.classList.add('text-gray-600');
+        loginBtn.classList.replace('text-gray-600', 'text-white');
+        regBtn.classList.replace('text-white', 'text-gray-600');
         loginForm.classList.remove('hidden');
         regForm.classList.add('hidden');
       } else {
         pill.style.transform = 'translateX(100%)';
-        regBtn.classList.remove('text-gray-600');
-        regBtn.classList.add('text-white');
-        loginBtn.classList.remove('text-white');
-        loginBtn.classList.add('text-gray-600');
+        regBtn.classList.replace('text-gray-600', 'text-white');
+        loginBtn.classList.replace('text-white', 'text-gray-600');
         loginForm.classList.add('hidden');
         regForm.classList.remove('hidden');
       }
     }
 
     function setLoginLoading(isLoading) {
-      const btn = document.getElementById('loginSubmitBtn');
-      const text = document.getElementById('loginBtnText');
-      const loader = document.getElementById('loginBtnLoader');
-      if (isLoading) {
-        btn.disabled = true;
-        text.classList.add('hidden');
-        loader.classList.remove('hidden');
-      } else {
-        btn.disabled = false;
-        text.classList.remove('hidden');
-        loader.classList.add('hidden');
-      }
+      document.getElementById('loginSubmitBtn').disabled = isLoading;
+      document.getElementById('loginBtnText').classList.toggle('hidden', isLoading);
+      document.getElementById('loginBtnLoader').classList.toggle('hidden', !isLoading);
     }
 
     function checkAuthSession() {
@@ -841,16 +783,10 @@
       if (savedUser) {
         try {
           currentUser = JSON.parse(savedUser);
-          
           const savedShift = safeGet('ttk_shift_session');
           if (savedShift) {
-            try {
-              currentShift = JSON.parse(savedShift);
-              startShiftTimer();
-              resetInactivityTimer();
-            } catch(e){}
+            try { currentShift = JSON.parse(savedShift); startShiftTimer(); resetInactivityTimer(); } catch(e){}
           }
-
           renderDashboard();
           return;
         } catch (e) {}
@@ -860,11 +796,8 @@
 
     async function handleLogin(e) {
       e.preventDefault();
-      const login = document.getElementById('loginUsername').value.trim();
-      const password = document.getElementById('loginPassword').value.trim();
-
       setLoginLoading(true);
-      const res = await apiRequest('login', { login, password });
+      const res = await apiRequest('login', { login: document.getElementById('loginUsername').value.trim(), password: document.getElementById('loginPassword').value.trim() });
       setLoginLoading(false);
 
       if (res.success) {
@@ -879,11 +812,11 @@
 
     async function handleRegister(e) {
       e.preventDefault();
-      const fullName = document.getElementById('regFullName').value.trim();
-      const login = document.getElementById('regUsername').value.trim();
-      const password = document.getElementById('regPassword').value.trim();
-
-      const res = await apiRequest('register', { fullName, login, password });
+      const res = await apiRequest('register', {
+        fullName: document.getElementById('regFullName').value.trim(),
+        login: document.getElementById('regUsername').value.trim(),
+        password: document.getElementById('regPassword').value.trim()
+      });
 
       if (res.success) {
         showToast('Регистрация успешна!', 'success');
@@ -894,13 +827,9 @@
     }
 
     function handleLogout() {
-      currentUser = null;
-      currentShift = null;
-      currentContact = null;
-      clearInterval(shiftTimerInterval);
-      clearTimeout(inactivityTimer);
-      safeRemove('ttk_user_session');
-      safeRemove('ttk_shift_session');
+      currentUser = null; currentShift = null; currentContact = null; contactQueue = [];
+      clearInterval(shiftTimerInterval); clearTimeout(inactivityTimer);
+      safeRemove('ttk_user_session'); safeRemove('ttk_shift_session'); safeRemove('ttk_contact_queue');
       renderAuth();
       showToast('Вы вышли из системы');
     }
@@ -919,20 +848,15 @@
       document.getElementById('agentNameDisplay').innerText = currentUser.fullName || currentUser.login;
       document.getElementById('agentRoleBadge').innerText = currentUser.isAdmin ? 'Супервайзер / Админ' : 'Оператор';
 
-      if (currentUser.isAdmin) {
-        document.getElementById('adminPanelBtn').classList.remove('hidden');
-        document.getElementById('serverConfigBtn').classList.remove('hidden');
-      } else {
-        document.getElementById('adminPanelBtn').classList.add('hidden');
-        document.getElementById('serverConfigBtn').classList.add('hidden');
-      }
+      document.getElementById('adminPanelBtn').classList.toggle('hidden', !currentUser.isAdmin);
+      document.getElementById('serverConfigBtn').classList.toggle('hidden', !currentUser.isAdmin);
 
       if (currentShift) {
         document.getElementById('startShiftCard').classList.add('hidden');
         document.getElementById('activeShiftCard').classList.remove('hidden');
         
         if (!currentContact) {
-          fetchNextContact();
+          getOrFetchNextContact();
         } else {
           renderContactCard();
         }
@@ -944,48 +868,27 @@
 
     async function handleStartShift() {
       const btn = document.getElementById('startShiftBtn');
-      if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '⌛ ОТКРЫТИЕ СМЕНЫ...';
-      }
-
-      const agentName = currentUser ? (currentUser.fullName || currentUser.login) : 'Оператор';
+      btn.disabled = true; btn.innerHTML = '⌛ ОТКРЫТИЕ СМЕНЫ...';
       
-      try {
-        const res = await apiRequest('startShift', { agentName });
+      const res = await apiRequest('startShift', { agentName: currentUser.fullName || currentUser.login });
 
-        if (res && res.success) {
-          currentShift = {
-            startTime: res.startTimeMs || Date.now(),
-            callsCount: 0
-          };
-          safeSet('ttk_shift_session', JSON.stringify(currentShift));
-          startShiftTimer();
-          resetInactivityTimer();
-          renderDashboard();
-          showToast('Смена открыта!', 'success');
-        } else {
-          showToast(res ? res.message : 'Не удалось открыть смену', 'error');
-        }
-      } catch (err) {
-        showToast('Сбой подключения при открытии смены', 'error');
-      } finally {
-        if (btn) {
-          btn.disabled = false;
-          btn.innerHTML = '🚀 НАЧАТЬ СМЕНУ';
-        }
+      if (res && res.success) {
+        currentShift = { startTime: res.startTimeMs || Date.now(), callsCount: 0 };
+        safeSet('ttk_shift_session', JSON.stringify(currentShift));
+        startShiftTimer(); resetInactivityTimer();
+        renderDashboard();
+        showToast('Смена открыта!', 'success');
+      } else {
+        showToast(res ? res.message : 'Не удалось открыть смену', 'error');
       }
+      btn.disabled = false; btn.innerHTML = '🚀 НАЧАТЬ СМЕНУ';
     }
 
     async function handleEndShift() {
-      const agentName = currentUser ? (currentUser.fullName || currentUser.login) : 'Оператор';
-      await apiRequest('endShift', { agentName });
-      
-      clearInterval(shiftTimerInterval);
-      clearTimeout(inactivityTimer);
-      currentShift = null;
-      currentContact = null;
-      safeRemove('ttk_shift_session');
+      await apiRequest('endShift', { agentName: currentUser.fullName || currentUser.login });
+      clearInterval(shiftTimerInterval); clearTimeout(inactivityTimer);
+      currentShift = null; currentContact = null; contactQueue = [];
+      safeRemove('ttk_shift_session'); safeRemove('ttk_contact_queue');
       document.getElementById('contactCard').classList.add('hidden');
       renderDashboard();
       showToast('Смена завершена!', 'success');
@@ -993,23 +896,18 @@
 
     function startShiftTimer() {
       clearInterval(shiftTimerInterval);
-      const startTime = currentShift.startTime;
-
       shiftTimerInterval = setInterval(() => {
-        const elapsedSec = Math.floor((Date.now() - startTime) / 1000);
-        const hrs = String(Math.floor(elapsedSec / 3600)).padStart(2, '0');
-        const mins = String(Math.floor((elapsedSec % 3600) / 60)).padStart(2, '0');
-        const secs = String(elapsedSec % 60).padStart(2, '0');
-        
-        document.getElementById('shiftTimerDisplay').innerText = `${hrs}:${mins}:${secs}`;
+        const elapsedSec = Math.floor((Date.now() - currentShift.startTime) / 1000);
+        document.getElementById('shiftTimerDisplay').innerText = 
+          `${String(Math.floor(elapsedSec / 3600)).padStart(2, '0')}:${String(Math.floor((elapsedSec % 3600) / 60)).padStart(2, '0')}:${String(elapsedSec % 60).padStart(2, '0')}`;
       }, 1000);
     }
 
     async function selectSheet(sheetName) {
       selectedSheet = sheetName;
+      contactQueue = []; saveQueue(); // Сбрасываем очередь при смене базы
       safeSet('ttk_selected_sheet', sheetName);
       updateAdminSheetUI();
-      
       showToast('База переключена на ' + sheetName, 'success');
       await apiRequest('setActiveSheet', { sheetName });
     }
@@ -1019,97 +917,98 @@
         const check = document.getElementById(`activeCheck${key}`);
         const card = document.getElementById(`adminSheet${key}`);
         if (check) check.innerText = '';
-        if (card) {
-          card.classList.remove('border-[#e20613]', 'bg-red-50/50');
-          card.classList.add('border-gray-200');
-        }
+        if (card) { card.classList.remove('border-[#e20613]', 'bg-red-50/50'); card.classList.add('border-gray-200'); }
       });
 
-      let targetKey = '90';
-      if (selectedSheet === '180+') targetKey = '180';
-      if (selectedSheet === 'Закрытые') targetKey = 'Closed';
-
-      const activeCheck = document.getElementById(`activeCheck${targetKey}`);
+      let targetKey = selectedSheet === '180+' ? '180' : (selectedSheet === 'Закрытые' ? 'Closed' : '90');
+      document.getElementById(`activeCheck${targetKey}`).innerText = '✅';
       const activeCard = document.getElementById(`adminSheet${targetKey}`);
-      if (activeCheck) activeCheck.innerText = '✅';
-      if (activeCard) {
-        activeCard.classList.remove('border-gray-200');
-        activeCard.classList.add('border-[#e20613]', 'bg-red-50/50');
-      }
+      if (activeCard) { activeCard.classList.replace('border-gray-200', 'border-[#e20613]'); activeCard.classList.add('bg-red-50/50'); }
     }
 
     function normalizeContact(contact) {
       if (!contact) return { name: 'Без имени', phone: '', dialable: '', city: 'Город не указан' };
-
-      let val1 = String(contact.phone || '').trim();
-      let val2 = String(contact.city || '').trim();
-
-      let digits1 = val1.replace(/\D/g, '');
-      let digits2 = val2.replace(/\D/g, '');
-
-      let hasLetters1 = /[а-яА-Яa-zA-Z]/.test(val1);
-
-      let phoneVal = val1;
-      let cityVal = val2;
-
-      if ((hasLetters1 || digits1.length < 7) && digits2.length >= 7) {
-        phoneVal = val2;
-        cityVal = val1;
-      }
-
-      let rawDigits = phoneVal.replace(/\D/g, '');
-      let formattedPhone = phoneVal;
-
-      if (rawDigits.length === 11 && (rawDigits.startsWith('7') || rawDigits.startsWith('8'))) {
-        formattedPhone = '+7' + rawDigits.substring(1);
-      } else if (rawDigits.length === 10 && rawDigits.startsWith('9')) {
-        formattedPhone = '+7' + rawDigits;
-      } else if (rawDigits.length > 0 && !formattedPhone.startsWith('+')) {
-        formattedPhone = '+' + rawDigits;
-      }
-
-      const cleanDialable = rawDigits ? '+' + (rawDigits.startsWith('8') ? '7' + rawDigits.substring(1) : rawDigits) : '';
+      let rawDigits = String(contact.phone || '').replace(/\D/g, '');
+      let formattedPhone = rawDigits ? '+' + (rawDigits.startsWith('8') ? '7' + rawDigits.substring(1) : rawDigits) : 'Номер не указан';
 
       return {
         id: contact.id,
         name: contact.name || 'Без имени',
-        phone: formattedPhone || 'Номер не указан',
-        dialable: cleanDialable || formattedPhone,
-        city: cityVal || 'Город не указан'
+        phone: formattedPhone,
+        dialable: formattedPhone,
+        city: contact.city || 'Город не указан'
       };
     }
 
-    async function fetchNextContact() {
+    // ⚡ МГНОВЕННОЕ ПОЛУЧЕНИЕ ИЗ ОЧЕРЕДИ ИЛИ ФОНОВАЯ ПОДГРУЗКА
+    async function getOrFetchNextContact() {
       resetInactivityTimer();
-      const btn = document.getElementById('getContactBtn');
-      const card = document.getElementById('contactCard');
-      
-      btn.classList.remove('hidden');
-      card.classList.add('hidden');
-      btn.disabled = true;
-      btn.innerHTML = '<span>⌛ Поиск абонента в базе...</span>';
-
       resetStatusButtons();
 
-      const res = await apiRequest('getNextContact', {
+      // 1. Если локальная очередь пуста — загружаем порцию (5 шт)
+      if (contactQueue.length === 0) {
+        await fetchContactBatch(5);
+      }
+
+      // 2. Если теперь есть контакты в очереди
+      if (contactQueue.length > 0) {
+        currentContact = contactQueue.shift(); // Вытаскиваем первый
+        saveQueue();
+
+        // Отправляем серверу фоновый сигнал: перевести статус с "В очереди" на "В работе"
+        apiRequest('markContactInWork', {
+          contactId: currentContact.id,
+          agentName: currentUser.fullName || currentUser.login
+        });
+
+        renderContactCard();
+
+        // 3. ФОНОВОЕ ДОПОЛНЕНИЕ: Если в очереди осталось <= 1 контакта — тихо дозапрашиваем ещё 4
+        if (contactQueue.length <= 1 && !isFetchingBatch) {
+          fetchContactBatch(4, true); // true = тихо в фоновом режиме
+        }
+      } else {
+        document.getElementById('getContactBtn').classList.remove('hidden');
+        document.getElementById('contactCard').classList.add('hidden');
+        showToast('В базе пока нет свободных контактов', 'error');
+      }
+    }
+
+    async function fetchContactBatch(count = 5, isBackground = false) {
+      if (isFetchingBatch) return;
+      isFetchingBatch = true;
+
+      const btn = document.getElementById('getContactBtn');
+      if (!isBackground) {
+        btn.classList.remove('hidden');
+        btn.disabled = true;
+        btn.innerHTML = '<span>⌛ Поиск контактов в базе...</span>';
+      }
+
+      const res = await apiRequest('getContactBatch', {
         agentName: currentUser.fullName || currentUser.login,
-        sheetName: selectedSheet
+        count: count
       });
 
-      if (res.success && res.contact) {
-        currentContact = res.contact;
-        btn.classList.add('hidden');
-        renderContactCard();
-      } else {
+      isFetchingBatch = false;
+
+      if (res.success && res.batch && res.batch.length > 0) {
+        // Добавляем новые контакты в очередь
+        contactQueue = contactQueue.concat(res.batch);
+        saveQueue();
+
+        if (!isBackground) {
+          btn.classList.add('hidden');
+        }
+      } else if (!isBackground) {
         btn.disabled = false;
-        btn.innerHTML = '<span>🔄 БАЗА ПУСТА. ПОВТОРИТЬ ПОИСК</span>';
-        showToast(res.message || 'Свободных контактов не найдено', 'error');
+        btn.innerHTML = '<span>🔄 ПОВТОРИТЬ ПОИСК</span>';
+        showToast(res.message || 'Контакты не найдены', 'error');
       }
     }
 
     function renderContactCard() {
       if (!currentContact) return;
-
       const norm = normalizeContact(currentContact);
 
       document.getElementById('contactName').innerText = norm.name;
@@ -1117,29 +1016,23 @@
       document.getElementById('contactSheetBadge').innerText = `База ${selectedSheet}`;
       document.getElementById('contactPhoneDisplay').innerText = norm.phone;
 
-      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      updateQueueBadge();
+
       const callAnchor = document.getElementById('callPhoneAnchor');
-      
       const cleanPhoneForDial = norm.dialable.replace(/[^\d+]/g, '');
-      const sipDomain = "20vatc006325-001.cloudpbx.ttk.ru";
-      const sipUri = `sip:${cleanPhoneForDial}@${sipDomain}`;
+      const sipUri = `sip:${cleanPhoneForDial}@20vatc006325-001.cloudpbx.ttk.ru`;
       
-      callAnchor.href = isIOS ? sipUri : `tel:${cleanPhoneForDial}`;
+      callAnchor.href = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? sipUri : `tel:${cleanPhoneForDial}`;
 
       document.getElementById('contactCard').classList.remove('hidden');
+      document.getElementById('getContactBtn').classList.add('hidden');
       document.getElementById('contactCard').scrollIntoView({ behavior: 'smooth' });
     }
 
     function copyPhoneToClipboard() {
       if (!currentContact) return;
-      const norm = normalizeContact(currentContact);
-      const phoneToCopy = norm.phone;
-
-      navigator.clipboard.writeText(phoneToCopy).then(() => {
-        showToast('Номер скопирован: ' + phoneToCopy);
-      }).catch(() => {
-        showToast('Номер: ' + phoneToCopy);
-      });
+      const phoneToCopy = normalizeContact(currentContact).phone;
+      navigator.clipboard.writeText(phoneToCopy).then(() => showToast('Скопировано: ' + phoneToCopy));
     }
 
     function onCallInitiated() {
@@ -1158,26 +1051,17 @@
       document.getElementById('dozvonSubMenu').classList.add('hidden');
       document.getElementById('recallContainer').classList.add('hidden');
 
-      const allBtns = document.querySelectorAll('.status-btn');
-      allBtns.forEach(b => b.classList.remove('ring-2', 'ring-offset-1', 'ring-[#e20613]', 'border-[#e20613]'));
-
-      const allReasonBtns = document.querySelectorAll('.dozvon-reason-btn');
-      allReasonBtns.forEach(rb => {
-        rb.classList.remove('bg-emerald-600', 'text-white');
-        rb.classList.add('bg-white', 'text-emerald-800');
+      document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('ring-2', 'ring-offset-1', 'ring-[#e20613]'));
+      document.querySelectorAll('.dozvon-reason-btn').forEach(rb => {
+        rb.classList.replace('bg-emerald-600', 'bg-white');
+        rb.classList.replace('text-white', 'text-emerald-800');
       });
     }
 
     function toggleDozvonMenu() {
       const sub = document.getElementById('dozvonSubMenu');
-      const arrow = document.getElementById('dozvonArrow');
-      if (sub.classList.contains('hidden')) {
-        sub.classList.remove('hidden');
-        arrow.innerText = '▲';
-      } else {
-        sub.classList.add('hidden');
-        arrow.innerText = '▼';
-      }
+      sub.classList.toggle('hidden');
+      document.getElementById('dozvonArrow').innerText = sub.classList.contains('hidden') ? '▼' : '▲';
     }
 
     function selectDozvonReason(reason) {
@@ -1185,21 +1069,18 @@
       document.getElementById('dozvonSelectedLabel').innerText = `Дозвон: ${reason}`;
       document.getElementById('recallContainer').classList.add('hidden');
 
-      const dozvonBtn = document.getElementById('btnStatusDozvon');
-      const allBtns = document.querySelectorAll('.status-btn');
-      allBtns.forEach(b => b.classList.remove('ring-2', 'ring-offset-1', 'ring-[#e20613]'));
-      dozvonBtn.classList.add('ring-2', 'ring-offset-1', 'ring-[#e20613]');
+      document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('ring-2', 'ring-offset-1', 'ring-[#e20613]'));
+      document.getElementById('btnStatusDozvon').classList.add('ring-2', 'ring-offset-1', 'ring-[#e20613]');
 
-      const allReasonBtns = document.querySelectorAll('.dozvon-reason-btn');
-      allReasonBtns.forEach(rb => {
-        rb.classList.remove('bg-emerald-600', 'text-white');
-        rb.classList.add('bg-white', 'text-emerald-800');
+      document.querySelectorAll('.dozvon-reason-btn').forEach(rb => {
+        rb.classList.replace('bg-emerald-600', 'bg-white');
+        rb.classList.replace('text-white', 'text-emerald-800');
       });
 
       const activeReasonBtn = document.getElementById(`reason_${reason.replace(/\s+/g, '_')}`);
       if (activeReasonBtn) {
-        activeReasonBtn.classList.remove('bg-white', 'text-emerald-800');
-        activeReasonBtn.classList.add('bg-emerald-600', 'text-white');
+        activeReasonBtn.classList.replace('bg-white', 'bg-emerald-600');
+        activeReasonBtn.classList.replace('text-emerald-800', 'text-white');
       }
     }
 
@@ -1209,26 +1090,12 @@
       document.getElementById('dozvonArrow').innerText = '▼';
       document.getElementById('dozvonSelectedLabel').innerText = 'Дозвон';
 
-      const recallCont = document.getElementById('recallContainer');
-      if (status === 'Перезвонить') {
-        recallCont.classList.remove('hidden');
-      } else {
-        recallCont.classList.add('hidden');
-      }
+      document.getElementById('recallContainer').classList.toggle('hidden', status !== 'Перезвонить');
 
-      const allBtns = document.querySelectorAll('.status-btn');
-      allBtns.forEach(b => b.classList.remove('ring-2', 'ring-offset-1', 'ring-[#e20613]'));
+      document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('ring-2', 'ring-offset-1', 'ring-[#e20613]'));
 
-      let targetId = '';
-      if (status === 'Перезвонить') targetId = 'btnStatusRecall';
-      if (status === 'Недозвон') targetId = 'btnStatusNoAnswer';
-      if (status === 'Автоответчик') targetId = 'btnStatusAnsweringMachine';
-      if (status === 'ЧС') targetId = 'btnStatusBlacklist';
-
-      const activeBtn = document.getElementById(targetId);
-      if (activeBtn) {
-        activeBtn.classList.add('ring-2', 'ring-offset-1', 'ring-[#e20613]');
-      }
+      let targetId = status === 'Перезвонить' ? 'btnStatusRecall' : (status === 'Недозвон' ? 'btnStatusNoAnswer' : (status === 'Автоответчик' ? 'btnStatusAnsweringMachine' : 'btnStatusBlacklist'));
+      document.getElementById(targetId)?.classList.add('ring-2', 'ring-offset-1', 'ring-[#e20613]');
     }
 
     async function submitCallResult() {
@@ -1240,18 +1107,17 @@
 
       const comment = document.getElementById('callComment').value.trim();
       const datetime = document.getElementById('recallDatetime').value;
-      
       if (selectedCallStatus === 'Перезвонить' && !datetime) {
         showToast('Укажите дату и время перезвона!', 'error');
         return;
       }
 
       const submitBtn = document.getElementById('submitResultBtn');
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '💾 Сохранение...';
+      submitBtn.disabled = true; submitBtn.innerHTML = '💾 Сохранение...';
 
       const norm = normalizeContact(currentContact);
 
+      // Сохраняем результат текущего звонка
       const res = await apiRequest('saveCallResult', {
         agentName: currentUser.fullName || currentUser.login,
         contactId: currentContact.id,
@@ -1262,55 +1128,37 @@
         sheetName: selectedSheet
       });
       
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = '💾 Сохранить и продолжить';
+      submitBtn.disabled = false; submitBtn.innerHTML = '💾 Сохранить и продолжить';
 
       if (res.success) {
         showToast('Результат сохранен!', 'success');
         document.getElementById('callComment').value = '';
         document.getElementById('recallDatetime').value = '';
-        resetStatusButtons();
         currentContact = null;
         
-        fetchNextContact();
+        // ⚡ МГНОВЕННО БЕРЁМ СЛЕДУЮЩИЙ ИЗ ОЧЕРЕДИ
+        getOrFetchNextContact();
       } else {
         showToast(res.message || 'Ошибка сохранения', 'error');
       }
     }
 
-    // --- TARIFFS MODAL ---
     async function openTariffsModal() {
       document.getElementById('tariffsModal').classList.remove('hidden');
-      const norm = normalizeContact(currentContact);
-      document.getElementById('tariffSearchInput').value = norm.city;
-      
+      document.getElementById('tariffSearchInput').value = normalizeContact(currentContact).city;
       filterTariffs();
-
       const res = await apiRequest('getTariffs');
-      if (res.success && res.tariffs && res.tariffs.length > 0) {
-        cachedTariffs = res.tariffs;
-        filterTariffs();
-      }
+      if (res.success && res.tariffs?.length > 0) { cachedTariffs = res.tariffs; filterTariffs(); }
     }
-
-    function closeTariffsModal() {
-      document.getElementById('tariffsModal').classList.add('hidden');
-    }
+    function closeTariffsModal() { document.getElementById('tariffsModal').classList.add('hidden'); }
 
     function filterTariffs() {
       const query = document.getElementById('tariffSearchInput').value.toLowerCase().trim();
       const container = document.getElementById('tariffsListContainer');
       container.innerHTML = '';
 
-      let filtered = cachedTariffs.filter(t => {
-        const cityMatch = (t.cities || '').toLowerCase().includes(query);
-        const titleMatch = (t.name || '').toLowerCase().includes(query);
-        return cityMatch || titleMatch || query === '';
-      });
-
-      if (filtered.length === 0) {
-        filtered = cachedTariffs;
-      }
+      let filtered = cachedTariffs.filter(t => (t.cities || '').toLowerCase().includes(query) || (t.name || '').toLowerCase().includes(query));
+      if (filtered.length === 0) filtered = cachedTariffs;
 
       filtered.forEach(t => {
         const card = document.createElement('div');
@@ -1330,51 +1178,27 @@
       });
     }
 
-    // --- ADMIN PANEL CONTROLS ---
-    function openAdminModal() {
-      updateAdminSheetUI();
-      document.getElementById('adminModal').classList.remove('hidden');
-      switchAdminTab('sheets');
-    }
-
-    function closeAdminModal() {
-      document.getElementById('adminModal').classList.add('hidden');
-    }
+    function openAdminModal() { updateAdminSheetUI(); document.getElementById('adminModal').classList.remove('hidden'); switchAdminTab('sheets'); }
+    function closeAdminModal() { document.getElementById('adminModal').classList.add('hidden'); }
 
     function switchAdminTab(tab) {
-      const btnSheets = document.getElementById('adminTabSheets');
-      const btnUsers = document.getElementById('adminTabUsers');
-      const btnStats = document.getElementById('adminTabStats');
-
-      const secSheets = document.getElementById('adminSectionSheets');
-      const secUsers = document.getElementById('adminSectionUsers');
-      const secStats = document.getElementById('adminSectionStats');
-
-      [btnSheets, btnUsers, btnStats].forEach(b => {
-        b.classList.remove('bg-white', 'text-[#e20613]', 'shadow-sm');
-        b.classList.add('text-gray-600');
+      ['Sheets', 'Users', 'Stats'].forEach(t => {
+        document.getElementById(`adminTab${t}`).classList.replace('bg-white', 'text-gray-600');
+        document.getElementById(`adminSection${t}`).classList.add('hidden');
       });
 
-      [secSheets, secUsers, secStats].forEach(s => s.classList.add('hidden'));
+      const activeTabMap = { sheets: 'Sheets', users: 'Users', stats: 'Stats' };
+      const key = activeTabMap[tab];
+      document.getElementById(`adminTab${key}`).classList.add('bg-white', 'text-[#e20613]');
+      document.getElementById(`adminSection${key}`).classList.remove('hidden');
 
-      if (tab === 'sheets') {
-        btnSheets.classList.add('bg-white', 'text-[#e20613]', 'shadow-sm');
-        secSheets.classList.remove('hidden');
-      } else if (tab === 'users') {
-        btnUsers.classList.add('bg-white', 'text-[#e20613]', 'shadow-sm');
-        secUsers.classList.remove('hidden');
-        loadUsersList();
-      } else if (tab === 'stats') {
-        btnStats.classList.add('bg-white', 'text-[#e20613]', 'shadow-sm');
-        secStats.classList.remove('hidden');
-        loadAdminStats();
-      }
+      if (tab === 'users') loadUsersList();
+      if (tab === 'stats') loadAdminStats();
     }
 
     async function loadUsersList() {
       const container = document.getElementById('adminUsersList');
       container.innerHTML = '<div class="text-center py-6 text-xs text-gray-400">⌛ Загрузка операторов...</div>';
-
       const res = await apiRequest('getUsers');
       if (res.success && res.users) {
         container.innerHTML = '';
@@ -1397,31 +1221,19 @@
           `;
           container.appendChild(item);
         });
-      } else {
-        container.innerHTML = '<div class="text-center py-6 text-xs text-red-500">Не удалось загрузить пользователей</div>';
       }
     }
 
     async function changeUserRole(login, newRole) {
       showToast('Обновление роли...');
       const res = await apiRequest('updateUserRole', { login, role: newRole });
-      if (res.success) {
-        showToast('Роль обновлена!', 'success');
-        loadUsersList();
-      } else {
-        showToast(res.message || 'Ошибка обновления', 'error');
-      }
+      if (res.success) { showToast('Роль обновлена!', 'success'); loadUsersList(); }
     }
 
     async function fireUser(login) {
       showToast('Удаление пользователя...');
       const res = await apiRequest('deleteUser', { login });
-      if (res.success) {
-        showToast('Пользователь уволен!', 'success');
-        loadUsersList();
-      } else {
-        showToast(res.message || 'Ошибка удаления', 'error');
-      }
+      if (res.success) { showToast('Пользователь уволен!', 'success'); loadUsersList(); }
     }
 
     async function loadAdminStats() {
@@ -1429,7 +1241,6 @@
       if (res.success && res.analytics) {
         document.getElementById('adminTotalUsers').innerText = res.analytics.totalUsers || '0';
         document.getElementById('adminTotalShifts').innerText = res.analytics.totalShifts || '0';
-
         if (res.analytics.dbStats) {
           const db = res.analytics.dbStats;
           document.getElementById('adminDbStatsTitle').innerText = `Статистика базы «${db.sheetName || selectedSheet}»`;
@@ -1438,7 +1249,6 @@
           document.getElementById('adminDbRemaining').innerText = db.remaining || 0;
           document.getElementById('adminDbPercent').innerText = `${db.percent || 0}%`;
           document.getElementById('adminDbProgressBar').style.width = `${db.percent || 0}%`;
-
           document.getElementById('adminDbDozvon').innerText = db.dozvon || 0;
           document.getElementById('adminDbNedozvon').innerText = db.nedozvon || 0;
           document.getElementById('adminDbConsents').innerText = db.consents || 0;
@@ -1447,78 +1257,37 @@
       }
     }
 
-    // --- MONTHLY INCOME CALCULATOR ---
-    async function openIncomeModal() {
-      document.getElementById('incomeModal').classList.remove('hidden');
-      await fetchMonthlyIncome();
-    }
-
+    async function openIncomeModal() { document.getElementById('incomeModal').classList.remove('hidden'); await fetchMonthlyIncome(); }
     async function fetchMonthlyIncome() {
       const monthStr = document.getElementById('incomeMonthSelect').value;
-      const agentName = currentUser ? (currentUser.fullName || currentUser.login) : 'Оператор';
-
-      document.getElementById('calculatedIncomeDisplay').innerText = "0 ₽";
-      document.getElementById('totalHoursMonthDisplay').innerText = "Загрузка...";
-      document.getElementById('rateProgressNotice').innerText = "Считывание смен из Google Таблицы...";
-
-      let activeShiftMinutes = 0;
-      if (currentShift && currentShift.startTime) {
-        activeShiftMinutes = Math.floor((Date.now() - currentShift.startTime) / 60000);
-      }
-
       const res = await apiRequest('getUserMonthlyIncome', {
-        agentName,
+        agentName: currentUser.fullName || currentUser.login,
         yearMonth: monthStr,
-        activeShiftMinutes
+        activeShiftMinutes: currentShift ? Math.floor((Date.now() - currentShift.startTime) / 60000) : 0
       });
 
       if (res.success) {
         const totalMin = res.totalMinutes || 0;
-        const totalHrs = Math.floor(totalMin / 60);
-        const remMin = totalMin % 60;
-        
         document.getElementById('calculatedIncomeDisplay').innerText = `${res.income || 0} ₽`;
-        document.getElementById('totalHoursMonthDisplay').innerText = `Отработано: ${totalHrs} ч. ${remMin} мин.`;
-
-        const notice = document.getElementById('rateProgressNotice');
-        if (totalHrs < 80) {
-          const needed = 80 - totalHrs;
-          notice.innerText = `Текущая ставка: 100 ₽/ч. До ставки 120 ₽/ч осталось отработать ${needed} ч.`;
-        } else if (totalHrs < 90) {
-          const needed = 90 - totalHrs;
-          notice.innerText = `Текущая ставка: 120 ₽/ч! До максимальной ставки 150 ₽/ч осталось отработать ${needed} ч.`;
-        } else {
-          notice.innerText = `🔥 У вас максимальная ставка: 150 ₽/час!`;
-        }
-      } else {
-        showToast('Не удалось загрузить доход за месяц', 'error');
+        document.getElementById('totalHoursMonthDisplay').innerText = `Отработано: ${Math.floor(totalMin / 60)} ч. ${totalMin % 60} мин.`;
       }
     }
 
     function closeIncomeModal() { document.getElementById('incomeModal').classList.add('hidden'); }
-
     function openStatsModal() {
-      const calls = currentShift?.callsCount || 0;
-      document.getElementById('statsCallsCount').innerText = calls;
-      document.getElementById('statsCallsPerHour').innerText = (calls / 1).toFixed(1);
+      document.getElementById('statsCallsCount').innerText = currentShift?.callsCount || 0;
+      document.getElementById('statsCallsPerHour').innerText = (currentShift?.callsCount || 0).toFixed(1);
       document.getElementById('statsModal').classList.remove('hidden');
     }
     function closeStatsModal() { document.getElementById('statsModal').classList.add('hidden'); }
 
     function openFaqModal() { document.getElementById('faqModal').classList.remove('hidden'); }
     function closeFaqModal() { document.getElementById('faqModal').classList.add('hidden'); }
-    function openServerModal() {
-      document.getElementById('serverUrlInput').value = getServerUrl();
-      document.getElementById('serverModal').classList.remove('hidden');
-    }
+    function openServerModal() { document.getElementById('serverUrlInput').value = getServerUrl(); document.getElementById('serverModal').classList.remove('hidden'); }
     function closeServerModal() { document.getElementById('serverModal').classList.add('hidden'); }
     function saveServerUrl() {
       const val = document.getElementById('serverUrlInput').value.trim();
-      if (val) {
-        safeSet('ttk_server_url', val);
-        showToast('URL Сервера сохранен!', 'success');
-        closeServerModal();
-      }
+      if (val) { safeSet('ttk_server_url', val); showToast('URL Сервера сохранен!', 'success'); closeServerModal(); }
     }
   </script>
 </body>
