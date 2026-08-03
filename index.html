@@ -203,6 +203,70 @@
         </button>
       </div>
 
+<!-- WHATS NEW / CHANGELOG MODAL -->
+  <div id="changelogModal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4 transition-all">
+    <div class="bg-white w-full max-w-md rounded-3xl p-6 space-y-4 shadow-2xl transform transition-all border border-red-100">
+      
+      <div class="flex items-center space-x-3">
+        <div class="w-12 h-12 bg-red-100 text-[#e20613] rounded-2xl flex items-center justify-center text-2xl font-black">
+          🚀
+        </div>
+        <div>
+          <h3 class="text-lg font-black text-gray-900 leading-tight">Большое обновление!</h3>
+          <p class="text-xs text-[#e20613] font-bold">Версия 5.0 • Скоростной дайлер</p>
+        </div>
+      </div>
+
+      <div class="space-y-3 text-xs text-gray-600 max-h-[60vh] overflow-y-auto pr-1">
+        
+        <div class="p-3 bg-red-50/60 rounded-2xl border border-red-100 space-y-1">
+          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1">
+            <span>⚡</span>
+            <span>Мгновенная работа интерфейса</span>
+          </div>
+          <p class="text-gray-600 leading-relaxed">
+            Загрузка контактов и сохранение результатов теперь происходят **моментально** (0.01 сек) без ожидания ответа сервера!
+          </p>
+        </div>
+
+        <div class="p-3 bg-gray-50 rounded-2xl border border-gray-200 space-y-1">
+          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1">
+            <span>📦</span>
+            <span>Автоматическая очередь (Буфер)</span>
+          </div>
+          <p class="text-gray-600 leading-relaxed">
+            Приложение заранее подгружает пачку из 5 контактов в память устройства, обеспечивая бесперебойный обзвон.
+          </p>
+        </div>
+
+        <div class="p-3 bg-gray-50 rounded-2xl border border-gray-200 space-y-1">
+          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1">
+            <span>📞</span>
+            <span>Обновление таблицы «Перезвон»</span>
+          </div>
+          <p class="text-gray-600 leading-relaxed">
+            Все перезвоны автоматически и точно фиксируются с указанием адреса, телефона, даты, времени и вашего ФИО.
+          </p>
+        </div>
+
+        <div class="p-3 bg-gray-50 rounded-2xl border border-gray-200 space-y-1">
+          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1">
+            <span>⏱️</span>
+            <span>Автосброс и Таймер бездействия</span>
+          </div>
+          <p class="text-gray-600 leading-relaxed">
+            Зависшие контакты автоматически освобождаются через 15 минут, а смены без активности закрываются через 20 минут.
+          </p>
+        </div>
+
+      </div>
+
+      <button onclick="closeChangelogModal()" class="w-full py-3.5 bg-[#e20613] hover:bg-[#c00410] text-white font-black text-sm rounded-2xl shadow-lg active:scale-95 transition-all">
+        Понятно, начать работу! 🔥
+      </button>
+    </div>
+  </div>
+      
       <!-- ACTIVE SHIFT CONTROLS -->
       <div id="activeShiftCard" class="hidden space-y-4">
         
