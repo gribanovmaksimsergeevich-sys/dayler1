@@ -629,6 +629,8 @@
     let selectedCallStatus = '';
     let shiftTimerInterval = null;
     let deferredPrompt = null;
+    let inactivityTimer = null;
+    const INACTIVITY_TIMEOUT_MS = 20 * 60 * 1000; // 20 минут
     
     // Fallback Tariffs
     let cachedTariffs = [
@@ -650,6 +652,24 @@
     function getServerUrl() {
       return safeGet('ttk_server_url') || DEFAULT_SERVER_URL;
     }
+
+    function resetInactivityTimer() {
+      clearTimeout(inactivityTimer);
+      if (currentShift && currentUser && !currentUser.isAdmin) {
+        inactivityTimer = setTimeout(() => {
+          autoEndShiftDueToInactivity();
+        }, INACTIVITY_TIMEOUT_MS);
+      }
+    }
+
+    async function autoEndShiftDueToInactivity() {
+      showToast('Смена автоматически закрыта из-за неактивности (20 мин)', 'error');
+      await handleEndShift();
+    }
+
+    ['click', 'touchstart', 'mousemove', 'keypress'].forEach(evt => {
+      document.addEventListener(evt, resetInactivityTimer, { passive: true });
+    });
 
     function showToast(msg, type = 'info') {
       const container = document.getElementById('toastContainer');
@@ -827,6 +847,7 @@
             try {
               currentShift = JSON.parse(savedShift);
               startShiftTimer();
+              resetInactivityTimer();
             } catch(e){}
           }
 
@@ -877,6 +898,7 @@
       currentShift = null;
       currentContact = null;
       clearInterval(shiftTimerInterval);
+      clearTimeout(inactivityTimer);
       safeRemove('ttk_user_session');
       safeRemove('ttk_shift_session');
       renderAuth();
@@ -939,6 +961,7 @@
           };
           safeSet('ttk_shift_session', JSON.stringify(currentShift));
           startShiftTimer();
+          resetInactivityTimer();
           renderDashboard();
           showToast('Смена открыта!', 'success');
         } else {
@@ -959,6 +982,7 @@
       await apiRequest('endShift', { agentName });
       
       clearInterval(shiftTimerInterval);
+      clearTimeout(inactivityTimer);
       currentShift = null;
       currentContact = null;
       safeRemove('ttk_shift_session');
@@ -1056,6 +1080,7 @@
     }
 
     async function fetchNextContact() {
+      resetInactivityTimer();
       const btn = document.getElementById('getContactBtn');
       const card = document.getElementById('contactCard');
       
@@ -1118,6 +1143,7 @@
     }
 
     function onCallInitiated() {
+      resetInactivityTimer();
       if (currentShift) {
         currentShift.callsCount++;
         document.getElementById('shiftCallsCounter').innerText = currentShift.callsCount;
@@ -1206,6 +1232,7 @@
     }
 
     async function submitCallResult() {
+      resetInactivityTimer();
       if (!selectedCallStatus) {
         showToast('Пожалуйста, выберите результат звонка!', 'error');
         return;
@@ -1496,5 +1523,3 @@
   </script>
 </body>
 </html>
-
-
