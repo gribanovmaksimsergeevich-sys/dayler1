@@ -231,11 +231,21 @@
 
         <div class="p-3 bg-gray-50 rounded-2xl border border-gray-200 space-y-1">
           <div class="font-bold text-gray-800 text-sm flex items-center space-x-1">
+            <span>📊</span>
+            <span>Учёт интенсивности звонков</span>
+          </div>
+          <p class="text-gray-600 leading-relaxed">
+            При закрытии смены рассчитывается количество звонков в час. Обратите внимание: **интенсивность ниже 60 звонков в час считается низкой (плохой показатель)** и подсвечивается красным или жёлтым цветом. Держите темп 60+!
+          </p>
+        </div>
+
+        <div class="p-3 bg-gray-50 rounded-2xl border border-gray-200 space-y-1">
+          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1">
             <span>📦</span>
             <span>Автоматическая очередь (Буфер)</span>
           </div>
           <p class="text-gray-600 leading-relaxed">
-            Приложение заранее подгружает пачку из 5 контактов в память устройства, обеспечивая бесперебойный обзвон.
+            Приложение заранее подгружает пачку из 5 контактов в память устройства, обеспечивая непрерывную работу.
           </p>
         </div>
 
@@ -1358,7 +1368,7 @@
       if (val) { safeSet('ttk_server_url', val); showToast('URL Сервера сохранен!', 'success'); closeServerModal(); }
     }
 
-const CURRENT_APP_VERSION = "5.0_speed_update";
+const CURRENT_APP_VERSION = "5.1_speed_update";
 
 function checkChangelogNotice() {
   const seenVersion = safeGet('ttk_seen_version');
