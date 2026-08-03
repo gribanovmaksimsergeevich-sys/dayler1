@@ -102,7 +102,7 @@
         <span>📊</span>
         <span class="hidden sm:inline">Моя стата</span>
       </button>
-      <a href="https://maxkoch23.github.io/itmstat/" target="_blank" rel="noopener noreferrer" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white text-xs font-bold flex items-center space-x-1" title="Общая статистика">
+      <a href="https://maxkoch23.github.io/itmstat/" target="_blank" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white text-xs font-bold flex items-center space-x-1" title="Общая статистика">
         <span>📈</span>
         <span class="hidden sm:inline">Общая стата</span>
       </a>
@@ -217,10 +217,12 @@
       <!-- ACTIVE SHIFT CONTROLS -->
       <div id="activeShiftCard" class="hidden space-y-4">
         
+        <!-- Full-width End Shift Button -->
         <button onclick="handleEndShift()" class="w-full py-3.5 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white font-extrabold rounded-2xl shadow-lg active:scale-[0.98] transition-all flex items-center justify-center space-x-2 text-base">
           <span>🛑 ЗАВЕРШИТЬ СМЕНУ</span>
         </button>
 
+        <!-- Timer & Call Counter Grid -->
         <div class="grid grid-cols-2 gap-3">
           <div class="md-card p-4 text-center relative overflow-hidden">
             <div class="flex items-center justify-center space-x-1 text-xs text-gray-400 font-bold mb-1">
@@ -236,6 +238,7 @@
           </div>
         </div>
 
+        <!-- GET CONTACT BUTTON -->
         <button onclick="fetchNextContact()" id="getContactBtn" class="hidden w-full py-4 bg-[#e20613] text-white font-extrabold text-base rounded-2xl shadow-lg hover:bg-[#c00410] active:scale-95 transition-all flex items-center justify-center space-x-2">
           <span>📞 ПОЛУЧИТЬ КЛИЕНТА</span>
         </button>
@@ -303,6 +306,7 @@
               </button>
             </div>
 
+            <!-- Full-width ЧС button -->
             <button type="button" onclick="selectMainStatus('ЧС')" id="btnStatusBlacklist" class="status-btn w-full p-3 bg-rose-50 border-2 border-rose-200 hover:border-rose-500 text-rose-700 font-bold rounded-xl text-xs flex items-center justify-center space-x-2 transition-all">
               <span>🚫</span>
               <span>Убрать из обзвона (ЧС)</span>
@@ -357,6 +361,7 @@
         <button onclick="closeAdminModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
       </div>
 
+      <!-- Admin Tabs Navigation -->
       <div class="grid grid-cols-3 gap-1 bg-gray-100 p-1 rounded-xl text-xs font-bold">
         <button type="button" onclick="switchAdminTab('sheets')" id="adminTabSheets" class="py-2 text-center rounded-lg bg-white text-[#e20613] shadow-sm">
           📁 Базы
@@ -369,6 +374,7 @@
         </button>
       </div>
 
+      <!-- Admin Content Sections -->
       <div class="overflow-y-auto flex-grow space-y-4 pr-1">
         
         <!-- SECTION 1: DATABASE SELECTOR -->
@@ -417,69 +423,8 @@
         </div>
 
         <!-- SECTION 3: SYSTEM STATS -->
-        <div id="adminSectionStats" class="hidden space-y-3">
-          
-          <!-- DATABASE CALLING STATS DISPLAY -->
-          <div id="adminSheetStatsCard" class="bg-gray-50 p-4 rounded-2xl border border-gray-200 space-y-3">
-            <div class="flex justify-between items-center">
-              <div class="font-black text-xs text-gray-800 uppercase tracking-wider">
-                📊 Прогресс: <span id="adminStatsSheetName" class="text-[#e20613]">База 90+</span>
-              </div>
-              <button onclick="loadCurrentSheetStats()" class="text-[11px] text-[#e20613] font-bold hover:underline flex items-center space-x-1">
-                <span>🔄 Обновить</span>
-              </button>
-            </div>
-
-            <!-- Progress Bar -->
-            <div class="space-y-1">
-              <div class="flex justify-between text-xs font-bold">
-                <span class="text-gray-500">Прогресс отработки</span>
-                <span id="adminStatsPercent" class="text-gray-800">0%</span>
-              </div>
-              <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
-                <div id="adminStatsProgressBar" class="bg-[#e20613] h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
-              </div>
-            </div>
-
-            <!-- 3 Main Metrics -->
-            <div class="grid grid-cols-3 gap-2 text-center">
-              <div class="bg-white p-2.5 rounded-xl border border-gray-200">
-                <div class="text-[10px] text-gray-400 font-bold uppercase">Всего</div>
-                <div id="adminStatsTotal" class="text-base font-black text-gray-800">0</div>
-              </div>
-              <div class="bg-white p-2.5 rounded-xl border border-gray-200">
-                <div class="text-[10px] text-gray-400 font-bold uppercase">Отработано</div>
-                <div id="adminStatsProcessed" class="text-base font-black text-emerald-600">0</div>
-              </div>
-              <div class="bg-white p-2.5 rounded-xl border border-gray-200">
-                <div class="text-[10px] text-gray-400 font-bold uppercase">Осталось</div>
-                <div id="adminStatsRemaining" class="text-base font-black text-amber-600">0</div>
-              </div>
-            </div>
-
-            <!-- Detailed Counters -->
-            <div class="grid grid-cols-2 gap-2 text-xs font-bold pt-1">
-              <div class="flex justify-between items-center bg-white p-2 rounded-xl border border-gray-200">
-                <span class="text-emerald-700 flex items-center space-x-1"><span>🟢</span><span>Дозвонов:</span></span>
-                <span id="adminStatsDozvon" class="text-gray-900">0</span>
-              </div>
-              <div class="flex justify-between items-center bg-white p-2 rounded-xl border border-gray-200">
-                <span class="text-gray-600 flex items-center space-x-1"><span>📞</span><span>Недозвонов:</span></span>
-                <span id="adminStatsNedozvon" class="text-gray-900">0</span>
-              </div>
-              <div class="flex justify-between items-center bg-white p-2 rounded-xl border border-gray-200">
-                <span class="text-emerald-800 flex items-center space-x-1"><span>✅</span><span>Согласий:</span></span>
-                <span id="adminStatsSoglasie" class="text-emerald-600">0</span>
-              </div>
-              <div class="flex justify-between items-center bg-white p-2 rounded-xl border border-gray-200">
-                <span class="text-rose-700 flex items-center space-x-1"><span>❌</span><span>Отказов:</span></span>
-                <span id="adminStatsOtkaz" class="text-rose-600">0</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Overall System Stats -->
-          <div class="grid grid-cols-2 gap-3 pt-2">
+        <div id="adminSectionStats" class="hidden space-y-4">
+          <div class="grid grid-cols-2 gap-3">
             <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center">
               <div class="text-[10px] font-bold text-gray-400 uppercase">Всего операторов</div>
               <div id="adminTotalUsers" class="text-xl font-black text-gray-800">0</div>
@@ -487,6 +432,60 @@
             <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center">
               <div class="text-[10px] font-bold text-gray-400 uppercase">Всего смен</div>
               <div id="adminTotalShifts" class="text-xl font-black text-[#e20613]">0</div>
+            </div>
+          </div>
+
+          <!-- Database Calling Progress Card -->
+          <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 space-y-3">
+            <div class="flex justify-between items-center border-b border-gray-200 pb-2">
+              <span id="adminDbStatsTitle" class="font-bold text-xs text-gray-800 uppercase tracking-wider">Статистика базы «90+»</span>
+              <button onclick="loadAdminStats()" class="text-xs text-[#e20613] font-bold hover:underline">🔄 Обновить</button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 text-center">
+              <div class="bg-white p-2.5 rounded-xl border border-gray-100">
+                <div class="text-[10px] text-gray-400 font-bold uppercase">Всего</div>
+                <div id="adminDbTotal" class="text-base font-black text-gray-800">0</div>
+              </div>
+              <div class="bg-white p-2.5 rounded-xl border border-gray-100">
+                <div class="text-[10px] text-emerald-600 font-bold uppercase">Отработано</div>
+                <div id="adminDbDone" class="text-base font-black text-emerald-600">0</div>
+              </div>
+              <div class="bg-white p-2.5 rounded-xl border border-gray-100">
+                <div class="text-[10px] text-amber-600 font-bold uppercase">Осталось</div>
+                <div id="adminDbRemaining" class="text-base font-black text-amber-600">0</div>
+              </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div>
+              <div class="flex justify-between text-[10px] font-bold text-gray-500 mb-1">
+                <span>Прогресс обзвона</span>
+                <span id="adminDbPercent">0%</span>
+              </div>
+              <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                <div id="adminDbProgressBar" class="bg-[#e20613] h-full transition-all duration-500" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <!-- Detailed Breakdown -->
+            <div class="grid grid-cols-4 gap-1.5 pt-1 text-center">
+              <div class="bg-emerald-50 p-2 rounded-xl border border-emerald-100">
+                <div class="text-[9px] text-emerald-800 font-bold uppercase">Дозвоны</div>
+                <div id="adminDbDozvon" class="text-sm font-black text-emerald-700">0</div>
+              </div>
+              <div class="bg-gray-100 p-2 rounded-xl border border-gray-200">
+                <div class="text-[9px] text-gray-600 font-bold uppercase">Недозвоны</div>
+                <div id="adminDbNedozvon" class="text-sm font-black text-gray-700">0</div>
+              </div>
+              <div class="bg-emerald-100 p-2 rounded-xl border border-emerald-200">
+                <div class="text-[9px] text-emerald-900 font-bold uppercase">Согласия</div>
+                <div id="adminDbConsents" class="text-sm font-black text-emerald-800">0</div>
+              </div>
+              <div class="bg-rose-50 p-2 rounded-xl border border-rose-100">
+                <div class="text-[9px] text-rose-800 font-bold uppercase">Отказы</div>
+                <div id="adminDbRefusals" class="text-sm font-black text-rose-700">0</div>
+              </div>
             </div>
           </div>
         </div>
@@ -501,36 +500,33 @@
       <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
       
       <div class="flex justify-between items-center">
-        <h3 class="text-lg font-black text-gray-900">💰 Мой Доход</h3>
+        <h3 class="text-lg font-black text-gray-900">💰 Расчёт Дохода</h3>
         <button onclick="closeIncomeModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
       </div>
 
-      <!-- Month Selector Dropdown -->
-      <div>
-        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Месяц расчета</label>
-        <select id="incomeMonthSelect" onchange="loadMonthlyIncome()" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-xs font-bold text-gray-800 outline-none focus:ring-2 focus:ring-[#e20613] shadow-sm">
-        </select>
+      <!-- Month Selector -->
+      <div class="flex items-center justify-between bg-gray-50 p-2.5 rounded-xl border border-gray-200">
+        <span class="text-xs font-bold text-gray-600">Выбор месяца:</span>
+        <select id="incomeMonthSelect" onchange="fetchMonthlyIncome()" class="bg-white border border-gray-300 rounded-lg px-3 py-1.5 text-xs font-bold text-gray-800 outline-none focus:ring-2 focus:ring-[#e20613]"></select>
       </div>
 
       <div class="space-y-3 text-xs text-gray-700">
         <div class="bg-red-50 p-4 rounded-2xl border border-red-100 text-center">
-          <div class="text-xs text-gray-500 font-bold uppercase">Расчетный доход за месяц</div>
+          <div class="text-xs text-gray-500 font-bold uppercase">Доход за выбранный месяц</div>
           <div id="calculatedIncomeDisplay" class="text-3xl font-black text-[#e20613] mt-1">0 ₽</div>
-          <div class="text-[10px] text-gray-400 mt-1">Рассчитывается по отработанным часам и действующей ставке</div>
+          <div id="totalHoursMonthDisplay" class="text-xs text-gray-600 font-medium mt-1">Отработано: 0 ч. 0 мин.</div>
         </div>
 
-        <div id="incomeDetailsContainer" class="space-y-2">
-          <!-- Dynamic breakdown content loaded via JS -->
+        <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 space-y-1">
+          <div class="font-bold text-gray-800">📊 Сетка ставок по часам:</div>
+          <p>• 1 – 79 часов: <strong class="text-gray-900">100 ₽/час</strong></p>
+          <p>• 80 – 89 часов: <strong class="text-gray-900">120 ₽/час</strong></p>
+          <p>• 90+ часов: <strong class="text-gray-900">150 ₽/час</strong></p>
+          <p class="text-[11px] text-amber-700 font-semibold pt-1">⭐ Выходные дни (сб, вс): Коэффициент x1.5</p>
         </div>
 
-        <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 space-y-1.5 text-[11px]">
-          <div class="font-bold text-gray-800">📌 Шкала базовых ставок:</div>
-          <div class="grid grid-cols-3 gap-1 text-center font-bold">
-            <div class="p-1.5 bg-white rounded-lg border border-gray-200">1–79 ч<br><span class="text-[#e20613]">100 ₽/ч</span></div>
-            <div class="p-1.5 bg-white rounded-lg border border-gray-200">80–89 ч<br><span class="text-[#e20613]">120 ₽/ч</span></div>
-            <div class="p-1.5 bg-white rounded-lg border border-gray-200">90+ ч<br><span class="text-[#e20613]">150 ₽/ч</span></div>
-          </div>
-          <p class="text-gray-500 pt-1">• В выходные дни к отработанному времени применяется коэффициент **x1.5**.</p>
+        <div id="rateProgressNotice" class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 font-medium">
+          Загрузка расчета ставок...
         </div>
       </div>
     </div>
@@ -603,7 +599,7 @@
     </div>
   </div>
 
-  <!-- SERVER CONFIG MODAL -->
+  <!-- SERVER CONFIG MODAL (ADMIN ONLY) -->
   <div id="serverModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-md rounded-2xl p-6 space-y-4">
       <h3 class="text-lg font-black text-gray-900">⚙️ Настройки Сервера</h3>
@@ -618,9 +614,10 @@
     </div>
   </div>
 
-  <!-- TOAST NOTIFICATIONS CONTAINER -->
+  <!-- TOAST NOTIFICATIONS -->
   <div id="toastContainer" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 space-y-2 pointer-events-none w-full max-w-xs px-4"></div>
 
+  <!-- JAVASCRIPT LOGIC -->
   <script>
     const DEFAULT_SERVER_URL = "https://script.google.com/macros/s/AKfycbxrW0RzQQsWaJSvUHsu63yyTpybcvoK1R2nwDgf3xAU6PgMZb2Wx6vZV8stp28c2cqH/exec";
     
@@ -628,16 +625,16 @@
     let currentUser = null;
     let currentShift = null;
     let currentContact = null;
-    let selectedSheet = safeGet('ttk_selected_sheet') || '90+';
+    let selectedSheet = '90+';
     let selectedCallStatus = '';
     let shiftTimerInterval = null;
     let deferredPrompt = null;
     
     // Fallback Tariffs
     let cachedTariffs = [
-      { name: "ТТК Технологичный 100", desc: "До 100 Мбит/с + ТВ", cities: "Москва, Самара, Новосибирск, Все", price: "450", period: "Ежемесячно", cond: "Бесплатное подключение при согласии сегодня" },
-      { name: "ТТК Игровой 300", desc: "До 300 Мбит/с, низкий пинг", cities: "Москва, Екатеринбург, Вся Россия", price: "750", period: "Ежемесячно", cond: "Премиум роутер в подарок" },
-      { name: "ТТК Оптимальный 200", desc: "До 200 Мбит/с + 140 каналов", cities: "Самара, Нижний Новгород, Уфа", price: "550", period: "Ежемесячно", cond: "Скидка 20% на первые 3 месяца" }
+      { name: "ТТК Технологичный 100", cities: "Москва, Самара, Новосибирск, Все", price: "450", desc: "До 100 Мбит/с + ТВ", cond: "Бесплатное подключение при согласии сегодня", period: "Ежемесячно" },
+      { name: "ТТК Игровой 300", cities: "Москва, Екатеринбург, Вся Россия", price: "750", desc: "До 300 Мбит/с, низкий пинг", cond: "Премиум роутер в подарок", period: "Ежемесячно" },
+      { name: "ТТК Оптимальный 200", cities: "Самара, Нижний Новгород, Уфа", price: "550", desc: "До 200 Мбит/с + 140 каналов", cond: "Скидка 20% на первые 3 месяца", period: "Ежемесячно" }
     ];
 
     function safeGet(key) {
@@ -678,10 +675,10 @@
       const url = getServerUrl();
       const bodyData = { action, ...payload };
       
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 sec timeout
+      
       try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 секунд таймаут
-
         const res = await fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -691,25 +688,52 @@
         clearTimeout(timeoutId);
         return await res.json();
       } catch (err) {
+        clearTimeout(timeoutId);
         console.error('API Error:', err);
-        return { success: false, message: 'Ошибка связи с сервером.' };
+        return { success: false, message: 'Ошибка связи с сервером. Повторите попытку.' };
       }
     }
 
-    document.addEventListener('DOMContentLoaded', async () => {
+    document.addEventListener('DOMContentLoaded', () => {
       initPWA();
-      await syncActiveSheetFromServer();
+      initMonthSelect();
+      
+      const savedSheet = safeGet('ttk_selected_sheet');
+      if (savedSheet) selectedSheet = savedSheet;
+
       checkAuthSession();
+      syncActiveSheetWithServer();
     });
 
-    async function syncActiveSheetFromServer() {
-      try {
-        const res = await apiRequest('getActiveSheet');
-        if (res && res.success && res.sheetName) {
-          selectedSheet = res.sheetName;
-          safeSet('ttk_selected_sheet', selectedSheet);
-        }
-      } catch (e) {}
+    async function syncActiveSheetWithServer() {
+      const res = await apiRequest('getActiveSheet');
+      if (res.success && res.sheetName) {
+        selectedSheet = res.sheetName;
+        safeSet('ttk_selected_sheet', selectedSheet);
+        updateAdminSheetUI();
+      }
+    }
+
+    function initMonthSelect() {
+      const select = document.getElementById('incomeMonthSelect');
+      select.innerHTML = '';
+      
+      const monthNames = [
+        "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+        "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+      ];
+
+      const now = new Date();
+      for (let i = 0; i < 6; i++) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const y = d.getFullYear();
+        const m = d.getMonth();
+        
+        const option = document.createElement('option');
+        option.value = `${y}-${String(m + 1).padStart(2, '0')}`;
+        option.innerText = `${monthNames[m]} ${y}`;
+        select.appendChild(option);
+      }
     }
 
     function initPWA() {
@@ -744,9 +768,9 @@
       } else {
         const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
         if (isIOS) {
-          showToast('iOS Инструкция: Нажмите "Поделиться" внизу Safari ➔ На экран «Домой»');
+          showToast('iOS: Нажмите "Поделиться" -> "На экран «Домой»"');
         } else {
-          showToast('Android Инструкция: Нажмите меню браузера (⋮) ➔ Добавить на главный экран');
+          showToast('Android: Меню браузера (⋮) -> "На главный экран"');
         }
       }
     }
@@ -903,13 +927,14 @@
         btn.innerHTML = '⌛ ОТКРЫТИЕ СМЕНЫ...';
       }
 
+      const agentName = currentUser ? (currentUser.fullName || currentUser.login) : 'Оператор';
+      
       try {
-        const agentName = currentUser ? (currentUser.fullName || currentUser.login) : 'Оператор';
         const res = await apiRequest('startShift', { agentName });
 
         if (res && res.success) {
           currentShift = {
-            startTime: res.startTimeMs ? Number(res.startTimeMs) : Date.now(),
+            startTime: res.startTimeMs || Date.now(),
             callsCount: 0
           };
           safeSet('ttk_shift_session', JSON.stringify(currentShift));
@@ -917,11 +942,10 @@
           renderDashboard();
           showToast('Смена открыта!', 'success');
         } else {
-          showToast(res.message || 'Ошибка при открытии смены', 'error');
+          showToast(res ? res.message : 'Не удалось открыть смену', 'error');
         }
       } catch (err) {
-        console.error('Shift start error:', err);
-        showToast('Произошла ошибка при открытии смены', 'error');
+        showToast('Сбой подключения при открытии смены', 'error');
       } finally {
         if (btn) {
           btn.disabled = false;
@@ -931,7 +955,6 @@
     }
 
     async function handleEndShift() {
-      showToast('Завершение смены...');
       const agentName = currentUser ? (currentUser.fullName || currentUser.login) : 'Оператор';
       await apiRequest('endShift', { agentName });
       
@@ -962,36 +985,9 @@
       selectedSheet = sheetName;
       safeSet('ttk_selected_sheet', sheetName);
       updateAdminSheetUI();
+      
       showToast('База переключена на ' + sheetName, 'success');
-
-      if (currentUser && currentUser.isAdmin) {
-        await apiRequest('setActiveSheet', { sheetName });
-        loadCurrentSheetStats(sheetName);
-      }
-    }
-
-    async function loadCurrentSheetStats(sheetNameOverride) {
-      const targetSheet = sheetNameOverride || selectedSheet;
-      const nameDisplay = document.getElementById('adminStatsSheetName');
-      if (nameDisplay) nameDisplay.innerText = `База «${targetSheet}»`;
-
-      const res = await apiRequest('getSheetStats', { sheetName: targetSheet });
-      if (res && res.success && res.stats) {
-        const st = res.stats;
-        const pct = st.total > 0 ? Math.round((st.processed / st.total) * 100) : 0;
-        
-        document.getElementById('adminStatsPercent').innerText = `${pct}%`;
-        document.getElementById('adminStatsProgressBar').style.width = `${pct}%`;
-        
-        document.getElementById('adminStatsTotal').innerText = st.total;
-        document.getElementById('adminStatsProcessed').innerText = st.processed;
-        document.getElementById('adminStatsRemaining').innerText = st.remaining;
-        
-        document.getElementById('adminStatsDozvon').innerText = st.dozvon;
-        document.getElementById('adminStatsNedozvon').innerText = st.nedozvon;
-        document.getElementById('adminStatsSoglasie').innerText = st.soglasie;
-        document.getElementById('adminStatsOtkaz').innerText = st.otkaz;
-      }
+      await apiRequest('setActiveSheet', { sheetName });
     }
 
     function updateAdminSheetUI() {
@@ -1100,7 +1096,10 @@
       const callAnchor = document.getElementById('callPhoneAnchor');
       
       const cleanPhoneForDial = norm.dialable.replace(/[^\d+]/g, '');
-      callAnchor.href = isIOS ? `sip:${cleanPhoneForDial}` : `tel:${cleanPhoneForDial}`;
+      const sipDomain = "20vatc006325-001.cloudpbx.ttk.ru";
+      const sipUri = `sip:${cleanPhoneForDial}@${sipDomain}`;
+      
+      callAnchor.href = isIOS ? sipUri : `tel:${cleanPhoneForDial}`;
 
       document.getElementById('contactCard').classList.remove('hidden');
       document.getElementById('contactCard').scrollIntoView({ behavior: 'smooth' });
@@ -1229,8 +1228,6 @@
       const res = await apiRequest('saveCallResult', {
         agentName: currentUser.fullName || currentUser.login,
         contactId: currentContact.id,
-        contactName: norm.name,
-        city: norm.city,
         phone: norm.phone,
         status: selectedCallStatus,
         comment,
@@ -1254,13 +1251,12 @@
       }
     }
 
+    // --- TARIFFS MODAL ---
     async function openTariffsModal() {
       document.getElementById('tariffsModal').classList.remove('hidden');
       const norm = normalizeContact(currentContact);
+      document.getElementById('tariffSearchInput').value = norm.city;
       
-      const searchInput = document.getElementById('tariffSearchInput');
-      searchInput.value = (norm.city && norm.city !== 'Город не указан') ? norm.city : '';
-
       filterTariffs();
 
       const res = await apiRequest('getTariffs');
@@ -1275,27 +1271,21 @@
     }
 
     function filterTariffs() {
-      const rawQuery = document.getElementById('tariffSearchInput').value.toLowerCase().trim();
+      const query = document.getElementById('tariffSearchInput').value.toLowerCase().trim();
       const container = document.getElementById('tariffsListContainer');
       container.innerHTML = '';
 
-      const filtered = cachedTariffs.filter(t => {
-        if (!rawQuery) return true;
-        
-        const citiesStr = (t.cities || '').toLowerCase();
-        const nameStr = (t.name || '').toLowerCase();
-        const descStr = (t.desc || '').toLowerCase();
-
-        const cityMatch = citiesStr.includes(rawQuery) || rawQuery.includes(citiesStr) || 
-          citiesStr.split(/[\s,]+/).some(c => c.length > 2 && rawQuery.includes(c));
-        const textMatch = nameStr.includes(rawQuery) || descStr.includes(rawQuery);
-
-        return cityMatch || textMatch;
+      let filtered = cachedTariffs.filter(t => {
+        const cityMatch = (t.cities || '').toLowerCase().includes(query);
+        const titleMatch = (t.name || '').toLowerCase().includes(query);
+        return cityMatch || titleMatch || query === '';
       });
 
-      const listToRender = filtered.length > 0 ? filtered : cachedTariffs;
+      if (filtered.length === 0) {
+        filtered = cachedTariffs;
+      }
 
-      listToRender.forEach(t => {
+      filtered.forEach(t => {
         const card = document.createElement('div');
         card.className = 'p-3.5 bg-gray-50 rounded-2xl border border-gray-200 space-y-1.5';
         card.innerHTML = `
@@ -1307,18 +1297,17 @@
             <div class="text-sm font-black text-[#e20613] bg-red-50 px-2.5 py-1 rounded-full border border-red-100">${t.price} ₽</div>
           </div>
           ${t.desc ? `<div class="text-xs text-gray-600 font-medium">${t.desc}</div>` : ''}
-          ${t.cities ? `<div class="text-[11px] text-gray-500 font-medium">📍 ${t.cities}</div>` : ''}
           ${t.cond ? `<div class="text-[11px] text-gray-500 bg-white p-2.5 rounded-xl border border-gray-100 leading-snug">📌 ${t.cond}</div>` : ''}
         `;
         container.appendChild(card);
       });
     }
 
+    // --- ADMIN PANEL CONTROLS ---
     function openAdminModal() {
       updateAdminSheetUI();
       document.getElementById('adminModal').classList.remove('hidden');
       switchAdminTab('sheets');
-      loadCurrentSheetStats();
     }
 
     function closeAdminModal() {
@@ -1352,7 +1341,6 @@
         btnStats.classList.add('bg-white', 'text-[#e20613]', 'shadow-sm');
         secStats.classList.remove('hidden');
         loadAdminStats();
-        loadCurrentSheetStats();
       }
     }
 
@@ -1410,160 +1398,82 @@
     }
 
     async function loadAdminStats() {
-      const res = await apiRequest('getAdminAnalytics');
+      const res = await apiRequest('getAdminAnalytics', { sheetName: selectedSheet });
       if (res.success && res.analytics) {
         document.getElementById('adminTotalUsers').innerText = res.analytics.totalUsers || '0';
         document.getElementById('adminTotalShifts').innerText = res.analytics.totalShifts || '0';
-      }
-    }
 
-    function openIncomeModal() {
-      populateMonthSelect();
-      document.getElementById('incomeModal').classList.remove('hidden');
-      loadMonthlyIncome();
-    }
-    function closeIncomeModal() { 
-      document.getElementById('incomeModal').classList.add('hidden'); 
-    }
+        if (res.analytics.dbStats) {
+          const db = res.analytics.dbStats;
+          document.getElementById('adminDbStatsTitle').innerText = `Статистика базы «${db.sheetName || selectedSheet}»`;
+          document.getElementById('adminDbTotal').innerText = db.total || 0;
+          document.getElementById('adminDbDone').innerText = db.done || 0;
+          document.getElementById('adminDbRemaining').innerText = db.remaining || 0;
+          document.getElementById('adminDbPercent').innerText = `${db.percent || 0}%`;
+          document.getElementById('adminDbProgressBar').style.width = `${db.percent || 0}%`;
 
-    function populateMonthSelect() {
-      const select = document.getElementById('incomeMonthSelect');
-      if (!select) return;
-      if (select.children.length > 0) return;
-
-      const monthNames = [
-        "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
-        "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
-      ];
-      
-      const now = new Date();
-      select.innerHTML = '';
-      
-      for (let i = 0; i < 6; i++) {
-        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-        const m = d.getMonth() + 1;
-        const y = d.getFullYear();
-        const opt = document.createElement('option');
-        opt.value = `${y}-${m}`;
-        opt.innerText = `${monthNames[m - 1]} ${y}`;
-        if (i === 0) opt.selected = true;
-        select.appendChild(opt);
-      }
-    }
-
-    async function loadMonthlyIncome() {
-      const select = document.getElementById('incomeMonthSelect');
-      if (!select || !select.value) return;
-      
-      const [yearStr, monthStr] = select.value.split('-');
-      const month = parseInt(monthStr, 10);
-      const year = parseInt(yearStr, 10);
-
-      const display = document.getElementById('calculatedIncomeDisplay');
-      const details = document.getElementById('incomeDetailsContainer');
-      
-      display.innerText = '⌛ Расчет...';
-
-      const agentName = currentUser ? (currentUser.fullName || currentUser.login) : 'Оператор';
-      const res = await apiRequest('getUserMonthlyIncome', { agentName, month, year });
-
-      let weekdayMins = (res && res.weekdayMinutes) ? res.weekdayMinutes : 0;
-      let weekendMins = (res && res.weekendMinutes) ? res.weekendMinutes : 0;
-      let totalCalls = (res && res.totalCalls) ? res.totalCalls : 0;
-
-      const now = new Date();
-      if (currentShift && month === (now.getMonth() + 1) && year === now.getFullYear()) {
-        const activeElapsedMins = Math.floor((Date.now() - currentShift.startTime) / 60000);
-        const isWeekendToday = (now.getDay() === 0 || now.getDay() === 6);
-        if (isWeekendToday) {
-          weekendMins += activeElapsedMins;
-        } else {
-          weekdayMins += activeElapsedMins;
+          document.getElementById('adminDbDozvon').innerText = db.dozvon || 0;
+          document.getElementById('adminDbNedozvon').innerText = db.nedozvon || 0;
+          document.getElementById('adminDbConsents').innerText = db.consents || 0;
+          document.getElementById('adminDbRefusals').innerText = db.refusals || 0;
         }
-        totalCalls += (currentShift.callsCount || 0);
       }
-
-      const totalRawMins = weekdayMins + weekendMins;
-      const totalRawHours = totalRawMins / 60;
-
-      let baseRate = 100;
-      if (totalRawHours >= 90) {
-        baseRate = 150;
-      } else if (totalRawHours >= 80) {
-        baseRate = 120;
-      }
-
-      const weightedHours = (weekdayMins / 60) + ((weekendMins / 60) * 1.5);
-      const totalIncome = Math.round(weightedHours * baseRate);
-
-      display.innerText = `${totalIncome.toLocaleString('ru-RU')} ₽`;
-
-      const fmtTime = (mins) => {
-        const h = Math.floor(mins / 60);
-        const m = mins % 60;
-        return `${h} ч. ${String(m).padStart(2, '0')} мин.`;
-      };
-
-      let tierInfo = '';
-      if (totalRawHours < 80) {
-        const needed = Math.ceil(80 * 60 - totalRawMins);
-        tierInfo = `<div class="text-[11px] text-amber-800 bg-amber-50 p-2.5 rounded-xl border border-amber-200">
-          💡 До повышения ставки до <strong>120 ₽/ч</strong> осталось отработать: <strong>${fmtTime(needed)}</strong>
-        </div>`;
-      } else if (totalRawHours < 90) {
-        const needed = Math.ceil(90 * 60 - totalRawMins);
-        tierInfo = `<div class="text-[11px] text-blue-800 bg-blue-50 p-2.5 rounded-xl border border-blue-200">
-          🚀 До максимальной ставки <strong>150 ₽/ч</strong> осталось отработать: <strong>${fmtTime(needed)}</strong>
-        </div>`;
-      } else {
-        tierInfo = `<div class="text-[11px] text-emerald-800 bg-emerald-50 p-2.5 rounded-xl border border-emerald-200">
-          🔥 Вы достигли максимальной ставки <strong>150 ₽/ч</strong>!
-        </div>`;
-      }
-
-      details.innerHTML = `
-        <div class="grid grid-cols-2 gap-2 text-left">
-          <div class="bg-gray-50 p-2.5 rounded-xl border border-gray-200">
-            <div class="text-[10px] text-gray-400 uppercase font-bold">Текущая ставка</div>
-            <div class="text-base font-black text-gray-800">${baseRate} ₽/час</div>
-          </div>
-          <div class="bg-gray-50 p-2.5 rounded-xl border border-gray-200">
-            <div class="text-[10px] text-gray-400 uppercase font-bold">Отработано часов</div>
-            <div class="text-base font-black text-gray-800">${(totalRawHours).toFixed(1)} ч</div>
-          </div>
-        </div>
-
-        ${tierInfo}
-
-        <div class="space-y-1 text-left border-t border-gray-100 pt-2 text-xs">
-          <div class="flex justify-between text-gray-600">
-            <span>⏱️ Время за месяц:</span>
-            <strong class="text-gray-800">${fmtTime(totalRawMins)}</strong>
-          </div>
-          <div class="flex justify-between text-gray-600">
-            <span>🏢 Будние дни:</span>
-            <strong class="text-gray-800">${fmtTime(weekdayMins)}</strong>
-          </div>
-          <div class="flex justify-between text-gray-600">
-            <span>🏖️ Выходные (кэф x1.5):</span>
-            <strong class="text-emerald-600">${fmtTime(weekendMins)}</strong>
-          </div>
-          <div class="flex justify-between text-gray-600">
-            <span>📞 Звонков за месяц:</span>
-            <strong class="text-gray-800">${totalCalls}</strong>
-          </div>
-        </div>
-      `;
     }
+
+    // --- MONTHLY INCOME CALCULATOR ---
+    async function openIncomeModal() {
+      document.getElementById('incomeModal').classList.remove('hidden');
+      await fetchMonthlyIncome();
+    }
+
+    async function fetchMonthlyIncome() {
+      const monthStr = document.getElementById('incomeMonthSelect').value;
+      const agentName = currentUser ? (currentUser.fullName || currentUser.login) : 'Оператор';
+
+      document.getElementById('calculatedIncomeDisplay').innerText = "0 ₽";
+      document.getElementById('totalHoursMonthDisplay').innerText = "Загрузка...";
+      document.getElementById('rateProgressNotice').innerText = "Считывание смен из Google Таблицы...";
+
+      let activeShiftMinutes = 0;
+      if (currentShift && currentShift.startTime) {
+        activeShiftMinutes = Math.floor((Date.now() - currentShift.startTime) / 60000);
+      }
+
+      const res = await apiRequest('getUserMonthlyIncome', {
+        agentName,
+        yearMonth: monthStr,
+        activeShiftMinutes
+      });
+
+      if (res.success) {
+        const totalMin = res.totalMinutes || 0;
+        const totalHrs = Math.floor(totalMin / 60);
+        const remMin = totalMin % 60;
+        
+        document.getElementById('calculatedIncomeDisplay').innerText = `${res.income || 0} ₽`;
+        document.getElementById('totalHoursMonthDisplay').innerText = `Отработано: ${totalHrs} ч. ${remMin} мин.`;
+
+        const notice = document.getElementById('rateProgressNotice');
+        if (totalHrs < 80) {
+          const needed = 80 - totalHrs;
+          notice.innerText = `Текущая ставка: 100 ₽/ч. До ставки 120 ₽/ч осталось отработать ${needed} ч.`;
+        } else if (totalHrs < 90) {
+          const needed = 90 - totalHrs;
+          notice.innerText = `Текущая ставка: 120 ₽/ч! До максимальной ставки 150 ₽/ч осталось отработать ${needed} ч.`;
+        } else {
+          notice.innerText = `🔥 У вас максимальная ставка: 150 ₽/час!`;
+        }
+      } else {
+        showToast('Не удалось загрузить доход за месяц', 'error');
+      }
+    }
+
+    function closeIncomeModal() { document.getElementById('incomeModal').classList.add('hidden'); }
 
     function openStatsModal() {
       const calls = currentShift?.callsCount || 0;
-      const elapsedMs = currentShift ? (Date.now() - currentShift.startTime) : 0;
-      const hours = elapsedMs / (1000 * 60 * 60);
-      const callsPerHour = hours > 0 ? (calls / hours).toFixed(1) : '0.0';
-
       document.getElementById('statsCallsCount').innerText = calls;
-      document.getElementById('statsCallsPerHour').innerText = callsPerHour;
+      document.getElementById('statsCallsPerHour').innerText = (calls / 1).toFixed(1);
       document.getElementById('statsModal').classList.remove('hidden');
     }
     function closeStatsModal() { document.getElementById('statsModal').classList.add('hidden'); }
@@ -1586,3 +1496,5 @@
   </script>
 </body>
 </html>
+
+
