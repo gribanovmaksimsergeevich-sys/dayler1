@@ -1354,6 +1354,21 @@
       const val = document.getElementById('serverUrlInput').value.trim();
       if (val) { safeSet('ttk_server_url', val); showToast('URL Сервера сохранен!', 'success'); closeServerModal(); }
     }
+
+const CURRENT_APP_VERSION = "5.0_speed_update";
+
+function checkChangelogNotice() {
+  const seenVersion = safeGet('ttk_seen_version');
+  if (seenVersion !== CURRENT_APP_VERSION) {
+    document.getElementById('changelogModal').classList.remove('hidden');
+  }
+}
+
+function closeChangelogModal() {
+  safeSet('ttk_seen_version', CURRENT_APP_VERSION);
+  document.getElementById('changelogModal').classList.add('hidden');
+}
+    
   </script>
 </body>
 </html>
