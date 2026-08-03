@@ -746,21 +746,24 @@
       }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      initPWA();
-      initMonthSelect();
-      const savedSheet = safeGet('ttk_selected_sheet');
-      if (savedSheet) selectedSheet = savedSheet;
+   document.addEventListener('DOMContentLoaded', () => {
+  initPWA();
+  initMonthSelect();
+  
+  const savedSheet = safeGet('ttk_selected_sheet');
+  if (savedSheet) selectedSheet = savedSheet;
 
-      // Загрузка очереди из хранилища
-      const savedQueue = safeGet('ttk_contact_queue');
-      if (savedQueue) {
-        try { contactQueue = JSON.parse(savedQueue); } catch(e) {}
-      }
+  const savedQueue = safeGet('ttk_contact_queue');
+  if (savedQueue) {
+    try { contactQueue = JSON.parse(savedQueue); } catch(e) {}
+  }
 
-      checkAuthSession();
-      syncActiveSheetWithServer();
-    });
+  checkAuthSession();
+  syncActiveSheetWithServer();
+
+  // 🚀 Вызов окна обновлений (покажется 1 раз)
+  checkChangelogNotice();
+});
 
     function saveQueue() {
       safeSet('ttk_contact_queue', JSON.stringify(contactQueue));
