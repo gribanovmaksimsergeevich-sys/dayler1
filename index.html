@@ -28,7 +28,6 @@
       -webkit-tap-highlight-color: transparent;
       touch-action: manipulation;
     }
-    
     .md-sheet {
       border-top-left-radius: 28px;
       border-top-right-radius: 28px;
@@ -38,7 +37,6 @@
       background: #ffffff;
       box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
     }
-
     @keyframes pulse-dot {
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.4; transform: scale(0.85); }
@@ -95,16 +93,12 @@
         <span>📈</span>
         <span class="hidden sm:inline">Общая стата</span>
       </a>
-      <button onclick="openFaqModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white/90" title="Справка">
-        ❓
-      </button>
+      <button onclick="openFaqModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white/90" title="Справка">❓</button>
       <button id="adminPanelBtn" onclick="openAdminModal()" class="hidden p-2 hover:bg-white/10 rounded-full transition-colors text-amber-300 font-bold flex items-center space-x-1" title="Панель администратора">
         <span>👑</span>
         <span class="hidden sm:inline">Админка</span>
       </button>
-      <button id="serverConfigBtn" onclick="openServerModal()" class="hidden p-2 hover:bg-white/10 rounded-full transition-colors text-white/90" title="Настройки сервера">
-        ⚙️
-      </button>
+      <button id="serverConfigBtn" onclick="openServerModal()" class="hidden p-2 hover:bg-white/10 rounded-full transition-colors text-white/90" title="Настройки сервера">⚙️</button>
     </div>
   </header>
 
@@ -115,16 +109,10 @@
     <section id="authSection" class="md-card p-6 mt-4">
       <div class="relative bg-gray-100 p-1.5 rounded-full flex mb-6 border border-gray-200">
         <div id="authTogglePill" class="absolute top-1.5 bottom-1.5 left-1.5 w-[calc(50%-6px)] bg-[#e20613] rounded-full shadow-md transition-all duration-300 ease-in-out"></div>
-        
-        <button type="button" onclick="switchAuthMode('login')" id="tabBtnLogin" class="relative z-10 w-1/2 py-2.5 text-center text-sm font-bold transition-colors duration-300 text-white rounded-full select-none">
-          🔑 Вход
-        </button>
-        <button type="button" onclick="switchAuthMode('register')" id="tabBtnRegister" class="relative z-10 w-1/2 py-2.5 text-center text-sm font-bold transition-colors duration-300 text-gray-600 rounded-full select-none">
-          📝 Регистрация
-        </button>
+        <button type="button" onclick="switchAuthMode('login')" id="tabBtnLogin" class="relative z-10 w-1/2 py-2.5 text-center text-sm font-bold transition-colors duration-300 text-white rounded-full select-none">🔑 Вход</button>
+        <button type="button" onclick="switchAuthMode('register')" id="tabBtnRegister" class="relative z-10 w-1/2 py-2.5 text-center text-sm font-bold transition-colors duration-300 text-gray-600 rounded-full select-none">📝 Регистрация</button>
       </div>
 
-      <!-- Login Form -->
       <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
         <div>
           <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">Логин</label>
@@ -136,18 +124,9 @@
         </div>
         <button type="submit" id="loginSubmitBtn" class="w-full py-3.5 bg-[#e20613] text-white font-bold rounded-full shadow-md hover:bg-[#c00410] active:scale-[0.98] transition-all flex items-center justify-center">
           <span id="loginBtnText">Войти в систему</span>
-          <div id="loginBtnLoader" class="hidden flex items-center justify-center space-x-2">
-            <span class="text-sm font-bold">Выполняется вход</span>
-            <div class="flex space-x-1 items-center">
-              <div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0s"></div>
-              <div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0.15s"></div>
-              <div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0.3s"></div>
-            </div>
-          </div>
         </button>
       </form>
 
-      <!-- Register Form -->
       <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-4 hidden">
         <div>
           <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1">ФИО Оператора</label>
@@ -163,55 +142,34 @@
         </div>
         <button type="submit" id="regSubmitBtn" class="w-full py-3.5 bg-[#e20613] text-white font-bold rounded-full shadow-md hover:bg-[#c00410] active:scale-[0.98] transition-all flex items-center justify-center">
           <span id="regBtnText">Зарегистрироваться</span>
-          <div id="regBtnLoader" class="hidden flex items-center justify-center space-x-2">
-            <span class="text-sm font-bold">Регистрация</span>
-            <div class="flex space-x-1 items-center">
-              <div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0s"></div>
-              <div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0.15s"></div>
-              <div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0.3s"></div>
-            </div>
-          </div>
         </button>
       </form>
     </section>
 
     <!-- WORK DASHBOARD SECTION -->
     <section id="dashboardSection" class="hidden space-y-4">
-      
-      <!-- Agent Profile Banner -->
       <div class="md-card p-4 flex items-center justify-between border-l-4 border-[#e20613]">
         <div>
           <div id="agentNameDisplay" class="font-bold text-gray-800 text-base">Оператор ТТК</div>
           <div id="agentRoleBadge" class="text-xs font-semibold text-gray-500">Агент</div>
         </div>
-        <button onclick="handleLogout()" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-3 py-2 rounded-full transition-colors">
-          Выйти 🚪
-        </button>
+        <button onclick="handleLogout()" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-3 py-2 rounded-full transition-colors">Выйти 🚪</button>
       </div>
 
-      <!-- NO ACTIVE SHIFT PLACEHOLDER -->
       <div id="startShiftCard" class="md-card p-6 text-center space-y-4">
-        <div class="w-16 h-16 bg-red-50 text-[#e20613] rounded-full flex items-center justify-center mx-auto text-2xl font-bold">
-          ⏱️
-        </div>
+        <div class="w-16 h-16 bg-red-50 text-[#e20613] rounded-full flex items-center justify-center mx-auto text-2xl font-bold">⏱️</div>
         <div>
           <h3 class="font-bold text-gray-800 text-lg">Смена не началась</h3>
           <p class="text-xs text-gray-500 mt-1">Откройте смену, чтобы начать принимать контакты из базы</p>
         </div>
-        <button id="startShiftBtn" onclick="handleStartShift()" class="w-full py-3.5 bg-[#e20613] text-white font-bold rounded-full shadow-lg hover:bg-[#c00410] active:scale-95 transition-all">
-          🚀 НАЧАТЬ СМЕНУ
-        </button>
+        <button id="startShiftBtn" onclick="handleStartShift()" class="w-full py-3.5 bg-[#e20613] text-white font-bold rounded-full shadow-lg hover:bg-[#c00410] active:scale-95 transition-all">🚀 НАЧАТЬ СМЕНУ</button>
       </div>
 
-      <!-- ACTIVE SHIFT CONTROLS -->
       <div id="activeShiftCard" class="hidden space-y-4">
-        
-        <!-- Full-width End Shift Button -->
         <button onclick="handleEndShift()" class="w-full py-3.5 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white font-extrabold rounded-2xl shadow-lg active:scale-[0.98] transition-all flex items-center justify-center space-x-2 text-base">
           <span>🛑 ЗАВЕРШИТЬ СМЕНУ</span>
         </button>
 
-        <!-- Timer & Call Counter Grid -->
         <div class="grid grid-cols-2 gap-3">
           <div class="md-card p-4 text-center relative overflow-hidden">
             <div class="flex items-center justify-center space-x-1 text-xs text-gray-400 font-bold mb-1">
@@ -227,12 +185,10 @@
           </div>
         </div>
 
-        <!-- GET CONTACT BUTTON -->
         <button onclick="getOrFetchNextContact()" id="getContactBtn" class="hidden w-full py-4 bg-[#e20613] text-white font-extrabold text-base rounded-2xl shadow-lg hover:bg-[#c00410] active:scale-95 transition-all flex items-center justify-center space-x-2">
           <span>📞 ПОЛУЧИТЬ КЛИЕНТА</span>
         </button>
 
-        <!-- CONTACT CARD CONTAINER -->
         <div id="contactCard" class="hidden md-card p-5 space-y-4 border border-red-100">
           <div class="flex justify-between items-start">
             <div>
@@ -249,60 +205,44 @@
             </button>
           </div>
 
-          <!-- Phone Number Box -->
           <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 flex items-center justify-between">
             <div>
               <div class="text-[10px] font-bold text-gray-400 uppercase">Номер телефона</div>
               <div id="contactPhoneDisplay" class="text-xl font-black text-gray-800 tracking-wider font-mono">+7 (999) 000-00-00</div>
             </div>
-            
-            <button onclick="copyPhoneToClipboard()" class="p-2.5 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-xl transition-colors" title="Скопировать номер">
-              📋
-            </button>
+            <button onclick="copyPhoneToClipboard()" class="p-2.5 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-xl transition-colors" title="Скопировать номер">📋</button>
           </div>
 
-          <!-- Direct Call Button -->
           <a id="callPhoneAnchor" href="tel:+70000000000" onclick="onCallInitiated()" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-2xl shadow-md flex items-center justify-center space-x-2 text-base transition-all active:scale-95">
             <span>📞 СОВЕРШИТЬ ЗВОНОК</span>
           </a>
 
-          <!-- CALL RESULT RECORDING FORM -->
           <div class="pt-3 border-t border-gray-100 space-y-3">
             <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider">Результат разговора</label>
             
-            <!-- BUTTONS GRID FOR MAIN STATUSES -->
             <div class="grid grid-cols-2 gap-2">
               <button type="button" onclick="toggleDozvonMenu()" id="btnStatusDozvon" class="status-btn p-3 bg-emerald-50 border-2 border-emerald-200 hover:border-emerald-500 text-emerald-800 font-bold rounded-xl text-xs flex items-center justify-between transition-all">
-                <span class="flex items-center space-x-1">
-                  <span>🟢</span>
-                  <span id="dozvonSelectedLabel">Дозвон</span>
-                </span>
+                <span class="flex items-center space-x-1">🟢<span id="dozvonSelectedLabel">Дозвон</span></span>
                 <span id="dozvonArrow" class="text-[10px]">▼</span>
               </button>
 
               <button type="button" onclick="selectMainStatus('Перезвонить')" id="btnStatusRecall" class="status-btn p-3 bg-amber-50 border-2 border-amber-200 hover:border-amber-500 text-amber-800 font-bold rounded-xl text-xs flex items-center space-x-1.5 transition-all">
-                <span>⏰</span>
-                <span>Перезвонить</span>
+                ⏰ Перезвонить
               </button>
 
               <button type="button" onclick="selectMainStatus('Недозвон')" id="btnStatusNoAnswer" class="status-btn p-3 bg-gray-50 border-2 border-gray-200 hover:border-gray-400 text-gray-700 font-bold rounded-xl text-xs flex items-center space-x-1.5 transition-all">
-                <span>📞</span>
-                <span>Недозвон</span>
+                📞 Недозвон
               </button>
 
               <button type="button" onclick="selectMainStatus('Автоответчик')" id="btnStatusAnsweringMachine" class="status-btn p-3 bg-gray-50 border-2 border-gray-200 hover:border-gray-400 text-gray-700 font-bold rounded-xl text-xs flex items-center space-x-1.5 transition-all">
-                <span>🤖</span>
-                <span>Автоответчик</span>
+                🤖 Автоответчик
               </button>
             </div>
 
-            <!-- Full-width ЧС button -->
             <button type="button" onclick="selectMainStatus('ЧС')" id="btnStatusBlacklist" class="status-btn w-full p-3 bg-rose-50 border-2 border-rose-200 hover:border-rose-500 text-rose-700 font-bold rounded-xl text-xs flex items-center justify-center space-x-2 transition-all">
-              <span>🚫</span>
-              <span>Убрать из обзвона (ЧС)</span>
+              🚫 Убрать из обзвона (ЧС)
             </button>
 
-            <!-- Collapsible Sub-menu for Дозвон Reasons -->
             <div id="dozvonSubMenu" class="hidden p-3 bg-emerald-50/70 border border-emerald-200 rounded-2xl space-y-2">
               <div class="text-[11px] font-bold text-emerald-900 uppercase tracking-wider text-center">Причина / Результат дозвона:</div>
               <div class="grid grid-cols-2 gap-1.5">
@@ -317,13 +257,11 @@
               </div>
             </div>
 
-            <!-- Recall DateTime Sub-form -->
             <div id="recallContainer" class="hidden space-y-2 bg-amber-50 p-3.5 rounded-xl border border-amber-200">
               <label class="block text-xs font-bold text-amber-800">📅 Дата и время перезвона</label>
               <input type="datetime-local" id="recallDatetime" class="w-full p-2.5 bg-white border border-amber-300 rounded-lg text-sm font-medium outline-none focus:ring-2 focus:ring-amber-500">
             </div>
 
-            <!-- Comment Input -->
             <div>
               <textarea id="callComment" rows="2" placeholder="Примечание к звонку (тариф, адрес, комментарий)..." class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#e20613]"></textarea>
             </div>
@@ -343,51 +281,23 @@
   <!-- CHANGELOG MODAL -->
   <div id="changelogModal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4 transition-all">
     <div class="bg-white w-full max-w-md rounded-3xl p-6 space-y-4 shadow-2xl transform transition-all border border-red-100">
-      
       <div class="flex items-center space-x-3">
-        <div class="w-12 h-12 bg-red-100 text-[#e20613] rounded-2xl flex items-center justify-center text-2xl font-black">
-          🚀
-        </div>
+        <div class="w-12 h-12 bg-red-100 text-[#e20613] rounded-2xl flex items-center justify-center text-2xl font-black">🚀</div>
         <div>
           <h3 class="text-lg font-black text-gray-900 leading-tight">Большое обновление!</h3>
-          <p class="text-xs text-[#e20613] font-bold">Версия 5.4 • Скоростной дайлер</p>
+          <p class="text-xs text-[#e20613] font-bold">Версия 5.5 • Исправление тарифов и дохода</p>
         </div>
       </div>
 
       <div class="space-y-3 text-xs text-gray-600 max-h-[60vh] overflow-y-auto pr-1">
         <div class="p-3 bg-red-50/60 rounded-2xl border border-red-100 space-y-1">
-          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1">
-            <span>⚡</span>
-            <span>Мгновенная работа интерфейса</span>
-          </div>
-          <p class="text-gray-600 leading-relaxed">
-            Загрузка контактов и сохранение результатов происходят **моментально** (0.01 сек) без ожидания ответа сервера!
-          </p>
+          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1"><span>💰</span><span>Полный расчёт дохода</span></div>
+          <p class="text-gray-600 leading-relaxed">Восстановлен прогресс ставок (100 ₽, 120 ₽, 150 ₽), индикатор коэффициента x1.5 за выходные дни и текущие часы.</p>
         </div>
 
         <div class="p-3 bg-gray-50 rounded-2xl border border-gray-200 space-y-1">
-          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1">
-            <span>📊</span>
-            <span>Учёт интенсивности звонков</span>
-          </div>
-          <p class="text-gray-600 leading-relaxed">
-            Интенсивность **ниже 60 звонков в час считается низкой** и подсвечивается. Держите темп 60+!
-          </p>
-        </div>
-
-        <div class="p-3 bg-gray-50 rounded-2xl border border-gray-200 space-y-1">
-          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1"><span>🏷️</span><span>Точные тарифы по городам</span></div>
-          <p class="text-gray-600 leading-relaxed">Справочник тарифов подбирает предложения строго под город текущего клиента!</p>
-        </div>
-
-        <div class="p-3 bg-gray-50 rounded-2xl border border-gray-200 space-y-1">
-          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1">
-            <span>⏱️</span>
-            <span>Контроль заброшенных смен</span>
-          </div>
-          <p class="text-gray-600 leading-relaxed">
-            Если смена была закрыта по неактивности (20 минут), приложение сразу уведомит вас всплывающим окном.
-          </p>
+          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1"><span>🏷️</span><span>Точные тарифы для каждого города</span></div>
+          <p class="text-gray-600 leading-relaxed">Тарифы теперь жестко фильтруются под город клиента без примешивания чужих городов.</p>
         </div>
       </div>
 
@@ -400,14 +310,10 @@
   <!-- MODAL: SHIFT AUTO CLOSED -->
   <div id="shiftClosedModal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-sm rounded-3xl p-6 text-center space-y-4 shadow-2xl">
-      <div class="w-14 h-14 bg-red-100 text-[#e20613] rounded-2xl flex items-center justify-center text-3xl mx-auto">
-        ⏱️
-      </div>
+      <div class="w-14 h-14 bg-red-100 text-[#e20613] rounded-2xl flex items-center justify-center text-3xl mx-auto">⏱️</div>
       <div>
         <h3 class="text-lg font-black text-gray-900">Смена закрылась автоматически</h3>
-        <p class="text-xs text-gray-500 mt-1 leading-relaxed">
-          Ваша смена была завершена из-за отсутствия активности (более 20 минут). Начните смену заново.
-        </p>
+        <p class="text-xs text-gray-500 mt-1 leading-relaxed">Ваша смена была завершена из-за отсутствия активности (более 20 минут). Начните смену заново.</p>
       </div>
       <button onclick="handleShiftClosedConfirm()" class="w-full py-3.5 bg-[#e20613] hover:bg-[#c00410] text-white font-bold rounded-2xl shadow-lg active:scale-95 transition-all">
         ОК, начать смену
@@ -419,121 +325,52 @@
   <div id="adminModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
     <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[90vh] flex flex-col space-y-4">
       <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
-      
       <div class="flex justify-between items-center border-b border-gray-100 pb-3">
-        <div class="flex items-center space-x-2">
-          <span class="text-xl">👑</span>
-          <h3 class="text-lg font-black text-gray-900">Панель Администратора</h3>
-        </div>
+        <div class="flex items-center space-x-2"><span class="text-xl">👑</span><h3 class="text-lg font-black text-gray-900">Панель Администратора</h3></div>
         <button onclick="closeAdminModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
       </div>
 
       <div class="grid grid-cols-3 gap-1 bg-gray-100 p-1 rounded-xl text-xs font-bold">
-        <button type="button" onclick="switchAdminTab('sheets')" id="adminTabSheets" class="py-2 text-center rounded-lg bg-white text-[#e20613] shadow-sm">
-          📁 Базы
-        </button>
-        <button type="button" onclick="switchAdminTab('users')" id="adminTabUsers" class="py-2 text-center rounded-lg text-gray-600 hover:bg-white/50">
-          👥 Пользователи
-        </button>
-        <button type="button" onclick="switchAdminTab('stats')" id="adminTabStats" class="py-2 text-center rounded-lg text-gray-600 hover:bg-white/50">
-          📊 Статистика
-        </button>
+        <button type="button" onclick="switchAdminTab('sheets')" id="adminTabSheets" class="py-2 text-center rounded-lg bg-white text-[#e20613] shadow-sm">📁 Базы</button>
+        <button type="button" onclick="switchAdminTab('users')" id="adminTabUsers" class="py-2 text-center rounded-lg text-gray-600 hover:bg-white/50">👥 Пользователи</button>
+        <button type="button" onclick="switchAdminTab('stats')" id="adminTabStats" class="py-2 text-center rounded-lg text-gray-600 hover:bg-white/50">📊 Статистика</button>
       </div>
 
       <div class="overflow-y-auto flex-grow space-y-4 pr-1">
         <div id="adminSectionSheets" class="space-y-3">
-          <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 font-medium leading-relaxed">
-            Выберите активную базу клиентов. Все операторы будут брать вызовы из выбранной базы.
-          </div>
-
+          <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 font-medium leading-relaxed">Выберите активную базу клиентов.</div>
           <div class="space-y-2">
             <button onclick="selectSheet('90+')" id="adminSheet90" class="w-full p-4 rounded-2xl border-2 text-left flex justify-between items-center transition-all border-gray-200 hover:border-[#e20613]">
-              <div>
-                <div class="font-black text-sm text-gray-800">База «90+»</div>
-                <div class="text-xs text-gray-500">Клиенты с давностью 90 дней</div>
-              </div>
+              <div><div class="font-black text-sm text-gray-800">База «90+»</div><div class="text-xs text-gray-500">Клиенты с давностью 90 дней</div></div>
               <span id="activeCheck90" class="text-lg"></span>
             </button>
-
             <button onclick="selectSheet('180+')" id="adminSheet180" class="w-full p-4 rounded-2xl border-2 text-left flex justify-between items-center transition-all border-gray-200 hover:border-[#e20613]">
-              <div>
-                <div class="font-black text-sm text-gray-800">База «180+»</div>
-                <div class="text-xs text-gray-500">Клиенты с давностью 180 дней</div>
-              </div>
+              <div><div class="font-black text-sm text-gray-800">База «180+»</div><div class="text-xs text-gray-500">Клиенты с давностью 180 дней</div></div>
               <span id="activeCheck180" class="text-lg"></span>
             </button>
-
             <button onclick="selectSheet('Закрытые')" id="adminSheetClosed" class="w-full p-4 rounded-2xl border-2 text-left flex justify-between items-center transition-all border-gray-200 hover:border-[#e20613]">
-              <div>
-                <div class="font-black text-sm text-gray-800">База «Закрытые»</div>
-                <div class="text-xs text-gray-500">Закрытые адреса и архив</div>
-              </div>
+              <div><div class="font-black text-sm text-gray-800">База «Закрытые»</div><div class="text-xs text-gray-500">Закрытые адреса и архив</div></div>
               <span id="activeCheckClosed" class="text-lg"></span>
             </button>
           </div>
         </div>
 
         <div id="adminSectionUsers" class="hidden space-y-3">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-bold text-gray-500 uppercase">Список операторов</span>
-            <button onclick="loadUsersList()" class="text-xs text-[#e20613] font-bold hover:underline">🔄 Обновить</button>
-          </div>
-
-          <div id="adminUsersList" class="space-y-2">
-            <div class="text-center py-6 text-xs text-gray-400">Загрузка пользователей...</div>
-          </div>
+          <div class="flex justify-between items-center"><span class="text-xs font-bold text-gray-500 uppercase">Список операторов</span><button onclick="loadUsersList()" class="text-xs text-[#e20613] font-bold hover:underline">🔄 Обновить</button></div>
+          <div id="adminUsersList" class="space-y-2"><div class="text-center py-6 text-xs text-gray-400">Загрузка пользователей...</div></div>
         </div>
 
         <div id="adminSectionStats" class="hidden space-y-4">
           <div class="grid grid-cols-2 gap-3">
-            <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center">
-              <div class="text-[10px] font-bold text-gray-400 uppercase">Всего операторов</div>
-              <div id="adminTotalUsers" class="text-xl font-black text-gray-800">0</div>
-            </div>
-            <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center">
-              <div class="text-[10px] font-bold text-gray-400 uppercase">Всего смен</div>
-              <div id="adminTotalShifts" class="text-xl font-black text-[#e20613]">0</div>
-            </div>
-          </div>
-
-          <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 space-y-3">
-            <div class="flex justify-between items-center border-b border-gray-200 pb-2">
-              <span id="adminDbStatsTitle" class="font-bold text-xs text-gray-800 uppercase tracking-wider">Статистика базы «90+»</span>
-              <button onclick="loadAdminStats()" class="text-xs text-[#e20613] font-bold hover:underline">🔄 Обновить</button>
-            </div>
-
-            <div class="grid grid-cols-3 gap-2 text-center">
-              <div class="bg-white p-2.5 rounded-xl border border-gray-100">
-                <div class="text-[10px] text-gray-400 font-bold uppercase">Всего</div>
-                <div id="adminDbTotal" class="text-base font-black text-gray-800">0</div>
-              </div>
-              <div class="bg-white p-2.5 rounded-xl border border-gray-100">
-                <div class="text-[10px] text-emerald-600 font-bold uppercase">Отработано</div>
-                <div id="adminDbDone" class="text-base font-black text-emerald-600">0</div>
-              </div>
-              <div class="bg-white p-2.5 rounded-xl border border-gray-100">
-                <div class="text-[10px] text-amber-600 font-bold uppercase">Осталось</div>
-                <div id="adminDbRemaining" class="text-base font-black text-amber-600">0</div>
-              </div>
-            </div>
-
-            <div>
-              <div class="flex justify-between text-[10px] font-bold text-gray-500 mb-1">
-                <span>Прогресс обзвона</span>
-                <span id="adminDbPercent">0%</span>
-              </div>
-              <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
-                <div id="adminDbProgressBar" class="bg-[#e20613] h-full transition-all duration-500" style="width: 0%"></div>
-              </div>
-            </div>
+            <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center"><div class="text-[10px] font-bold text-gray-400 uppercase">Всего операторов</div><div id="adminTotalUsers" class="text-xl font-black text-gray-800">0</div></div>
+            <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center"><div class="text-[10px] font-bold text-gray-400 uppercase">Всего смен</div><div id="adminTotalShifts" class="text-xl font-black text-[#e20613]">0</div></div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
 
-  <!-- INCOME CALCULATOR MODAL -->
+  <!-- ВОССТАНОВЛЕННЫЙ ПОЛНЫЙ МОДАЛ РАСЧЁТА ДОХОДА -->
   <div id="incomeModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
     <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
       <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
@@ -555,11 +392,22 @@
           <div id="totalHoursMonthDisplay" class="text-xs text-gray-600 font-medium mt-1">Отработано: 0 ч. 0 мин.</div>
         </div>
 
-        <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 space-y-1">
-          <div class="font-bold text-gray-800">📊 Сетка ставок по часам:</div>
-          <p>• 1 – 79 часов: <strong class="text-gray-900">100 ₽/час</strong></p>
-          <p>• 80 – 89 часов: <strong class="text-gray-900">120 ₽/час</strong></p>
-          <p>• 90+ часов: <strong class="text-gray-900">150 ₽/час</strong></p>
+        <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-200 space-y-2">
+          <div class="font-bold text-gray-800 flex justify-between items-center">
+            <span>📊 Сетка ставок по часам:</span>
+            <span id="currentRateBadge" class="bg-red-100 text-[#e20613] text-[10px] font-black px-2 py-0.5 rounded-full">Ставка: 100 ₽/ч</span>
+          </div>
+          <p id="rateStep1">• 1 – 79 часов: <strong class="text-gray-900">100 ₽/час</strong></p>
+          <p id="rateStep2">• 80 – 89 часов: <strong class="text-gray-900">120 ₽/час</strong></p>
+          <p id="rateStep3">• 90+ часов: <strong class="text-gray-900">150 ₽/час</strong></p>
+          <div class="p-2 bg-amber-50 rounded-lg border border-amber-200 text-amber-900 font-bold text-[11px] flex items-center justify-between">
+            <span>⭐ Выходные дни (сб, вс):</span>
+            <span class="bg-amber-200 text-amber-900 px-1.5 py-0.5 rounded font-black">Коэффициент x1.5</span>
+          </div>
+        </div>
+
+        <div id="rateProgressNotice" class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 font-medium">
+          Загрузка расчета ставок...
         </div>
       </div>
     </div>
@@ -569,22 +417,11 @@
   <div id="statsModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
     <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
       <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
-      
-      <div class="flex justify-between items-center">
-        <h3 class="text-lg font-black text-gray-900">📊 Моя Статистика</h3>
-        <button onclick="closeStatsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
-      </div>
-
+      <div class="flex justify-between items-center"><h3 class="text-lg font-black text-gray-900">📊 Моя Статистика</h3><button onclick="closeStatsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button></div>
       <div class="space-y-3">
         <div class="grid grid-cols-2 gap-3">
-          <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center">
-            <div class="text-[10px] font-bold text-gray-400 uppercase">Звонков за смену</div>
-            <div id="statsCallsCount" class="text-xl font-black text-gray-800">0</div>
-          </div>
-          <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center">
-            <div class="text-[10px] font-bold text-gray-400 uppercase">Звонков в час</div>
-            <div id="statsCallsPerHour" class="text-xl font-black text-[#e20613]">0.0</div>
-          </div>
+          <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center"><div class="text-[10px] font-bold text-gray-400 uppercase">Звонков за смену</div><div id="statsCallsCount" class="text-xl font-black text-gray-800">0</div></div>
+          <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center"><div class="text-[10px] font-bold text-gray-400 uppercase">Звонков в час</div><div id="statsCallsPerHour" class="text-xl font-black text-[#e20613]">0.0</div></div>
         </div>
       </div>
     </div>
@@ -594,17 +431,11 @@
   <div id="tariffsModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
     <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
       <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
-      
-      <div class="flex justify-between items-center">
-        <h3 class="text-lg font-black text-gray-900">🏷️ Справочник Тарифов ТТК</h3>
-        <button onclick="closeTariffsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
-      </div>
-
+      <div class="flex justify-between items-center"><h3 class="text-lg font-black text-gray-900">🏷️ Справочник Тарифов ТТК</h3><button onclick="closeTariffsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button></div>
       <div class="relative">
         <input type="text" id="tariffSearchInput" oninput="filterTariffs()" placeholder="Поиск по городу..." class="w-full pl-10 pr-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#e20613]">
         <span class="absolute left-3 top-2.5 text-gray-400">🔍</span>
       </div>
-
       <div id="tariffsListContainer" class="overflow-y-auto space-y-3 pr-1 flex-grow"></div>
     </div>
   </div>
@@ -613,17 +444,9 @@
   <div id="faqModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
     <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
       <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
-      
-      <div class="flex justify-between items-center">
-        <h3 class="text-lg font-black text-gray-900">❓ Памятка по работе</h3>
-        <button onclick="closeFaqModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
-      </div>
-
+      <div class="flex justify-between items-center"><h3 class="text-lg font-black text-gray-900">❓ Памятка по работе</h3><button onclick="closeFaqModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button></div>
       <div class="overflow-y-auto space-y-3 text-xs text-gray-600 pr-1 leading-relaxed">
-        <div class="p-3 bg-gray-50 rounded-xl border border-gray-200">
-          <strong class="text-gray-800 text-sm block mb-1">⏱️ Рабочая смена</strong>
-          Нажмите «Начать смену». По завершении нажимайте «Завершить смену».
-        </div>
+        <div class="p-3 bg-gray-50 rounded-xl border border-gray-200"><strong class="text-gray-800 text-sm block mb-1">⏱️ Рабочая смена</strong>Нажмите «Начать смену». По завершении нажимайте «Завершить смену».</div>
       </div>
     </div>
   </div>
@@ -645,7 +468,7 @@
   <!-- JAVASCRIPT LOGIC -->
   <script>
     const DEFAULT_SERVER_URL = "https://script.google.com/macros/s/AKfycbxrW0RzQQsWaJSvUHsu63yyTpybcvoK1R2nwDgf3xAU6PgMZb2Wx6vZV8stp28c2cqH/exec";
-    const CURRENT_APP_VERSION = "5.4_full_ui_fix";
+    const CURRENT_APP_VERSION = "5.5_full_ui_fix";
 
     let currentUser = null;
     let currentShift = null;
@@ -1176,6 +999,7 @@
       });
     }
 
+    // 🏷️ СТРОГАЯ ЗАГРУЗКА ТАРИФОВ ПО ГОРОДУ
     async function openTariffsModal() {
       document.getElementById('tariffsModal').classList.remove('hidden');
       const currentCity = currentContact ? normalizeContact(currentContact).city : '';
@@ -1201,7 +1025,7 @@
       }
 
       if (filtered.length === 0) {
-        container.innerHTML = '<div class="text-center py-6 text-xs text-gray-400">Тарифы не найдены</div>';
+        container.innerHTML = '<div class="text-center py-6 text-xs text-gray-400">Тарифы для этого города не найдены</div>';
         return;
       }
 
@@ -1221,6 +1045,66 @@
         `;
         container.appendChild(card);
       });
+    }
+
+    // 💰 ВОССТАНОВЛЕННАЯ ФУНКЦИЯ ОТОБРАЖЕНИЯ ДОХОДА СО СТАВКАМИ
+    async function openIncomeModal() { 
+      document.getElementById('incomeModal').classList.remove('hidden'); 
+      await fetchMonthlyIncome(); 
+    }
+
+    async function fetchMonthlyIncome() {
+      const monthStr = document.getElementById('incomeMonthSelect').value;
+      const notice = document.getElementById('rateProgressNotice');
+      notice.innerHTML = 'Загрузка данных...';
+
+      const res = await apiRequest('getUserMonthlyIncome', {
+        agentName: currentUser.fullName || currentUser.login,
+        yearMonth: monthStr,
+        activeShiftMinutes: currentShift ? Math.floor((Date.now() - currentShift.startTime) / 60000) : 0
+      });
+
+      if (res.success) {
+        const totalMin = res.totalMinutes || 0;
+        const hrs = parseFloat(res.totalHours || (totalMin / 60).toFixed(1));
+        const currentRate = res.rate || 100;
+
+        document.getElementById('calculatedIncomeDisplay').innerText = `${res.income || 0} ₽`;
+        document.getElementById('totalHoursMonthDisplay').innerText = `Отработано: ${Math.floor(totalMin / 60)} ч. ${totalMin % 60} мин.`;
+        document.getElementById('currentRateBadge').innerText = `Ставка: ${currentRate} ₽/ч`;
+
+        // Подсветка активной ставки
+        document.getElementById('rateStep1').className = currentRate === 100 ? 'font-black text-[#e20613]' : '';
+        document.getElementById('rateStep2').className = currentRate === 120 ? 'font-black text-[#e20613]' : '';
+        document.getElementById('rateStep3').className = currentRate === 150 ? 'font-black text-[#e20613]' : '';
+
+        if (hrs < 80) {
+          const hoursLeft = (80 - hrs).toFixed(1);
+          notice.innerHTML = `💡 Отработайте ещё <strong>${hoursLeft} ч.</strong> для перехода на ставку <strong>120 ₽/час</strong>!`;
+        } else if (hrs < 90) {
+          const hoursLeft = (90 - hrs).toFixed(1);
+          notice.innerHTML = `🔥 Отличный результат! Ещё <strong>${hoursLeft} ч.</strong> до максимальной ставки <strong>150 ₽/час</strong>!`;
+        } else {
+          notice.innerHTML = `🎉 У вас максимальная ставка <strong>150 ₽/час</strong>!`;
+        }
+      }
+    }
+
+    function closeIncomeModal() { document.getElementById('incomeModal').classList.add('hidden'); }
+    function openStatsModal() {
+      document.getElementById('statsCallsCount').innerText = currentShift?.callsCount || 0;
+      document.getElementById('statsCallsPerHour').innerText = (currentShift?.callsCount || 0).toFixed(1);
+      document.getElementById('statsModal').classList.remove('hidden');
+    }
+    function closeStatsModal() { document.getElementById('statsModal').classList.add('hidden'); }
+
+    function openFaqModal() { document.getElementById('faqModal').classList.remove('hidden'); }
+    function closeFaqModal() { document.getElementById('faqModal').classList.add('hidden'); }
+    function openServerModal() { document.getElementById('serverUrlInput').value = getServerUrl(); document.getElementById('serverModal').classList.remove('hidden'); }
+    function closeServerModal() { document.getElementById('serverModal').classList.add('hidden'); }
+    function saveServerUrl() {
+      const val = document.getElementById('serverUrlInput').value.trim();
+      if (val) { safeSet('ttk_server_url', val); showToast('URL Сервера сохранен!', 'success'); closeServerModal(); }
     }
 
     function openAdminModal() { updateAdminSheetUI(); document.getElementById('adminModal').classList.remove('hidden'); switchAdminTab('sheets'); }
@@ -1296,39 +1180,6 @@
           document.getElementById('adminDbProgressBar').style.width = `${db.percent || 0}%`;
         }
       }
-    }
-
-    async function openIncomeModal() { document.getElementById('incomeModal').classList.remove('hidden'); await fetchMonthlyIncome(); }
-    async function fetchMonthlyIncome() {
-      const monthStr = document.getElementById('incomeMonthSelect').value;
-      const res = await apiRequest('getUserMonthlyIncome', {
-        agentName: currentUser.fullName || currentUser.login,
-        yearMonth: monthStr,
-        activeShiftMinutes: currentShift ? Math.floor((Date.now() - currentShift.startTime) / 60000) : 0
-      });
-
-      if (res.success) {
-        const totalMin = res.totalMinutes || 0;
-        document.getElementById('calculatedIncomeDisplay').innerText = `${res.income || 0} ₽`;
-        document.getElementById('totalHoursMonthDisplay').innerText = `Отработано: ${Math.floor(totalMin / 60)} ч. ${totalMin % 60} мин.`;
-      }
-    }
-
-    function closeIncomeModal() { document.getElementById('incomeModal').classList.add('hidden'); }
-    function openStatsModal() {
-      document.getElementById('statsCallsCount').innerText = currentShift?.callsCount || 0;
-      document.getElementById('statsCallsPerHour').innerText = (currentShift?.callsCount || 0).toFixed(1);
-      document.getElementById('statsModal').classList.remove('hidden');
-    }
-    function closeStatsModal() { document.getElementById('statsModal').classList.add('hidden'); }
-
-    function openFaqModal() { document.getElementById('faqModal').classList.remove('hidden'); }
-    function closeFaqModal() { document.getElementById('faqModal').classList.add('hidden'); }
-    function openServerModal() { document.getElementById('serverUrlInput').value = getServerUrl(); document.getElementById('serverModal').classList.remove('hidden'); }
-    function closeServerModal() { document.getElementById('serverModal').classList.add('hidden'); }
-    function saveServerUrl() {
-      const val = document.getElementById('serverUrlInput').value.trim();
-      if (val) { safeSet('ttk_server_url', val); showToast('URL Сервера сохранен!', 'success'); closeServerModal(); }
     }
   </script>
 </body>
