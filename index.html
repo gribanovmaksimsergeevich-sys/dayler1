@@ -360,15 +360,51 @@
           <div id="adminUsersList" class="space-y-2"><div class="text-center py-6 text-xs text-gray-400">Загрузка пользователей...</div></div>
         </div>
 
-        <div id="adminSectionStats" class="hidden space-y-4">
+       <div id="adminSectionStats" class="hidden space-y-4">
           <div class="grid grid-cols-2 gap-3">
-            <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center"><div class="text-[10px] font-bold text-gray-400 uppercase">Всего операторов</div><div id="adminTotalUsers" class="text-xl font-black text-gray-800">0</div></div>
-            <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center"><div class="text-[10px] font-bold text-gray-400 uppercase">Всего смен</div><div id="adminTotalShifts" class="text-xl font-black text-[#e20613]">0</div></div>
+            <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center">
+              <div class="text-[10px] font-bold text-gray-400 uppercase">Всего операторов</div>
+              <div id="adminTotalUsers" class="text-xl font-black text-gray-800">0</div>
+            </div>
+            <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center">
+              <div class="text-[10px] font-bold text-gray-400 uppercase">Всего смен</div>
+              <div id="adminTotalShifts" class="text-xl font-black text-[#e20613]">0</div>
+            </div>
+          </div>
+
+          <!-- Блок статистики выбранной базы -->
+          <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 space-y-3">
+            <div class="flex justify-between items-center border-b border-gray-200 pb-2">
+              <span id="adminDbStatsTitle" class="font-bold text-xs text-gray-800 uppercase tracking-wider">Статистика базы</span>
+              <button onclick="loadAdminStats()" class="text-xs text-[#e20613] font-bold hover:underline">🔄 Обновить</button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 text-center">
+              <div class="bg-white p-2.5 rounded-xl border border-gray-100">
+                <div class="text-[10px] text-gray-400 font-bold uppercase">Всего</div>
+                <div id="adminDbTotal" class="text-base font-black text-gray-800">0</div>
+              </div>
+              <div class="bg-white p-2.5 rounded-xl border border-gray-100">
+                <div class="text-[10px] text-emerald-600 font-bold uppercase">Отработано</div>
+                <div id="adminDbDone" class="text-base font-black text-emerald-600">0</div>
+              </div>
+              <div class="bg-white p-2.5 rounded-xl border border-gray-100">
+                <div class="text-[10px] text-amber-600 font-bold uppercase">Осталось</div>
+                <div id="adminDbRemaining" class="text-base font-black text-amber-600">0</div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-[10px] font-bold text-gray-500 mb-1">
+                <span>Прогресс обзвона</span>
+                <span id="adminDbPercent">0%</span>
+              </div>
+              <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                <div id="adminDbProgressBar" class="bg-[#e20613] h-full transition-all duration-500" style="width: 0%"></div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
 
   <!-- ВОССТАНОВЛЕННЫЙ ПОЛНЫЙ МОДАЛ РАСЧЁТА ДОХОДА -->
   <div id="incomeModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
@@ -1166,10 +1202,15 @@
     }
 
     async function loadAdminStats() {
+      const titleEl = document.getElementById('adminDbStatsTitle');
+      if (titleEl) titleEl.innerText = `Загрузка базы «${selectedSheet}»...`;
+
       const res = await apiRequest('getAdminAnalytics', { sheetName: selectedSheet });
-      if (res.success && res.analytics) {
+
+      if (res && res.success && res.analytics) {
         document.getElementById('adminTotalUsers').innerText = res.analytics.totalUsers || '0';
         document.getElementById('adminTotalShifts').innerText = res.analytics.totalShifts || '0';
+
         if (res.analytics.dbStats) {
           const db = res.analytics.dbStats;
           document.getElementById('adminDbStatsTitle').innerText = `Статистика базы «${db.sheetName || selectedSheet}»`;
@@ -1179,6 +1220,8 @@
           document.getElementById('adminDbPercent').innerText = `${db.percent || 0}%`;
           document.getElementById('adminDbProgressBar').style.width = `${db.percent || 0}%`;
         }
+      } else {
+        showToast('Не удалось загрузить статистику базы', 'error');
       }
     }
   </script>
