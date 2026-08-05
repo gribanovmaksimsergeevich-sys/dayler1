@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>ТТК Дайлер</title>
+  <title>Дайлер</title>
   
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="ТТК Дайлер">
+  <meta name="apple-mobile-web-app-title" content="Дайлер">
   <meta name="theme-color" content="#e20613">
   
   <link rel="icon" type="image/png" href="icon.png">
@@ -51,9 +51,9 @@
   <!-- PWA Install Banner -->
   <div id="pwaInstallBanner" class="hidden bg-gray-900 text-white p-3.5 px-4 flex items-center justify-between shadow-lg sticky top-0 z-50 border-b border-gray-800">
     <div class="flex items-center space-x-3">
-      <img src="icon.png" onerror="this.src='https://placehold.co/80x80/e20613/ffffff?text=ТТК'" class="w-10 h-10 rounded-xl shadow border border-white/20">
+      <img src="icon.png" onerror="this.src='https://placehold.co/80x80/e20613/ffffff?text=ВСВ'" class="w-10 h-10 rounded-xl shadow border border-white/20">
       <div>
-        <div class="font-bold text-sm leading-tight">ТТК Дайлер</div>
+        <div class="font-bold text-sm leading-tight">Дайлер</div>
         <div class="text-xs text-gray-300">Установите приложение для удобной работы</div>
       </div>
     </div>
@@ -74,7 +74,7 @@
         </svg>
       </div>
       <div>
-        <h1 class="font-black text-base md:text-lg tracking-wide leading-none">ТТК ДАЙЛЕР</h1>
+        <h1 class="font-black text-base md:text-lg tracking-wide leading-none">ДАЙЛЕР</h1>
         <p class="text-[10px] text-white/80 font-medium">Рабочее место оператора</p>
       </div>
     </div>
@@ -150,7 +150,7 @@
     <section id="dashboardSection" class="hidden space-y-4">
       <div class="md-card p-4 flex items-center justify-between border-l-4 border-[#e20613]">
         <div>
-          <div id="agentNameDisplay" class="font-bold text-gray-800 text-base">Оператор ТТК</div>
+          <div id="agentNameDisplay" class="font-bold text-gray-800 text-base">Оператор</div>
           <div id="agentRoleBadge" class="text-xs font-semibold text-gray-500">Агент</div>
         </div>
         <button onclick="handleLogout()" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-3 py-2 rounded-full transition-colors">Выйти 🚪</button>
@@ -249,7 +249,7 @@
                 <button type="button" onclick="selectDozvonReason('Согласие')" id="reason_Согласие" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">✅ Согласие / Заявка</button>
                 <button type="button" onclick="selectDozvonReason('Отказ')" id="reason_Отказ" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">❌ Отказ</button>
                 <button type="button" onclick="selectDozvonReason('Сбросили')" id="reason_Сбросили" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">📵 Сбросили</button>
-                <button type="button" onclick="selectDozvonReason('Абонент ТТК')" id="reason_Абонент_ТТК" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">🌐 Абонент ТТК</button>
+                <button type="button" onclick="selectDozvonReason('Абонент НАШ')" id="reason_Абонент_НАШ" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">🌐 Абонент НАШ</button>
                 <button type="button" onclick="selectDozvonReason('Дорого')" id="reason_Дорого" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">💰 Дорого</button>
                 <button type="button" onclick="selectDozvonReason('Качество')" id="reason_Качество" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">👎 Качество</button>
                 <button type="button" onclick="selectDozvonReason('Подумает')" id="reason_Подумает" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">🤔 Подумает</button>
@@ -467,7 +467,7 @@
   <div id="tariffsModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
     <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
       <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
-      <div class="flex justify-between items-center"><h3 class="text-lg font-black text-gray-900">🏷️ Справочник Тарифов ТТК</h3><button onclick="closeTariffsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button></div>
+      <div class="flex justify-between items-center"><h3 class="text-lg font-black text-gray-900">🏷️ Справочник Тарифов </h3><button onclick="closeTariffsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button></div>
       <div class="relative">
         <input type="text" id="tariffSearchInput" oninput="filterTariffs()" placeholder="Поиск по городу..." class="w-full pl-10 pr-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#e20613]">
         <span class="absolute left-3 top-2.5 text-gray-400">🔍</span>
