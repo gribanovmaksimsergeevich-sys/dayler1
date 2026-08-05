@@ -51,14 +51,14 @@
   <!-- PWA Install Banner -->
   <div id="pwaInstallBanner" class="hidden bg-gray-900 text-white p-3.5 px-4 flex items-center justify-between shadow-lg sticky top-0 z-50 border-b border-gray-800">
     <div class="flex items-center space-x-3">
-      <img src="icon.png" onerror="this.src='https://placehold.co/80x80/e20613/ffffff?text=ВСВ'" class="w-10 h-10 rounded-xl shadow border border-white/20">
+      <img src="icon.png" onerror="this.src='https://placehold.co/80x80/e20613/ffffff?text=CALL'" class="w-10 h-10 rounded-xl shadow border border-white/20">
       <div>
         <div class="font-bold text-sm leading-tight">Дайлер</div>
         <div class="text-xs text-gray-300">Установите приложение для удобной работы</div>
       </div>
     </div>
     <div class="flex items-center space-x-2">
-      <button onclick="installPWA()" class="bg-[#e20613] hover:bg-[#c00410] text-white text-xs font-bold px-3.5 py-2 rounded-full shadow transition-all active:scale-95">
+      <button id="pwaInstallBtn" onclick="installPWA()" class="bg-[#e20613] hover:bg-[#c00410] text-white text-xs font-bold px-3.5 py-2 rounded-full shadow transition-all active:scale-95">
         Установить
       </button>
       <button onclick="dismissInstallBanner()" class="text-gray-400 hover:text-white p-1 text-lg">✕</button>
@@ -93,12 +93,16 @@
         <span>📈</span>
         <span class="hidden sm:inline">Общая стата</span>
       </a>
-      <button onclick="openFaqModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white/90" title="Справка">❓</button>
+      <button onclick="openFaqModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white/90" title="Справка">
+        ❓
+      </button>
       <button id="adminPanelBtn" onclick="openAdminModal()" class="hidden p-2 hover:bg-white/10 rounded-full transition-colors text-amber-300 font-bold flex items-center space-x-1" title="Панель администратора">
         <span>👑</span>
         <span class="hidden sm:inline">Админка</span>
       </button>
-      <button id="serverConfigBtn" onclick="openServerModal()" class="hidden p-2 hover:bg-white/10 rounded-full transition-colors text-white/90" title="Настройки сервера">⚙️</button>
+      <button id="serverConfigBtn" onclick="openServerModal()" class="hidden p-2 hover:bg-white/10 rounded-full transition-colors text-white/90" title="Настройки сервера">
+        ⚙️
+      </button>
     </div>
   </header>
 
@@ -200,7 +204,7 @@
               </div>
             </div>
             
-            <button onclick="openTariffsModal()" class="bg-red-50 hover:bg-red-100 text-[#e20613] p-2.5 rounded-xl text-xs font-bold flex items-center space-x-1 border border-red-200 transition-colors">
+            <button type="button" onclick="openTariffsModal()" class="bg-red-50 hover:bg-red-100 text-[#e20613] p-2.5 rounded-xl text-xs font-bold flex items-center space-x-1 border border-red-200 transition-colors">
               <span>🏷️ Тарифы</span>
             </button>
           </div>
@@ -243,13 +247,14 @@
               🚫 Убрать из обзвона (ЧС)
             </button>
 
+            <!-- Обновлённое подменю: «Действующий абонент» вместо «Абонент ТТК» -->
             <div id="dozvonSubMenu" class="hidden p-3 bg-emerald-50/70 border border-emerald-200 rounded-2xl space-y-2">
               <div class="text-[11px] font-bold text-emerald-900 uppercase tracking-wider text-center">Причина / Результат дозвона:</div>
               <div class="grid grid-cols-2 gap-1.5">
                 <button type="button" onclick="selectDozvonReason('Согласие')" id="reason_Согласие" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">✅ Согласие / Заявка</button>
                 <button type="button" onclick="selectDozvonReason('Отказ')" id="reason_Отказ" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">❌ Отказ</button>
                 <button type="button" onclick="selectDozvonReason('Сбросили')" id="reason_Сбросили" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">📵 Сбросили</button>
-                <button type="button" onclick="selectDozvonReason('Абонент НАШ')" id="reason_Абонент_НАШ" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">🌐 Абонент НАШ</button>
+                <button type="button" onclick="selectDozvonReason('Действующий абонент')" id="reason_Действующий_абонент" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">🌐 Действующий абонент</button>
                 <button type="button" onclick="selectDozvonReason('Дорого')" id="reason_Дорого" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">💰 Дорого</button>
                 <button type="button" onclick="selectDozvonReason('Качество')" id="reason_Качество" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">👎 Качество</button>
                 <button type="button" onclick="selectDozvonReason('Подумает')" id="reason_Подумает" class="dozvon-reason-btn p-2 bg-white border border-emerald-300 hover:bg-emerald-100 rounded-xl text-[11px] font-bold text-emerald-800 text-left">🤔 Подумает</button>
@@ -284,25 +289,20 @@
       <div class="flex items-center space-x-3">
         <div class="w-12 h-12 bg-red-100 text-[#e20613] rounded-2xl flex items-center justify-center text-2xl font-black">🚀</div>
         <div>
-          <h3 class="text-lg font-black text-gray-900 leading-tight">Большое обновление!</h3>
-          <p class="text-xs text-[#e20613] font-bold">Версия 5.5 • Исправление тарифов и дохода</p>
+          <h3 class="text-lg font-black text-gray-900 leading-tight">Обновление интерфейса!</h3>
+          <p class="text-xs text-[#e20613] font-bold">Версия 5.7 • Ребрендинг + PWA Android</p>
         </div>
       </div>
 
       <div class="space-y-3 text-xs text-gray-600 max-h-[60vh] overflow-y-auto pr-1">
         <div class="p-3 bg-red-50/60 rounded-2xl border border-red-100 space-y-1">
-          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1"><span>💰</span><span>Полный расчёт дохода</span></div>
-          <p class="text-gray-600 leading-relaxed">Восстановлен прогресс ставок (100 ₽, 120 ₽, 150 ₽), индикатор коэффициента x1.5 за выходные дни и текущие часы.</p>
-        </div>
-
-        <div class="p-3 bg-gray-50 rounded-2xl border border-gray-200 space-y-1">
-          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1"><span>🏷️</span><span>Точные тарифы для каждого города</span></div>
-          <p class="text-gray-600 leading-relaxed">Тарифы теперь жестко фильтруются под город клиента без примешивания чужих городов.</p>
+          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1"><span>📱</span><span>Нативная установка на Android</span></div>
+          <p class="text-gray-600 leading-relaxed">Исправлена установка PWA-приложения. Теперь окно установки корректно появляется на устройствах Android.</p>
         </div>
       </div>
 
       <button onclick="closeChangelogModal()" class="w-full py-3.5 bg-[#e20613] hover:bg-[#c00410] text-white font-black text-sm rounded-2xl shadow-lg active:scale-95 transition-all">
-        Понятно, начать работу! 🔥
+        Отлично, к работе! 🔥
       </button>
     </div>
   </div>
@@ -360,19 +360,12 @@
           <div id="adminUsersList" class="space-y-2"><div class="text-center py-6 text-xs text-gray-400">Загрузка пользователей...</div></div>
         </div>
 
-       <div id="adminSectionStats" class="hidden space-y-4">
+        <div id="adminSectionStats" class="hidden space-y-4">
           <div class="grid grid-cols-2 gap-3">
-            <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center">
-              <div class="text-[10px] font-bold text-gray-400 uppercase">Всего операторов</div>
-              <div id="adminTotalUsers" class="text-xl font-black text-gray-800">0</div>
-            </div>
-            <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center">
-              <div class="text-[10px] font-bold text-gray-400 uppercase">Всего смен</div>
-              <div id="adminTotalShifts" class="text-xl font-black text-[#e20613]">0</div>
-            </div>
+            <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center"><div class="text-[10px] font-bold text-gray-400 uppercase">Всего операторов</div><div id="adminTotalUsers" class="text-xl font-black text-gray-800">0</div></div>
+            <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center"><div class="text-[10px] font-bold text-gray-400 uppercase">Всего смен</div><div id="adminTotalShifts" class="text-xl font-black text-[#e20613]">0</div></div>
           </div>
 
-          <!-- Блок статистики выбранной базы -->
           <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 space-y-3">
             <div class="flex justify-between items-center border-b border-gray-200 pb-2">
               <span id="adminDbStatsTitle" class="font-bold text-xs text-gray-800 uppercase tracking-wider">Статистика базы</span>
@@ -405,8 +398,11 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
 
-  <!-- ВОССТАНОВЛЕННЫЙ ПОЛНЫЙ МОДАЛ РАСЧЁТА ДОХОДА -->
+  <!-- INCOME CALCULATOR MODAL -->
   <div id="incomeModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
     <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
       <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
@@ -463,11 +459,11 @@
     </div>
   </div>
 
-  <!-- TARIFFS MODAL -->
+  <!-- TARIFFS MODAL (Заголовок «Справочник Тарифов») -->
   <div id="tariffsModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
     <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
       <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
-      <div class="flex justify-between items-center"><h3 class="text-lg font-black text-gray-900">🏷️ Справочник Тарифов </h3><button onclick="closeTariffsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button></div>
+      <div class="flex justify-between items-center"><h3 class="text-lg font-black text-gray-900">🏷️ Справочник Тарифов</h3><button onclick="closeTariffsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button></div>
       <div class="relative">
         <input type="text" id="tariffSearchInput" oninput="filterTariffs()" placeholder="Поиск по городу..." class="w-full pl-10 pr-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#e20613]">
         <span class="absolute left-3 top-2.5 text-gray-400">🔍</span>
@@ -504,7 +500,7 @@
   <!-- JAVASCRIPT LOGIC -->
   <script>
     const DEFAULT_SERVER_URL = "https://script.google.com/macros/s/AKfycbxrW0RzQQsWaJSvUHsu63yyTpybcvoK1R2nwDgf3xAU6PgMZb2Wx6vZV8stp28c2cqH/exec";
-    const CURRENT_APP_VERSION = "5.5_full_ui_fix";
+    const CURRENT_APP_VERSION = "5.7_pwa_fix";
 
     let currentUser = null;
     let currentShift = null;
@@ -657,20 +653,44 @@
       }
     }
 
+    // ИСПРАВЛЕННАЯ ЛОГИКА PWA ДЛЯ ANDROID
     function initPWA() {
-      window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; showInstallBanner(); });
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        showInstallBanner();
+      });
+
+      window.addEventListener('appinstalled', () => {
+        deferredPrompt = null;
+        dismissInstallBanner();
+        showToast('Приложение успешно установлено!', 'success');
+      });
+
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-      if (!isStandalone) showInstallBanner();
+      if (isStandalone) {
+        dismissInstallBanner();
+      }
     }
 
-    function showInstallBanner() { document.getElementById('pwaInstallBanner')?.classList.remove('hidden'); }
-    function dismissInstallBanner() { document.getElementById('pwaInstallBanner')?.classList.add('hidden'); }
+    function showInstallBanner() {
+      document.getElementById('pwaInstallBanner')?.classList.remove('hidden');
+    }
+
+    function dismissInstallBanner() {
+      document.getElementById('pwaInstallBanner')?.classList.add('hidden');
+    }
 
     async function installPWA() {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') { deferredPrompt = null; dismissInstallBanner(); }
+      if (!deferredPrompt) {
+        showToast('Используйте меню браузера: "Добавить на гл. экран"', 'info');
+        return;
+      }
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        deferredPrompt = null;
+        dismissInstallBanner();
       }
     }
 
@@ -923,9 +943,7 @@
 
       const callAnchor = document.getElementById('callPhoneAnchor');
       const cleanPhoneForDial = norm.dialable.replace(/[^\d+]/g, '');
-      const sipUri = `sip:${cleanPhoneForDial}@20vatc006325-001.cloudpbx.ttk.ru`;
-      
-      callAnchor.href = /iPhone|iPad|iPod/i.test(navigator.userAgent) ? sipUri : `tel:${cleanPhoneForDial}`;
+      callAnchor.href = `tel:${cleanPhoneForDial}`;
 
       document.getElementById('contactCard').classList.remove('hidden');
       document.getElementById('getContactBtn').classList.add('hidden');
@@ -1035,20 +1053,24 @@
       });
     }
 
-    // 🏷️ СТРОГАЯ ЗАГРУЗКА ТАРИФОВ ПО ГОРОДУ
-    async function openTariffsModal() {
+    // --- МОДАЛЬНЫЕ ОКНА: ОТКРЫТИЕ И ЗАКРЫТИЕ ---
+
+    function openTariffsModal() {
       document.getElementById('tariffsModal').classList.remove('hidden');
       const currentCity = currentContact ? normalizeContact(currentContact).city : '';
       document.getElementById('tariffSearchInput').value = currentCity;
       
-      const res = await apiRequest('getTariffs', { city: currentCity });
-      if (res.success && res.tariffs) {
-        cachedTariffs = res.tariffs;
-        filterTariffs();
-      }
+      apiRequest('getTariffs', { city: currentCity }).then(res => {
+        if (res && res.success && res.tariffs) {
+          cachedTariffs = res.tariffs;
+          filterTariffs();
+        }
+      });
     }
 
-    function closeTariffsModal() { document.getElementById('tariffsModal').classList.add('hidden'); }
+    function closeTariffsModal() { 
+      document.getElementById('tariffsModal').classList.add('hidden'); 
+    }
 
     function filterTariffs() {
       const query = document.getElementById('tariffSearchInput').value.toLowerCase().trim();
@@ -1057,7 +1079,10 @@
 
       let filtered = cachedTariffs;
       if (query) {
-        filtered = cachedTariffs.filter(t => (t.cities || '').toLowerCase().includes(query) || (t.name || '').toLowerCase().includes(query));
+        filtered = cachedTariffs.filter(t => 
+          (t.cities || '').toLowerCase().includes(query) || 
+          (t.name || '').toLowerCase().includes(query)
+        );
       }
 
       if (filtered.length === 0) {
@@ -1072,7 +1097,7 @@
           <div class="flex justify-between items-start">
             <div>
               <div class="font-black text-gray-800 text-sm leading-tight">${t.name}</div>
-              <div class="text-[11px] text-gray-400 font-medium mt-0.5">📍 Города: ${t.cities}</div>
+              <div class="text-[11px] text-gray-400 font-medium mt-0.5">📍 Города: ${t.cities} • ⏱️ ${t.period || 'Ежемесячно'}</div>
             </div>
             <div class="text-sm font-black text-[#e20613] bg-red-50 px-2.5 py-1 rounded-full border border-red-100">${t.price} ₽</div>
           </div>
@@ -1083,16 +1108,19 @@
       });
     }
 
-    // 💰 ВОССТАНОВЛЕННАЯ ФУНКЦИЯ ОТОБРАЖЕНИЯ ДОХОДА СО СТАВКАМИ
     async function openIncomeModal() { 
       document.getElementById('incomeModal').classList.remove('hidden'); 
       await fetchMonthlyIncome(); 
     }
 
+    function closeIncomeModal() { document.getElementById('incomeModal').classList.add('hidden'); }
+
     async function fetchMonthlyIncome() {
-      const monthStr = document.getElementById('incomeMonthSelect').value;
+      if (!currentUser) return;
+      const select = document.getElementById('incomeMonthSelect');
+      const monthStr = select ? select.value : '';
       const notice = document.getElementById('rateProgressNotice');
-      notice.innerHTML = 'Загрузка данных...';
+      if (notice) notice.innerHTML = 'Загрузка данных...';
 
       const res = await apiRequest('getUserMonthlyIncome', {
         agentName: currentUser.fullName || currentUser.login,
@@ -1100,7 +1128,7 @@
         activeShiftMinutes: currentShift ? Math.floor((Date.now() - currentShift.startTime) / 60000) : 0
       });
 
-      if (res.success) {
+      if (res && res.success) {
         const totalMin = res.totalMinutes || 0;
         const hrs = parseFloat(res.totalHours || (totalMin / 60).toFixed(1));
         const currentRate = res.rate || 100;
@@ -1109,35 +1137,41 @@
         document.getElementById('totalHoursMonthDisplay').innerText = `Отработано: ${Math.floor(totalMin / 60)} ч. ${totalMin % 60} мин.`;
         document.getElementById('currentRateBadge').innerText = `Ставка: ${currentRate} ₽/ч`;
 
-        // Подсветка активной ставки
         document.getElementById('rateStep1').className = currentRate === 100 ? 'font-black text-[#e20613]' : '';
         document.getElementById('rateStep2').className = currentRate === 120 ? 'font-black text-[#e20613]' : '';
         document.getElementById('rateStep3').className = currentRate === 150 ? 'font-black text-[#e20613]' : '';
 
-        if (hrs < 80) {
-          const hoursLeft = (80 - hrs).toFixed(1);
-          notice.innerHTML = `💡 Отработайте ещё <strong>${hoursLeft} ч.</strong> для перехода на ставку <strong>120 ₽/час</strong>!`;
-        } else if (hrs < 90) {
-          const hoursLeft = (90 - hrs).toFixed(1);
-          notice.innerHTML = `🔥 Отличный результат! Ещё <strong>${hoursLeft} ч.</strong> до максимальной ставки <strong>150 ₽/час</strong>!`;
-        } else {
-          notice.innerHTML = `🎉 У вас максимальная ставка <strong>150 ₽/час</strong>!`;
+        if (notice) {
+          if (hrs < 80) {
+            const hoursLeft = (80 - hrs).toFixed(1);
+            notice.innerHTML = `💡 Отработайте ещё <strong>${hoursLeft} ч.</strong> для перехода на ставку <strong>120 ₽/час</strong>!`;
+          } else if (hrs < 90) {
+            const hoursLeft = (90 - hrs).toFixed(1);
+            notice.innerHTML = `🔥 Отличный результат! Ещё <strong>${hoursLeft} ч.</strong> до максимальной ставки <strong>150 ₽/час</strong>!`;
+          } else {
+            notice.innerHTML = `🎉 У вас максимальная ставка <strong>150 ₽/час</strong>!`;
+          }
         }
       }
     }
 
-    function closeIncomeModal() { document.getElementById('incomeModal').classList.add('hidden'); }
     function openStatsModal() {
       document.getElementById('statsCallsCount').innerText = currentShift?.callsCount || 0;
-      document.getElementById('statsCallsPerHour').innerText = (currentShift?.callsCount || 0).toFixed(1);
+      let callsPerHour = 0;
+      if (currentShift && currentShift.startTime) {
+        const elapsedMins = (Date.now() - currentShift.startTime) / 60000;
+        if (elapsedMins > 0) callsPerHour = ((currentShift.callsCount || 0) / (elapsedMins / 60)).toFixed(1);
+      }
+      document.getElementById('statsCallsPerHour').innerText = callsPerHour;
       document.getElementById('statsModal').classList.remove('hidden');
     }
-    function closeStatsModal() { document.getElementById('statsModal').classList.add('hidden'); }
 
+    function closeStatsModal() { document.getElementById('statsModal').classList.add('hidden'); }
     function openFaqModal() { document.getElementById('faqModal').classList.remove('hidden'); }
     function closeFaqModal() { document.getElementById('faqModal').classList.add('hidden'); }
     function openServerModal() { document.getElementById('serverUrlInput').value = getServerUrl(); document.getElementById('serverModal').classList.remove('hidden'); }
     function closeServerModal() { document.getElementById('serverModal').classList.add('hidden'); }
+
     function saveServerUrl() {
       const val = document.getElementById('serverUrlInput').value.trim();
       if (val) { safeSet('ttk_server_url', val); showToast('URL Сервера сохранен!', 'success'); closeServerModal(); }
@@ -1148,14 +1182,19 @@
 
     function switchAdminTab(tab) {
       ['Sheets', 'Users', 'Stats'].forEach(t => {
-        document.getElementById(`adminTab${t}`).classList.replace('bg-white', 'text-gray-600');
-        document.getElementById(`adminSection${t}`).classList.add('hidden');
+        const tabBtn = document.getElementById(`adminTab${t}`);
+        const sec = document.getElementById(`adminSection${t}`);
+        if (tabBtn) tabBtn.classList.replace('bg-white', 'text-gray-600');
+        if (sec) sec.classList.add('hidden');
       });
 
       const activeTabMap = { sheets: 'Sheets', users: 'Users', stats: 'Stats' };
       const key = activeTabMap[tab];
-      document.getElementById(`adminTab${key}`).classList.add('bg-white', 'text-[#e20613]');
-      document.getElementById(`adminSection${key}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`adminTab${key}`);
+      const activeSec = document.getElementById(`adminSection${key}`);
+
+      if (activeBtn) activeBtn.classList.add('bg-white', 'text-[#e20613]');
+      if (activeSec) activeSec.classList.remove('hidden');
 
       if (tab === 'users') loadUsersList();
       if (tab === 'stats') loadAdminStats();
@@ -1163,9 +1202,10 @@
 
     async function loadUsersList() {
       const container = document.getElementById('adminUsersList');
+      if (!container) return;
       container.innerHTML = '<div class="text-center py-6 text-xs text-gray-400">⌛ Загрузка...</div>';
       const res = await apiRequest('getUsers');
-      if (res.success && res.users) {
+      if (res && res.success && res.users) {
         container.innerHTML = '';
         res.users.forEach(u => {
           const item = document.createElement('div');
@@ -1192,13 +1232,13 @@
     async function changeUserRole(login, newRole) {
       showToast('Обновление роли...');
       const res = await apiRequest('updateUserRole', { login, role: newRole });
-      if (res.success) { showToast('Роль обновлена!', 'success'); loadUsersList(); }
+      if (res && res.success) { showToast('Роль обновлена!', 'success'); loadUsersList(); }
     }
 
     async function fireUser(login) {
       showToast('Удаление пользователя...');
       const res = await apiRequest('deleteUser', { login });
-      if (res.success) { showToast('Пользователь уволен!', 'success'); loadUsersList(); }
+      if (res && res.success) { showToast('Пользователь уволен!', 'success'); loadUsersList(); }
     }
 
     async function loadAdminStats() {
