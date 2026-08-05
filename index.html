@@ -289,14 +289,14 @@
         <div class="w-12 h-12 bg-red-100 text-[#e20613] rounded-2xl flex items-center justify-center text-2xl font-black">🚀</div>
         <div>
           <h3 class="text-lg font-black text-gray-900 leading-tight">Обновление интерфейса!</h3>
-          <p class="text-xs text-[#e20613] font-bold">Версия 5.9 • Фикс SIP-вызовов на iOS</p>
+          <p class="text-xs text-[#e20613] font-bold">Версия 6.0 • Полный фикс кнопок и SIP iOS</p>
         </div>
       </div>
 
       <div class="space-y-3 text-xs text-gray-600 max-h-[60vh] overflow-y-auto pr-1">
         <div class="p-3 bg-red-50/60 rounded-2xl border border-red-100 space-y-1">
-          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1"><span>🍏</span><span>Исправлена интеграция iOS</span></div>
-          <p class="text-gray-600 leading-relaxed">Восстановлена корректная генерация SIP-ссылки для айфонов. Вызовы снова уходят через нужное приложение.</p>
+          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1"><span>⚡</span><span>Все кнопки снова работают</span></div>
+          <p class="text-gray-600 leading-relaxed">Исправлен синтаксис функций. Окна Дохода, Статистики, Тарифов и Админки открываются моментально!</p>
         </div>
       </div>
 
@@ -498,7 +498,7 @@
   <!-- JAVASCRIPT LOGIC -->
   <script>
     const DEFAULT_SERVER_URL = "https://script.google.com/macros/s/AKfycbxrW0RzQQsWaJSvUHsu63yyTpybcvoK1R2nwDgf3xAU6PgMZb2Wx6vZV8stp28c2cqH/exec";
-    const CURRENT_APP_VERSION = "5.9_ios_sip_fix";
+    const CURRENT_APP_VERSION = "6.0_fix_all";
 
     let currentUser = null;
     let currentShift = null;
@@ -916,7 +916,6 @@
       }
     }
 
-    // ВОССТАНОВЛЕННАЯ ЛОГИКА ОПРЕДЕЛЕНИЯ iOS И SIP-ВЫЗОВА
     function renderContactCard() {
       if (!currentContact) return;
       const norm = normalizeContact(currentContact);
