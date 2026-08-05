@@ -247,7 +247,6 @@
               🚫 Убрать из обзвона (ЧС)
             </button>
 
-            <!-- Обновлённое подменю: «Действующий абонент» вместо «Абонент ТТК» -->
             <div id="dozvonSubMenu" class="hidden p-3 bg-emerald-50/70 border border-emerald-200 rounded-2xl space-y-2">
               <div class="text-[11px] font-bold text-emerald-900 uppercase tracking-wider text-center">Причина / Результат дозвона:</div>
               <div class="grid grid-cols-2 gap-1.5">
@@ -290,14 +289,14 @@
         <div class="w-12 h-12 bg-red-100 text-[#e20613] rounded-2xl flex items-center justify-center text-2xl font-black">🚀</div>
         <div>
           <h3 class="text-lg font-black text-gray-900 leading-tight">Обновление интерфейса!</h3>
-          <p class="text-xs text-[#e20613] font-bold">Версия 5.7 • Ребрендинг + PWA Android</p>
+          <p class="text-xs text-[#e20613] font-bold">Версия 5.9 • Фикс SIP-вызовов на iOS</p>
         </div>
       </div>
 
       <div class="space-y-3 text-xs text-gray-600 max-h-[60vh] overflow-y-auto pr-1">
         <div class="p-3 bg-red-50/60 rounded-2xl border border-red-100 space-y-1">
-          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1"><span>📱</span><span>Нативная установка на Android</span></div>
-          <p class="text-gray-600 leading-relaxed">Исправлена установка PWA-приложения. Теперь окно установки корректно появляется на устройствах Android.</p>
+          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1"><span>🍏</span><span>Исправлена интеграция iOS</span></div>
+          <p class="text-gray-600 leading-relaxed">Восстановлена корректная генерация SIP-ссылки для айфонов. Вызовы снова уходят через нужное приложение.</p>
         </div>
       </div>
 
@@ -400,107 +399,106 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- INCOME CALCULATOR MODAL -->
-  <div id="incomeModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
-    <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
-      <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
-      
-      <div class="flex justify-between items-center">
-        <h3 class="text-lg font-black text-gray-900">💰 Расчёт Дохода</h3>
-        <button onclick="closeIncomeModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
-      </div>
-
-      <div class="flex items-center justify-between bg-gray-50 p-2.5 rounded-xl border border-gray-200">
-        <span class="text-xs font-bold text-gray-600">Выбор месяца:</span>
-        <select id="incomeMonthSelect" onchange="fetchMonthlyIncome()" class="bg-white border border-gray-300 rounded-lg px-3 py-1.5 text-xs font-bold text-gray-800 outline-none focus:ring-2 focus:ring-[#e20613]"></select>
-      </div>
-
-      <div class="space-y-3 text-xs text-gray-700">
-        <div class="bg-red-50 p-4 rounded-2xl border border-red-100 text-center">
-          <div class="text-xs text-gray-500 font-bold uppercase">Доход за выбранный месяц</div>
-          <div id="calculatedIncomeDisplay" class="text-3xl font-black text-[#e20613] mt-1">0 ₽</div>
-          <div id="totalHoursMonthDisplay" class="text-xs text-gray-600 font-medium mt-1">Отработано: 0 ч. 0 мин.</div>
+    <!-- INCOME CALCULATOR MODAL -->
+    <div id="incomeModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
+      <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
+        <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
+        
+        <div class="flex justify-between items-center">
+          <h3 class="text-lg font-black text-gray-900">💰 Расчёт Дохода</h3>
+          <button onclick="closeIncomeModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
         </div>
 
-        <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-200 space-y-2">
-          <div class="font-bold text-gray-800 flex justify-between items-center">
-            <span>📊 Сетка ставок по часам:</span>
-            <span id="currentRateBadge" class="bg-red-100 text-[#e20613] text-[10px] font-black px-2 py-0.5 rounded-full">Ставка: 100 ₽/ч</span>
+        <div class="flex items-center justify-between bg-gray-50 p-2.5 rounded-xl border border-gray-200">
+          <span class="text-xs font-bold text-gray-600">Выбор месяца:</span>
+          <select id="incomeMonthSelect" onchange="fetchMonthlyIncome()" class="bg-white border border-gray-300 rounded-lg px-3 py-1.5 text-xs font-bold text-gray-800 outline-none focus:ring-2 focus:ring-[#e20613]"></select>
+        </div>
+
+        <div class="space-y-3 text-xs text-gray-700">
+          <div class="bg-red-50 p-4 rounded-2xl border border-red-100 text-center">
+            <div class="text-xs text-gray-500 font-bold uppercase">Доход за выбранный месяц</div>
+            <div id="calculatedIncomeDisplay" class="text-3xl font-black text-[#e20613] mt-1">0 ₽</div>
+            <div id="totalHoursMonthDisplay" class="text-xs text-gray-600 font-medium mt-1">Отработано: 0 ч. 0 мин.</div>
           </div>
-          <p id="rateStep1">• 1 – 79 часов: <strong class="text-gray-900">100 ₽/час</strong></p>
-          <p id="rateStep2">• 80 – 89 часов: <strong class="text-gray-900">120 ₽/час</strong></p>
-          <p id="rateStep3">• 90+ часов: <strong class="text-gray-900">150 ₽/час</strong></p>
-          <div class="p-2 bg-amber-50 rounded-lg border border-amber-200 text-amber-900 font-bold text-[11px] flex items-center justify-between">
-            <span>⭐ Выходные дни (сб, вс):</span>
-            <span class="bg-amber-200 text-amber-900 px-1.5 py-0.5 rounded font-black">Коэффициент x1.5</span>
+
+          <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-200 space-y-2">
+            <div class="font-bold text-gray-800 flex justify-between items-center">
+              <span>📊 Сетка ставок по часам:</span>
+              <span id="currentRateBadge" class="bg-red-100 text-[#e20613] text-[10px] font-black px-2 py-0.5 rounded-full">Ставка: 100 ₽/ч</span>
+            </div>
+            <p id="rateStep1">• 1 – 79 часов: <strong class="text-gray-900">100 ₽/час</strong></p>
+            <p id="rateStep2">• 80 – 89 часов: <strong class="text-gray-900">120 ₽/час</strong></p>
+            <p id="rateStep3">• 90+ часов: <strong class="text-gray-900">150 ₽/час</strong></p>
+            <div class="p-2 bg-amber-50 rounded-lg border border-amber-200 text-amber-900 font-bold text-[11px] flex items-center justify-between">
+              <span>⭐ Выходные дни (сб, вс):</span>
+              <span class="bg-amber-200 text-amber-900 px-1.5 py-0.5 rounded font-black">Коэффициент x1.5</span>
+            </div>
+          </div>
+
+          <div id="rateProgressNotice" class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 font-medium">
+            Загрузка расчета ставок...
           </div>
         </div>
+      </div>
+    </div>
 
-        <div id="rateProgressNotice" class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 font-medium">
-          Загрузка расчета ставок...
+    <!-- STATS MODAL -->
+    <div id="statsModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
+      <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
+        <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
+        <div class="flex justify-between items-center"><h3 class="text-lg font-black text-gray-900">📊 Моя Статистика</h3><button onclick="closeStatsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button></div>
+        <div class="space-y-3">
+          <div class="grid grid-cols-2 gap-3">
+            <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center"><div class="text-[10px] font-bold text-gray-400 uppercase">Звонков за смену</div><div id="statsCallsCount" class="text-xl font-black text-gray-800">0</div></div>
+            <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center"><div class="text-[10px] font-bold text-gray-400 uppercase">Звонков в час</div><div id="statsCallsPerHour" class="text-xl font-black text-[#e20613]">0.0</div></div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- STATS MODAL -->
-  <div id="statsModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
-    <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
-      <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
-      <div class="flex justify-between items-center"><h3 class="text-lg font-black text-gray-900">📊 Моя Статистика</h3><button onclick="closeStatsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button></div>
-      <div class="space-y-3">
-        <div class="grid grid-cols-2 gap-3">
-          <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center"><div class="text-[10px] font-bold text-gray-400 uppercase">Звонков за смену</div><div id="statsCallsCount" class="text-xl font-black text-gray-800">0</div></div>
-          <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center"><div class="text-[10px] font-bold text-gray-400 uppercase">Звонков в час</div><div id="statsCallsPerHour" class="text-xl font-black text-[#e20613]">0.0</div></div>
+    <!-- TARIFFS MODAL -->
+    <div id="tariffsModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
+      <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
+        <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
+        <div class="flex justify-between items-center"><h3 class="text-lg font-black text-gray-900">🏷️ Справочник Тарифов</h3><button onclick="closeTariffsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button></div>
+        <div class="relative">
+          <input type="text" id="tariffSearchInput" oninput="filterTariffs()" placeholder="Поиск по городу..." class="w-full pl-10 pr-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#e20613]">
+          <span class="absolute left-3 top-2.5 text-gray-400">🔍</span>
+        </div>
+        <div id="tariffsListContainer" class="overflow-y-auto space-y-3 pr-1 flex-grow"></div>
+      </div>
+    </div>
+
+    <!-- FAQ MODAL -->
+    <div id="faqModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
+      <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
+        <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
+        <div class="flex justify-between items-center"><h3 class="text-lg font-black text-gray-900">❓ Памятка по работе</h3><button onclick="closeFaqModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button></div>
+        <div class="overflow-y-auto space-y-3 text-xs text-gray-600 pr-1 leading-relaxed">
+          <div class="p-3 bg-gray-50 rounded-xl border border-gray-200"><strong class="text-gray-800 text-sm block mb-1">⏱️ Рабочая смена</strong>Нажмите «Начать смену». По завершении нажимайте «Завершить смену».</div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- TARIFFS MODAL (Заголовок «Справочник Тарифов») -->
-  <div id="tariffsModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
-    <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
-      <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
-      <div class="flex justify-between items-center"><h3 class="text-lg font-black text-gray-900">🏷️ Справочник Тарифов</h3><button onclick="closeTariffsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button></div>
-      <div class="relative">
-        <input type="text" id="tariffSearchInput" oninput="filterTariffs()" placeholder="Поиск по городу..." class="w-full pl-10 pr-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#e20613]">
-        <span class="absolute left-3 top-2.5 text-gray-400">🔍</span>
-      </div>
-      <div id="tariffsListContainer" class="overflow-y-auto space-y-3 pr-1 flex-grow"></div>
-    </div>
-  </div>
-
-  <!-- FAQ MODAL -->
-  <div id="faqModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
-    <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
-      <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
-      <div class="flex justify-between items-center"><h3 class="text-lg font-black text-gray-900">❓ Памятка по работе</h3><button onclick="closeFaqModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button></div>
-      <div class="overflow-y-auto space-y-3 text-xs text-gray-600 pr-1 leading-relaxed">
-        <div class="p-3 bg-gray-50 rounded-xl border border-gray-200"><strong class="text-gray-800 text-sm block mb-1">⏱️ Рабочая смена</strong>Нажмите «Начать смену». По завершении нажимайте «Завершить смену».</div>
+    <!-- SERVER CONFIG MODAL -->
+    <div id="serverModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+      <div class="bg-white w-full max-w-md rounded-2xl p-6 space-y-4">
+        <h3 class="text-lg font-black text-gray-900">⚙️ Настройки Сервера</h3>
+        <textarea id="serverUrlInput" rows="3" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-xs font-mono outline-none focus:ring-2 focus:ring-[#e20613]"></textarea>
+        <div class="flex space-x-2">
+          <button onclick="saveServerUrl()" class="w-1/2 py-2.5 bg-[#e20613] text-white font-bold rounded-xl text-xs">Сохранить</button>
+          <button onclick="closeServerModal()" class="w-1/2 py-2.5 bg-gray-200 text-gray-800 font-bold rounded-xl text-xs">Отмена</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- SERVER CONFIG MODAL -->
-  <div id="serverModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-md rounded-2xl p-6 space-y-4">
-      <h3 class="text-lg font-black text-gray-900">⚙️ Настройки Сервера</h3>
-      <textarea id="serverUrlInput" rows="3" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-xs font-mono outline-none focus:ring-2 focus:ring-[#e20613]"></textarea>
-      <div class="flex space-x-2">
-        <button onclick="saveServerUrl()" class="w-1/2 py-2.5 bg-[#e20613] text-white font-bold rounded-xl text-xs">Сохранить</button>
-        <button onclick="closeServerModal()" class="w-1/2 py-2.5 bg-gray-200 text-gray-800 font-bold rounded-xl text-xs">Отмена</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="toastContainer" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 space-y-2 pointer-events-none w-full max-w-xs px-4"></div>
+    <div id="toastContainer" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 space-y-2 pointer-events-none w-full max-w-xs px-4"></div>
 
   <!-- JAVASCRIPT LOGIC -->
   <script>
     const DEFAULT_SERVER_URL = "https://script.google.com/macros/s/AKfycbxrW0RzQQsWaJSvUHsu63yyTpybcvoK1R2nwDgf3xAU6PgMZb2Wx6vZV8stp28c2cqH/exec";
-    const CURRENT_APP_VERSION = "5.7_pwa_fix";
+    const CURRENT_APP_VERSION = "5.9_ios_sip_fix";
 
     let currentUser = null;
     let currentShift = null;
@@ -513,13 +511,11 @@
     let shiftTimerInterval = null;
     let heartbeatInterval = null;
     let deferredPrompt = null;
-
     let cachedTariffs = [];
 
     function safeGet(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
     function safeSet(key, val) { try { localStorage.setItem(key, val); } catch (e) {} }
     function safeRemove(key) { try { localStorage.removeItem(key); } catch (e) {} }
-
     function getServerUrl() { return safeGet('ttk_server_url') || DEFAULT_SERVER_URL; }
 
     function showToast(msg, type = 'info') {
@@ -561,26 +557,6 @@
       }
     }
 
-    function checkShiftStatusResponse(res) {
-      if (res && res.shiftClosed) {
-        document.getElementById('shiftClosedModal').classList.remove('hidden');
-        return true;
-      }
-      return false;
-    }
-
-    function handleShiftClosedConfirm() {
-      document.getElementById('shiftClosedModal').classList.add('hidden');
-      currentShift = null;
-      currentContact = null;
-      contactQueue = [];
-      clearInterval(shiftTimerInterval);
-      clearInterval(heartbeatInterval);
-      safeRemove('ttk_shift_session');
-      safeRemove('ttk_contact_queue');
-      renderDashboard();
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
       initPWA();
       initMonthSelect();
@@ -596,6 +572,22 @@
       syncActiveSheetWithServer();
       checkChangelogNotice();
     });
+
+    function checkShiftStatusResponse(res) {
+      if (res && res.shiftClosed) {
+        document.getElementById('shiftClosedModal').classList.remove('hidden');
+        return true;
+      }
+      return false;
+    }
+
+    function handleShiftClosedConfirm() {
+      document.getElementById('shiftClosedModal').classList.add('hidden');
+      currentShift = null; currentContact = null; contactQueue = [];
+      clearInterval(shiftTimerInterval); clearInterval(heartbeatInterval);
+      safeRemove('ttk_shift_session'); safeRemove('ttk_contact_queue');
+      renderDashboard();
+    }
 
     function startHeartbeat() {
       clearInterval(heartbeatInterval);
@@ -653,7 +645,6 @@
       }
     }
 
-    // ИСПРАВЛЕННАЯ ЛОГИКА PWA ДЛЯ ANDROID
     function initPWA() {
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
@@ -673,13 +664,8 @@
       }
     }
 
-    function showInstallBanner() {
-      document.getElementById('pwaInstallBanner')?.classList.remove('hidden');
-    }
-
-    function dismissInstallBanner() {
-      document.getElementById('pwaInstallBanner')?.classList.add('hidden');
-    }
+    function showInstallBanner() { document.getElementById('pwaInstallBanner')?.classList.remove('hidden'); }
+    function dismissInstallBanner() { document.getElementById('pwaInstallBanner')?.classList.add('hidden'); }
 
     async function installPWA() {
       if (!deferredPrompt) {
@@ -930,6 +916,7 @@
       }
     }
 
+    // ВОССТАНОВЛЕННАЯ ЛОГИКА ОПРЕДЕЛЕНИЯ iOS И SIP-ВЫЗОВА
     function renderContactCard() {
       if (!currentContact) return;
       const norm = normalizeContact(currentContact);
@@ -943,7 +930,11 @@
 
       const callAnchor = document.getElementById('callPhoneAnchor');
       const cleanPhoneForDial = norm.dialable.replace(/[^\d+]/g, '');
-      callAnchor.href = `tel:${cleanPhoneForDial}`;
+      
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const sipUri = `sip:${cleanPhoneForDial}@20vatc006325-001.cloudpbx.ttk.ru`;
+
+      callAnchor.href = isIOS ? sipUri : `tel:${cleanPhoneForDial}`;
 
       document.getElementById('contactCard').classList.remove('hidden');
       document.getElementById('getContactBtn').classList.add('hidden');
@@ -1053,8 +1044,6 @@
       });
     }
 
-    // --- МОДАЛЬНЫЕ ОКНА: ОТКРЫТИЕ И ЗАКРЫТИЕ ---
-
     function openTariffsModal() {
       document.getElementById('tariffsModal').classList.remove('hidden');
       const currentCity = currentContact ? normalizeContact(currentContact).city : '';
@@ -1068,9 +1057,7 @@
       });
     }
 
-    function closeTariffsModal() { 
-      document.getElementById('tariffsModal').classList.add('hidden'); 
-    }
+    function closeTariffsModal() { document.getElementById('tariffsModal').classList.add('hidden'); }
 
     function filterTariffs() {
       const query = document.getElementById('tariffSearchInput').value.toLowerCase().trim();
