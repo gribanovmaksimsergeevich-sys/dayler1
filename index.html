@@ -81,11 +81,11 @@
 
     <!-- Header Actions -->
     <div class="flex items-center space-x-1">
-      <button onclick="openIncomeModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white text-xs font-bold flex items-center space-x-1" title="Калькулятор дохода">
+      <button type="button" onclick="openIncomeModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white text-xs font-bold flex items-center space-x-1" title="Калькулятор дохода">
         <span>💰</span>
         <span class="hidden sm:inline">Доход</span>
       </button>
-      <button onclick="openStatsModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white text-xs font-bold flex items-center space-x-1" title="Моя статистика">
+      <button type="button" onclick="openStatsModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white text-xs font-bold flex items-center space-x-1" title="Моя статистика">
         <span>📊</span>
         <span class="hidden sm:inline">Моя стата</span>
       </button>
@@ -93,14 +93,14 @@
         <span>📈</span>
         <span class="hidden sm:inline">Общая стата</span>
       </a>
-      <button onclick="openFaqModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white/90" title="Справка">
+      <button type="button" onclick="openFaqModal()" class="p-2 hover:bg-white/10 rounded-full transition-colors text-white/90" title="Справка">
         ❓
       </button>
-      <button id="adminPanelBtn" onclick="openAdminModal()" class="hidden p-2 hover:bg-white/10 rounded-full transition-colors text-amber-300 font-bold flex items-center space-x-1" title="Панель администратора">
+      <button type="button" id="adminPanelBtn" onclick="openAdminModal()" class="hidden p-2 hover:bg-white/10 rounded-full transition-colors text-amber-300 font-bold flex items-center space-x-1" title="Панель администратора">
         <span>👑</span>
         <span class="hidden sm:inline">Админка</span>
       </button>
-      <button id="serverConfigBtn" onclick="openServerModal()" class="hidden p-2 hover:bg-white/10 rounded-full transition-colors text-white/90" title="Настройки сервера">
+      <button type="button" id="serverConfigBtn" onclick="openServerModal()" class="hidden p-2 hover:bg-white/10 rounded-full transition-colors text-white/90" title="Настройки сервера">
         ⚙️
       </button>
     </div>
@@ -157,7 +157,7 @@
           <div id="agentNameDisplay" class="font-bold text-gray-800 text-base">Оператор</div>
           <div id="agentRoleBadge" class="text-xs font-semibold text-gray-500">Агент</div>
         </div>
-        <button onclick="handleLogout()" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-3 py-2 rounded-full transition-colors">Выйти 🚪</button>
+        <button type="button" onclick="handleLogout()" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold px-3 py-2 rounded-full transition-colors">Выйти 🚪</button>
       </div>
 
       <div id="startShiftCard" class="md-card p-6 text-center space-y-4">
@@ -166,11 +166,11 @@
           <h3 class="font-bold text-gray-800 text-lg">Смена не началась</h3>
           <p class="text-xs text-gray-500 mt-1">Откройте смену, чтобы начать принимать контакты из базы</p>
         </div>
-        <button id="startShiftBtn" onclick="handleStartShift()" class="w-full py-3.5 bg-[#e20613] text-white font-bold rounded-full shadow-lg hover:bg-[#c00410] active:scale-95 transition-all">🚀 НАЧАТЬ СМЕНУ</button>
+        <button type="button" id="startShiftBtn" onclick="handleStartShift()" class="w-full py-3.5 bg-[#e20613] text-white font-bold rounded-full shadow-lg hover:bg-[#c00410] active:scale-95 transition-all">🚀 НАЧАТЬ СМЕНУ</button>
       </div>
 
       <div id="activeShiftCard" class="hidden space-y-4">
-        <button onclick="handleEndShift()" class="w-full py-3.5 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white font-extrabold rounded-2xl shadow-lg active:scale-[0.98] transition-all flex items-center justify-center space-x-2 text-base">
+        <button type="button" onclick="handleEndShift()" class="w-full py-3.5 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-700 hover:to-rose-800 text-white font-extrabold rounded-2xl shadow-lg active:scale-[0.98] transition-all flex items-center justify-center space-x-2 text-base">
           <span>🛑 ЗАВЕРШИТЬ СМЕНУ</span>
         </button>
 
@@ -189,7 +189,7 @@
           </div>
         </div>
 
-        <button onclick="getOrFetchNextContact()" id="getContactBtn" class="hidden w-full py-4 bg-[#e20613] text-white font-extrabold text-base rounded-2xl shadow-lg hover:bg-[#c00410] active:scale-95 transition-all flex items-center justify-center space-x-2">
+        <button type="button" onclick="getOrFetchNextContact()" id="getContactBtn" class="hidden w-full py-4 bg-[#e20613] text-white font-extrabold text-base rounded-2xl shadow-lg hover:bg-[#c00410] active:scale-95 transition-all flex items-center justify-center space-x-2">
           <span>📞 ПОЛУЧИТЬ КЛИЕНТА</span>
         </button>
 
@@ -214,7 +214,7 @@
               <div class="text-[10px] font-bold text-gray-400 uppercase">Номер телефона</div>
               <div id="contactPhoneDisplay" class="text-xl font-black text-gray-800 tracking-wider font-mono">+7 (999) 000-00-00</div>
             </div>
-            <button onclick="copyPhoneToClipboard()" class="p-2.5 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-xl transition-colors" title="Скопировать номер">📋</button>
+            <button type="button" onclick="copyPhoneToClipboard()" class="p-2.5 text-gray-500 hover:text-gray-700 hover:bg-gray-200 rounded-xl transition-colors" title="Скопировать номер">📋</button>
           </div>
 
           <a id="callPhoneAnchor" href="tel:+70000000000" onclick="onCallInitiated()" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-2xl shadow-md flex items-center justify-center space-x-2 text-base transition-all active:scale-95">
@@ -270,7 +270,7 @@
               <textarea id="callComment" rows="2" placeholder="Примечание к звонку (тариф, адрес, комментарий)..." class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#e20613]"></textarea>
             </div>
 
-            <button id="submitResultBtn" onclick="submitCallResult()" class="w-full py-3.5 bg-gray-900 hover:bg-black text-white font-bold rounded-xl shadow transition-all active:scale-95">
+            <button type="button" id="submitResultBtn" onclick="submitCallResult()" class="w-full py-3.5 bg-gray-900 hover:bg-black text-white font-bold rounded-xl shadow transition-all active:scale-95">
               💾 Сохранить и продолжить
             </button>
           </div>
@@ -289,18 +289,18 @@
         <div class="w-12 h-12 bg-red-100 text-[#e20613] rounded-2xl flex items-center justify-center text-2xl font-black">🚀</div>
         <div>
           <h3 class="text-lg font-black text-gray-900 leading-tight">Обновление интерфейса!</h3>
-          <p class="text-xs text-[#e20613] font-bold">Версия 6.0 • Полный фикс кнопок и SIP iOS</p>
+          <p class="text-xs text-[#e20613] font-bold">Версия 6.1 • 100% Фикс Модалок & SIP iOS</p>
         </div>
       </div>
 
       <div class="space-y-3 text-xs text-gray-600 max-h-[60vh] overflow-y-auto pr-1">
         <div class="p-3 bg-red-50/60 rounded-2xl border border-red-100 space-y-1">
-          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1"><span>⚡</span><span>Все кнопки снова работают</span></div>
-          <p class="text-gray-600 leading-relaxed">Исправлен синтаксис функций. Окна Дохода, Статистики, Тарифов и Админки открываются моментально!</p>
+          <div class="font-bold text-gray-800 text-sm flex items-center space-x-1"><span>⚡</span><span>Полный порядок</span></div>
+          <p class="text-gray-600 leading-relaxed">Кнопки верхнего меню и Тарифы полностью восстановлены. На iPhone вызовы открываются через SIP.</p>
         </div>
       </div>
 
-      <button onclick="closeChangelogModal()" class="w-full py-3.5 bg-[#e20613] hover:bg-[#c00410] text-white font-black text-sm rounded-2xl shadow-lg active:scale-95 transition-all">
+      <button type="button" onclick="closeChangelogModal()" class="w-full py-3.5 bg-[#e20613] hover:bg-[#c00410] text-white font-black text-sm rounded-2xl shadow-lg active:scale-95 transition-all">
         Отлично, к работе! 🔥
       </button>
     </div>
@@ -314,7 +314,7 @@
         <h3 class="text-lg font-black text-gray-900">Смена закрылась автоматически</h3>
         <p class="text-xs text-gray-500 mt-1 leading-relaxed">Ваша смена была завершена из-за отсутствия активности (более 20 минут). Начните смену заново.</p>
       </div>
-      <button onclick="handleShiftClosedConfirm()" class="w-full py-3.5 bg-[#e20613] hover:bg-[#c00410] text-white font-bold rounded-2xl shadow-lg active:scale-95 transition-all">
+      <button type="button" onclick="handleShiftClosedConfirm()" class="w-full py-3.5 bg-[#e20613] hover:bg-[#c00410] text-white font-bold rounded-2xl shadow-lg active:scale-95 transition-all">
         ОК, начать смену
       </button>
     </div>
@@ -326,7 +326,7 @@
       <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
       <div class="flex justify-between items-center border-b border-gray-100 pb-3">
         <div class="flex items-center space-x-2"><span class="text-xl">👑</span><h3 class="text-lg font-black text-gray-900">Панель Администратора</h3></div>
-        <button onclick="closeAdminModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
+        <button type="button" onclick="closeAdminModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
       </div>
 
       <div class="grid grid-cols-3 gap-1 bg-gray-100 p-1 rounded-xl text-xs font-bold">
@@ -339,15 +339,15 @@
         <div id="adminSectionSheets" class="space-y-3">
           <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 font-medium leading-relaxed">Выберите активную базу клиентов.</div>
           <div class="space-y-2">
-            <button onclick="selectSheet('90+')" id="adminSheet90" class="w-full p-4 rounded-2xl border-2 text-left flex justify-between items-center transition-all border-gray-200 hover:border-[#e20613]">
+            <button type="button" onclick="selectSheet('90+')" id="adminSheet90" class="w-full p-4 rounded-2xl border-2 text-left flex justify-between items-center transition-all border-gray-200 hover:border-[#e20613]">
               <div><div class="font-black text-sm text-gray-800">База «90+»</div><div class="text-xs text-gray-500">Клиенты с давностью 90 дней</div></div>
               <span id="activeCheck90" class="text-lg"></span>
             </button>
-            <button onclick="selectSheet('180+')" id="adminSheet180" class="w-full p-4 rounded-2xl border-2 text-left flex justify-between items-center transition-all border-gray-200 hover:border-[#e20613]">
+            <button type="button" onclick="selectSheet('180+')" id="adminSheet180" class="w-full p-4 rounded-2xl border-2 text-left flex justify-between items-center transition-all border-gray-200 hover:border-[#e20613]">
               <div><div class="font-black text-sm text-gray-800">База «180+»</div><div class="text-xs text-gray-500">Клиенты с давностью 180 дней</div></div>
               <span id="activeCheck180" class="text-lg"></span>
             </button>
-            <button onclick="selectSheet('Закрытые')" id="adminSheetClosed" class="w-full p-4 rounded-2xl border-2 text-left flex justify-between items-center transition-all border-gray-200 hover:border-[#e20613]">
+            <button type="button" onclick="selectSheet('Закрытые')" id="adminSheetClosed" class="w-full p-4 rounded-2xl border-2 text-left flex justify-between items-center transition-all border-gray-200 hover:border-[#e20613]">
               <div><div class="font-black text-sm text-gray-800">База «Закрытые»</div><div class="text-xs text-gray-500">Закрытые адреса и архив</div></div>
               <span id="activeCheckClosed" class="text-lg"></span>
             </button>
@@ -355,7 +355,7 @@
         </div>
 
         <div id="adminSectionUsers" class="hidden space-y-3">
-          <div class="flex justify-between items-center"><span class="text-xs font-bold text-gray-500 uppercase">Список операторов</span><button onclick="loadUsersList()" class="text-xs text-[#e20613] font-bold hover:underline">🔄 Обновить</button></div>
+          <div class="flex justify-between items-center"><span class="text-xs font-bold text-gray-500 uppercase">Список операторов</span><button type="button" onclick="loadUsersList()" class="text-xs text-[#e20613] font-bold hover:underline">🔄 Обновить</button></div>
           <div id="adminUsersList" class="space-y-2"><div class="text-center py-6 text-xs text-gray-400">Загрузка пользователей...</div></div>
         </div>
 
@@ -368,7 +368,7 @@
           <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 space-y-3">
             <div class="flex justify-between items-center border-b border-gray-200 pb-2">
               <span id="adminDbStatsTitle" class="font-bold text-xs text-gray-800 uppercase tracking-wider">Статистика базы</span>
-              <button onclick="loadAdminStats()" class="text-xs text-[#e20613] font-bold hover:underline">🔄 Обновить</button>
+              <button type="button" onclick="loadAdminStats()" class="text-xs text-[#e20613] font-bold hover:underline">🔄 Обновить</button>
             </div>
 
             <div class="grid grid-cols-3 gap-2 text-center">
@@ -407,7 +407,7 @@
         
         <div class="flex justify-between items-center">
           <h3 class="text-lg font-black text-gray-900">💰 Расчёт Дохода</h3>
-          <button onclick="closeIncomeModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
+          <button type="button" onclick="closeIncomeModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button>
         </div>
 
         <div class="flex items-center justify-between bg-gray-50 p-2.5 rounded-xl border border-gray-200">
@@ -447,7 +447,7 @@
     <div id="statsModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
       <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
         <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
-        <div class="flex justify-between items-center"><h3 class="text-lg font-black text-gray-900">📊 Моя Статистика</h3><button onclick="closeStatsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button></div>
+        <div class="flex justify-between items-center"><h3 class="text-lg font-black text-gray-900">📊 Моя Статистика</h3><button type="button" onclick="closeStatsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button></div>
         <div class="space-y-3">
           <div class="grid grid-cols-2 gap-3">
             <div class="p-3.5 bg-gray-50 rounded-2xl border border-gray-200 text-center"><div class="text-[10px] font-bold text-gray-400 uppercase">Звонков за смену</div><div id="statsCallsCount" class="text-xl font-black text-gray-800">0</div></div>
@@ -461,7 +461,7 @@
     <div id="tariffsModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
       <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
         <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
-        <div class="flex justify-between items-center"><h3 class="text-lg font-black text-gray-900">🏷️ Справочник Тарифов</h3><button onclick="closeTariffsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button></div>
+        <div class="flex justify-between items-center"><h3 class="text-lg font-black text-gray-900">🏷️ Справочник Тарифов</h3><button type="button" onclick="closeTariffsModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button></div>
         <div class="relative">
           <input type="text" id="tariffSearchInput" oninput="filterTariffs()" placeholder="Поиск по городу..." class="w-full pl-10 pr-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#e20613]">
           <span class="absolute left-3 top-2.5 text-gray-400">🔍</span>
@@ -474,7 +474,7 @@
     <div id="faqModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-end justify-center">
       <div class="bg-white w-full max-w-lg md-sheet p-6 max-h-[85vh] flex flex-col space-y-4">
         <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto"></div>
-        <div class="flex justify-between items-center"><h3 class="text-lg font-black text-gray-900">❓ Памятка по работе</h3><button onclick="closeFaqModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button></div>
+        <div class="flex justify-between items-center"><h3 class="text-lg font-black text-gray-900">❓ Памятка по работе</h3><button type="button" onclick="closeFaqModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1">✕</button></div>
         <div class="overflow-y-auto space-y-3 text-xs text-gray-600 pr-1 leading-relaxed">
           <div class="p-3 bg-gray-50 rounded-xl border border-gray-200"><strong class="text-gray-800 text-sm block mb-1">⏱️ Рабочая смена</strong>Нажмите «Начать смену». По завершении нажимайте «Завершить смену».</div>
         </div>
@@ -487,8 +487,8 @@
         <h3 class="text-lg font-black text-gray-900">⚙️ Настройки Сервера</h3>
         <textarea id="serverUrlInput" rows="3" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-xl text-xs font-mono outline-none focus:ring-2 focus:ring-[#e20613]"></textarea>
         <div class="flex space-x-2">
-          <button onclick="saveServerUrl()" class="w-1/2 py-2.5 bg-[#e20613] text-white font-bold rounded-xl text-xs">Сохранить</button>
-          <button onclick="closeServerModal()" class="w-1/2 py-2.5 bg-gray-200 text-gray-800 font-bold rounded-xl text-xs">Отмена</button>
+          <button type="button" onclick="saveServerUrl()" class="w-1/2 py-2.5 bg-[#e20613] text-white font-bold rounded-xl text-xs">Сохранить</button>
+          <button type="button" onclick="closeServerModal()" class="w-1/2 py-2.5 bg-gray-200 text-gray-800 font-bold rounded-xl text-xs">Отмена</button>
         </div>
       </div>
     </div>
@@ -498,7 +498,7 @@
   <!-- JAVASCRIPT LOGIC -->
   <script>
     const DEFAULT_SERVER_URL = "https://script.google.com/macros/s/AKfycbxrW0RzQQsWaJSvUHsu63yyTpybcvoK1R2nwDgf3xAU6PgMZb2Wx6vZV8stp28c2cqH/exec";
-    const CURRENT_APP_VERSION = "6.0_fix_all";
+    const CURRENT_APP_VERSION = "6.1_fix_modals";
 
     let currentUser = null;
     let currentShift = null;
@@ -520,6 +520,7 @@
 
     function showToast(msg, type = 'info') {
       const container = document.getElementById('toastContainer');
+      if(!container) return;
       const toast = document.createElement('div');
       let bg = 'bg-gray-900 text-white';
       if (type === 'error') bg = 'bg-red-600 text-white';
@@ -557,6 +558,164 @@
       }
     }
 
+    // --- МОДАЛЬНЫЕ ОКНА: ЧЕТКИЕ ГЛОБАЛЬНЫЕ ФУНКЦИИ ---
+
+    window.openIncomeModal = async function() { 
+      document.getElementById('incomeModal')?.classList.remove('hidden'); 
+      await fetchMonthlyIncome(); 
+    };
+
+    window.closeIncomeModal = function() { 
+      document.getElementById('incomeModal')?.classList.add('hidden'); 
+    };
+
+    window.openStatsModal = function() {
+      document.getElementById('statsCallsCount').innerText = currentShift?.callsCount || 0;
+      let callsPerHour = 0;
+      if (currentShift && currentShift.startTime) {
+        const elapsedMins = (Date.now() - currentShift.startTime) / 60000;
+        if (elapsedMins > 0) callsPerHour = ((currentShift.callsCount || 0) / (elapsedMins / 60)).toFixed(1);
+      }
+      document.getElementById('statsCallsPerHour').innerText = callsPerHour;
+      document.getElementById('statsModal')?.classList.remove('hidden');
+    };
+
+    window.closeStatsModal = function() { 
+      document.getElementById('statsModal')?.classList.add('hidden'); 
+    };
+
+    window.openTariffsModal = function() {
+      document.getElementById('tariffsModal')?.classList.remove('hidden');
+      const currentCity = currentContact ? normalizeContact(currentContact).city : '';
+      const input = document.getElementById('tariffSearchInput');
+      if(input) input.value = currentCity;
+      
+      apiRequest('getTariffs', { city: currentCity }).then(res => {
+        if (res && res.success && res.tariffs) {
+          cachedTariffs = res.tariffs;
+          filterTariffs();
+        }
+      });
+    };
+
+    window.closeTariffsModal = function() { 
+      document.getElementById('tariffsModal')?.classList.add('hidden'); 
+    };
+
+    window.openFaqModal = function() { 
+      document.getElementById('faqModal')?.classList.remove('hidden'); 
+    };
+
+    window.closeFaqModal = function() { 
+      document.getElementById('faqModal')?.classList.add('hidden'); 
+    };
+
+    window.openServerModal = function() { 
+      const input = document.getElementById('serverUrlInput');
+      if(input) input.value = getServerUrl(); 
+      document.getElementById('serverModal')?.classList.remove('hidden'); 
+    };
+
+    window.closeServerModal = function() { 
+      document.getElementById('serverModal')?.classList.add('hidden'); 
+    };
+
+    window.openAdminModal = function() { 
+      updateAdminSheetUI(); 
+      document.getElementById('adminModal')?.classList.remove('hidden'); 
+      switchAdminTab('sheets'); 
+    };
+
+    window.closeAdminModal = function() { 
+      document.getElementById('adminModal')?.classList.add('hidden'); 
+    };
+
+    window.closeChangelogModal = function() {
+      safeSet('ttk_seen_version', CURRENT_APP_VERSION);
+      document.getElementById('changelogModal')?.classList.add('hidden');
+    };
+
+    // --- ФИЛЬТР ТАРИФОВ ---
+    function filterTariffs() {
+      const input = document.getElementById('tariffSearchInput');
+      const query = input ? input.value.toLowerCase().trim() : '';
+      const container = document.getElementById('tariffsListContainer');
+      if(!container) return;
+      container.innerHTML = '';
+
+      let filtered = cachedTariffs;
+      if (query) {
+        filtered = cachedTariffs.filter(t => 
+          (t.cities || '').toLowerCase().includes(query) || 
+          (t.name || '').toLowerCase().includes(query)
+        );
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div class="text-center py-6 text-xs text-gray-400">Тарифы для этого города не найдены</div>';
+        return;
+      }
+
+      filtered.forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'p-3.5 bg-gray-50 rounded-2xl border border-gray-200 space-y-1.5';
+        card.innerHTML = `
+          <div class="flex justify-between items-start">
+            <div>
+              <div class="font-black text-gray-800 text-sm leading-tight">${t.name}</div>
+              <div class="text-[11px] text-gray-400 font-medium mt-0.5">📍 Города: ${t.cities} • ⏱️ ${t.period || 'Ежемесячно'}</div>
+            </div>
+            <div class="text-sm font-black text-[#e20613] bg-red-50 px-2.5 py-1 rounded-full border border-red-100">${t.price} ₽</div>
+          </div>
+          ${t.desc ? `<div class="text-xs text-gray-600 font-medium">${t.desc}</div>` : ''}
+          ${t.cond ? `<div class="text-[11px] text-gray-500 bg-white p-2.5 rounded-xl border border-gray-100 leading-snug">📌 ${t.cond}</div>` : ''}
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // --- РАСЧЕТ ДОХОДА ---
+    async function fetchMonthlyIncome() {
+      if (!currentUser) return;
+      const select = document.getElementById('incomeMonthSelect');
+      const monthStr = select ? select.value : '';
+      const notice = document.getElementById('rateProgressNotice');
+      if (notice) notice.innerHTML = 'Загрузка данных...';
+
+      const res = await apiRequest('getUserMonthlyIncome', {
+        agentName: currentUser.fullName || currentUser.login,
+        yearMonth: monthStr,
+        activeShiftMinutes: currentShift ? Math.floor((Date.now() - currentShift.startTime) / 60000) : 0
+      });
+
+      if (res && res.success) {
+        const totalMin = res.totalMinutes || 0;
+        const hrs = parseFloat(res.totalHours || (totalMin / 60).toFixed(1));
+        const currentRate = res.rate || 100;
+
+        document.getElementById('calculatedIncomeDisplay').innerText = `${res.income || 0} ₽`;
+        document.getElementById('totalHoursMonthDisplay').innerText = `Отработано: ${Math.floor(totalMin / 60)} ч. ${totalMin % 60} мин.`;
+        document.getElementById('currentRateBadge').innerText = `Ставка: ${currentRate} ₽/ч`;
+
+        document.getElementById('rateStep1').className = currentRate === 100 ? 'font-black text-[#e20613]' : '';
+        document.getElementById('rateStep2').className = currentRate === 120 ? 'font-black text-[#e20613]' : '';
+        document.getElementById('rateStep3').className = currentRate === 150 ? 'font-black text-[#e20613]' : '';
+
+        if (notice) {
+          if (hrs < 80) {
+            const hoursLeft = (80 - hrs).toFixed(1);
+            notice.innerHTML = `💡 Отработайте ещё <strong>${hoursLeft} ч.</strong> для перехода на ставку <strong>120 ₽/час</strong>!`;
+          } else if (hrs < 90) {
+            const hoursLeft = (90 - hrs).toFixed(1);
+            notice.innerHTML = `🔥 Отличный результат! Ещё <strong>${hoursLeft} ч.</strong> до максимальной ставки <strong>150 ₽/час</strong>!`;
+          } else {
+            notice.innerHTML = `🎉 У вас максимальная ставка <strong>150 ₽/час</strong>!`;
+          }
+        }
+      }
+    }
+
+    // --- ИНИЦИАЛИЗАЦИЯ СТРАНИЦЫ ---
     document.addEventListener('DOMContentLoaded', () => {
       initPWA();
       initMonthSelect();
@@ -575,14 +734,14 @@
 
     function checkShiftStatusResponse(res) {
       if (res && res.shiftClosed) {
-        document.getElementById('shiftClosedModal').classList.remove('hidden');
+        document.getElementById('shiftClosedModal')?.classList.remove('hidden');
         return true;
       }
       return false;
     }
 
     function handleShiftClosedConfirm() {
-      document.getElementById('shiftClosedModal').classList.add('hidden');
+      document.getElementById('shiftClosedModal')?.classList.add('hidden');
       currentShift = null; currentContact = null; contactQueue = [];
       clearInterval(shiftTimerInterval); clearInterval(heartbeatInterval);
       safeRemove('ttk_shift_session'); safeRemove('ttk_contact_queue');
@@ -602,13 +761,8 @@
     function checkChangelogNotice() {
       const seenVersion = safeGet('ttk_seen_version');
       if (seenVersion !== CURRENT_APP_VERSION) {
-        document.getElementById('changelogModal').classList.remove('hidden');
+        document.getElementById('changelogModal')?.classList.remove('hidden');
       }
-    }
-
-    function closeChangelogModal() {
-      safeSet('ttk_seen_version', CURRENT_APP_VERSION);
-      document.getElementById('changelogModal').classList.add('hidden');
     }
 
     function saveQueue() {
@@ -688,17 +842,17 @@
       const regForm = document.getElementById('registerForm');
       
       if (mode === 'login') {
-        pill.style.transform = 'translateX(0%)';
-        loginBtn.classList.replace('text-gray-600', 'text-white');
-        regBtn.classList.replace('text-white', 'text-gray-600');
-        loginForm.classList.remove('hidden');
-        regForm.classList.add('hidden');
+        if(pill) pill.style.transform = 'translateX(0%)';
+        loginBtn?.classList.replace('text-gray-600', 'text-white');
+        regBtn?.classList.replace('text-white', 'text-gray-600');
+        loginForm?.classList.remove('hidden');
+        regForm?.classList.add('hidden');
       } else {
-        pill.style.transform = 'translateX(100%)';
-        regBtn.classList.replace('text-gray-600', 'text-white');
-        loginBtn.classList.replace('text-white', 'text-gray-600');
-        loginForm.classList.add('hidden');
-        regForm.classList.remove('hidden');
+        if(pill) pill.style.transform = 'translateX(100%)';
+        regBtn?.classList.replace('text-gray-600', 'text-white');
+        loginBtn?.classList.replace('text-white', 'text-gray-600');
+        loginForm?.classList.add('hidden');
+        regForm?.classList.remove('hidden');
       }
     }
 
@@ -755,36 +909,39 @@
     }
 
     function renderAuth() {
-      document.getElementById('authSection').classList.remove('hidden');
-      document.getElementById('dashboardSection').classList.add('hidden');
-      document.getElementById('adminPanelBtn').classList.add('hidden');
-      document.getElementById('serverConfigBtn').classList.add('hidden');
+      document.getElementById('authSection')?.classList.remove('hidden');
+      document.getElementById('dashboardSection')?.classList.add('hidden');
+      document.getElementById('adminPanelBtn')?.classList.add('hidden');
+      document.getElementById('serverConfigBtn')?.classList.add('hidden');
     }
 
     function renderDashboard() {
-      document.getElementById('authSection').classList.add('hidden');
-      document.getElementById('dashboardSection').classList.remove('hidden');
+      document.getElementById('authSection')?.classList.add('hidden');
+      document.getElementById('dashboardSection')?.classList.remove('hidden');
 
-      document.getElementById('agentNameDisplay').innerText = currentUser.fullName || currentUser.login;
-      document.getElementById('agentRoleBadge').innerText = currentUser.isAdmin ? 'Супервайзер / Админ' : 'Оператор';
+      const nameEl = document.getElementById('agentNameDisplay');
+      if(nameEl) nameEl.innerText = currentUser.fullName || currentUser.login;
 
-      document.getElementById('adminPanelBtn').classList.toggle('hidden', !currentUser.isAdmin);
-      document.getElementById('serverConfigBtn').classList.toggle('hidden', !currentUser.isAdmin);
+      const roleEl = document.getElementById('agentRoleBadge');
+      if(roleEl) roleEl.innerText = currentUser.isAdmin ? 'Супервайзер / Админ' : 'Оператор';
+
+      document.getElementById('adminPanelBtn')?.classList.toggle('hidden', !currentUser.isAdmin);
+      document.getElementById('serverConfigBtn')?.classList.toggle('hidden', !currentUser.isAdmin);
 
       if (currentShift) {
-        document.getElementById('startShiftCard').classList.add('hidden');
-        document.getElementById('activeShiftCard').classList.remove('hidden');
+        document.getElementById('startShiftCard')?.classList.add('hidden');
+        document.getElementById('activeShiftCard')?.classList.remove('hidden');
         if (!currentContact) getOrFetchNextContact();
         else renderContactCard();
       } else {
-        document.getElementById('startShiftCard').classList.remove('hidden');
-        document.getElementById('activeShiftCard').classList.add('hidden');
+        document.getElementById('startShiftCard')?.classList.remove('hidden');
+        document.getElementById('activeShiftCard')?.classList.add('hidden');
       }
     }
 
     async function handleStartShift() {
       const btn = document.getElementById('startShiftBtn');
-      btn.disabled = true; btn.innerHTML = '⌛ ОТКРЫТИЕ...';
+      if(btn) { btn.disabled = true; btn.innerHTML = '⌛ ОТКРЫТИЕ...'; }
       const res = await apiRequest('startShift', { agentName: currentUser.fullName || currentUser.login });
 
       if (res && res.success) {
@@ -796,7 +953,7 @@
       } else {
         showToast(res ? res.message : 'Не удалось открыть смену', 'error');
       }
-      btn.disabled = false; btn.innerHTML = '🚀 НАЧАТЬ СМЕНУ';
+      if(btn) { btn.disabled = false; btn.innerHTML = '🚀 НАЧАТЬ СМЕНУ'; }
     }
 
     async function handleEndShift() {
@@ -806,7 +963,7 @@
       clearInterval(shiftTimerInterval); clearInterval(heartbeatInterval);
       currentShift = null; currentContact = null; contactQueue = [];
       safeRemove('ttk_shift_session'); safeRemove('ttk_contact_queue');
-      document.getElementById('contactCard').classList.add('hidden');
+      document.getElementById('contactCard')?.classList.add('hidden');
       renderDashboard();
       showToast('Смена завершена!', 'success');
     }
@@ -815,8 +972,10 @@
       clearInterval(shiftTimerInterval);
       shiftTimerInterval = setInterval(() => {
         const elapsedSec = Math.floor((Date.now() - currentShift.startTime) / 1000);
-        document.getElementById('shiftTimerDisplay').innerText = 
-          `${String(Math.floor(elapsedSec / 3600)).padStart(2, '0')}:${String(Math.floor((elapsedSec % 3600) / 60)).padStart(2, '0')}:${String(elapsedSec % 60).padStart(2, '0')}`;
+        const timerEl = document.getElementById('shiftTimerDisplay');
+        if(timerEl) {
+          timerEl.innerText = `${String(Math.floor(elapsedSec / 3600)).padStart(2, '0')}:${String(Math.floor((elapsedSec % 3600) / 60)).padStart(2, '0')}:${String(elapsedSec % 60).padStart(2, '0')}`;
+        }
       }, 1000);
     }
 
@@ -838,7 +997,9 @@
       });
 
       let targetKey = selectedSheet === '180+' ? '180' : (selectedSheet === 'Закрытые' ? 'Closed' : '90');
-      document.getElementById(`activeCheck${targetKey}`).innerText = '✅';
+      const activeCheck = document.getElementById(`activeCheck${targetKey}`);
+      if(activeCheck) activeCheck.innerText = '✅';
+
       const activeCard = document.getElementById(`adminSheet${targetKey}`);
       if (activeCard) { activeCard.classList.replace('border-gray-200', 'border-[#e20613]'); activeCard.classList.add('bg-red-50/50'); }
     }
@@ -879,8 +1040,8 @@
           fetchContactBatch(4, true);
         }
       } else {
-        document.getElementById('getContactBtn').classList.remove('hidden');
-        document.getElementById('contactCard').classList.add('hidden');
+        document.getElementById('getContactBtn')?.classList.remove('hidden');
+        document.getElementById('contactCard')?.classList.add('hidden');
         showToast('В базе пока нет свободных контактов', 'error');
       }
     }
@@ -890,7 +1051,7 @@
       isFetchingBatch = true;
 
       const btn = document.getElementById('getContactBtn');
-      if (!isBackground) {
+      if (!isBackground && btn) {
         btn.classList.remove('hidden');
         btn.disabled = true;
         btn.innerHTML = '<span>⌛ Поиск контактов...</span>';
@@ -908,8 +1069,8 @@
       if (res.success && res.batch && res.batch.length > 0) {
         contactQueue = contactQueue.concat(res.batch);
         saveQueue();
-        if (!isBackground) btn.classList.add('hidden');
-      } else if (!isBackground) {
+        if (!isBackground && btn) btn.classList.add('hidden');
+      } else if (!isBackground && btn) {
         btn.disabled = false;
         btn.innerHTML = '<span>🔄 ПОВТОРИТЬ ПОИСК</span>';
         showToast(res.message || 'Контакты не найдены', 'error');
@@ -933,10 +1094,10 @@
       const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
       const sipUri = `sip:${cleanPhoneForDial}@20vatc006325-001.cloudpbx.ttk.ru`;
 
-      callAnchor.href = isIOS ? sipUri : `tel:${cleanPhoneForDial}`;
+      if(callAnchor) callAnchor.href = isIOS ? sipUri : `tel:${cleanPhoneForDial}`;
 
-      document.getElementById('contactCard').classList.remove('hidden');
-      document.getElementById('getContactBtn').classList.add('hidden');
+      document.getElementById('contactCard')?.classList.remove('hidden');
+      document.getElementById('getContactBtn')?.classList.add('hidden');
     }
 
     function copyPhoneToClipboard() {
@@ -948,17 +1109,21 @@
     function onCallInitiated() {
       if (currentShift) {
         currentShift.callsCount++;
-        document.getElementById('shiftCallsCounter').innerText = currentShift.callsCount;
+        const counterEl = document.getElementById('shiftCallsCounter');
+        if(counterEl) counterEl.innerText = currentShift.callsCount;
         safeSet('ttk_shift_session', JSON.stringify(currentShift));
       }
     }
 
     function resetStatusButtons() {
       selectedCallStatus = '';
-      document.getElementById('dozvonSelectedLabel').innerText = 'Дозвон';
-      document.getElementById('dozvonArrow').innerText = '▼';
-      document.getElementById('dozvonSubMenu').classList.add('hidden');
-      document.getElementById('recallContainer').classList.add('hidden');
+      const label = document.getElementById('dozvonSelectedLabel');
+      if(label) label.innerText = 'Дозвон';
+      const arrow = document.getElementById('dozvonArrow');
+      if(arrow) arrow.innerText = '▼';
+
+      document.getElementById('dozvonSubMenu')?.classList.add('hidden');
+      document.getElementById('recallContainer')?.classList.add('hidden');
 
       document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('ring-2', 'ring-offset-1', 'ring-[#e20613]'));
       document.querySelectorAll('.dozvon-reason-btn').forEach(rb => {
@@ -969,17 +1134,20 @@
 
     function toggleDozvonMenu() {
       const sub = document.getElementById('dozvonSubMenu');
+      if(!sub) return;
       sub.classList.toggle('hidden');
-      document.getElementById('dozvonArrow').innerText = sub.classList.contains('hidden') ? '▼' : '▲';
+      const arrow = document.getElementById('dozvonArrow');
+      if(arrow) arrow.innerText = sub.classList.contains('hidden') ? '▼' : '▲';
     }
 
     function selectDozvonReason(reason) {
       selectedCallStatus = reason;
-      document.getElementById('dozvonSelectedLabel').innerText = `Дозвон: ${reason}`;
-      document.getElementById('recallContainer').classList.add('hidden');
+      const label = document.getElementById('dozvonSelectedLabel');
+      if(label) label.innerText = `Дозвон: ${reason}`;
+      document.getElementById('recallContainer')?.classList.add('hidden');
 
       document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('ring-2', 'ring-offset-1', 'ring-[#e20613]'));
-      document.getElementById('btnStatusDozvon').classList.add('ring-2', 'ring-offset-1', 'ring-[#e20613]');
+      document.getElementById('btnStatusDozvon')?.classList.add('ring-2', 'ring-offset-1', 'ring-[#e20613]');
 
       document.querySelectorAll('.dozvon-reason-btn').forEach(rb => {
         rb.classList.replace('bg-emerald-600', 'bg-white');
@@ -995,11 +1163,17 @@
 
     function selectMainStatus(status) {
       selectedCallStatus = status;
-      document.getElementById('dozvonSubMenu').classList.add('hidden');
-      document.getElementById('dozvonArrow').innerText = '▼';
-      document.getElementById('dozvonSelectedLabel').innerText = 'Дозвон';
+      document.getElementById('dozvonSubMenu')?.classList.add('hidden');
+      
+      const arrow = document.getElementById('dozvonArrow');
+      if(arrow) arrow.innerText = '▼';
 
-      document.getElementById('recallContainer').classList.toggle('hidden', status !== 'Перезвонить');
+      const label = document.getElementById('dozvonSelectedLabel');
+      if(label) label.innerText = 'Дозвон';
+
+      const recallContainer = document.getElementById('recallContainer');
+      if(recallContainer) recallContainer.classList.toggle('hidden', status !== 'Перезвонить');
+
       document.querySelectorAll('.status-btn').forEach(b => b.classList.remove('ring-2', 'ring-offset-1', 'ring-[#e20613]'));
 
       let targetId = status === 'Перезвонить' ? 'btnStatusRecall' : (status === 'Недозвон' ? 'btnStatusNoAnswer' : (status === 'Автоответчик' ? 'btnStatusAnsweringMachine' : 'btnStatusBlacklist'));
@@ -1012,8 +1186,11 @@
         return;
       }
 
-      const comment = document.getElementById('callComment').value.trim();
-      const datetime = document.getElementById('recallDatetime').value;
+      const commentEl = document.getElementById('callComment');
+      const comment = commentEl ? commentEl.value.trim() : '';
+
+      const datetimeEl = document.getElementById('recallDatetime');
+      const datetime = datetimeEl ? datetimeEl.value : '';
       
       if (selectedCallStatus === 'Перезвонить' && !datetime) {
         showToast('Укажите дату и время перезвона!', 'error');
@@ -1032,8 +1209,8 @@
       };
 
       showToast('Результат сохранён!', 'success');
-      document.getElementById('callComment').value = '';
-      document.getElementById('recallDatetime').value = '';
+      if(commentEl) commentEl.value = '';
+      if(datetimeEl) datetimeEl.value = '';
       currentContact = null;
 
       getOrFetchNextContact();
@@ -1043,128 +1220,11 @@
       });
     }
 
-    function openTariffsModal() {
-      document.getElementById('tariffsModal').classList.remove('hidden');
-      const currentCity = currentContact ? normalizeContact(currentContact).city : '';
-      document.getElementById('tariffSearchInput').value = currentCity;
-      
-      apiRequest('getTariffs', { city: currentCity }).then(res => {
-        if (res && res.success && res.tariffs) {
-          cachedTariffs = res.tariffs;
-          filterTariffs();
-        }
-      });
-    }
-
-    function closeTariffsModal() { document.getElementById('tariffsModal').classList.add('hidden'); }
-
-    function filterTariffs() {
-      const query = document.getElementById('tariffSearchInput').value.toLowerCase().trim();
-      const container = document.getElementById('tariffsListContainer');
-      container.innerHTML = '';
-
-      let filtered = cachedTariffs;
-      if (query) {
-        filtered = cachedTariffs.filter(t => 
-          (t.cities || '').toLowerCase().includes(query) || 
-          (t.name || '').toLowerCase().includes(query)
-        );
-      }
-
-      if (filtered.length === 0) {
-        container.innerHTML = '<div class="text-center py-6 text-xs text-gray-400">Тарифы для этого города не найдены</div>';
-        return;
-      }
-
-      filtered.forEach(t => {
-        const card = document.createElement('div');
-        card.className = 'p-3.5 bg-gray-50 rounded-2xl border border-gray-200 space-y-1.5';
-        card.innerHTML = `
-          <div class="flex justify-between items-start">
-            <div>
-              <div class="font-black text-gray-800 text-sm leading-tight">${t.name}</div>
-              <div class="text-[11px] text-gray-400 font-medium mt-0.5">📍 Города: ${t.cities} • ⏱️ ${t.period || 'Ежемесячно'}</div>
-            </div>
-            <div class="text-sm font-black text-[#e20613] bg-red-50 px-2.5 py-1 rounded-full border border-red-100">${t.price} ₽</div>
-          </div>
-          ${t.desc ? `<div class="text-xs text-gray-600 font-medium">${t.desc}</div>` : ''}
-          ${t.cond ? `<div class="text-[11px] text-gray-500 bg-white p-2.5 rounded-xl border border-gray-100 leading-snug">📌 ${t.cond}</div>` : ''}
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    async function openIncomeModal() { 
-      document.getElementById('incomeModal').classList.remove('hidden'); 
-      await fetchMonthlyIncome(); 
-    }
-
-    function closeIncomeModal() { document.getElementById('incomeModal').classList.add('hidden'); }
-
-    async function fetchMonthlyIncome() {
-      if (!currentUser) return;
-      const select = document.getElementById('incomeMonthSelect');
-      const monthStr = select ? select.value : '';
-      const notice = document.getElementById('rateProgressNotice');
-      if (notice) notice.innerHTML = 'Загрузка данных...';
-
-      const res = await apiRequest('getUserMonthlyIncome', {
-        agentName: currentUser.fullName || currentUser.login,
-        yearMonth: monthStr,
-        activeShiftMinutes: currentShift ? Math.floor((Date.now() - currentShift.startTime) / 60000) : 0
-      });
-
-      if (res && res.success) {
-        const totalMin = res.totalMinutes || 0;
-        const hrs = parseFloat(res.totalHours || (totalMin / 60).toFixed(1));
-        const currentRate = res.rate || 100;
-
-        document.getElementById('calculatedIncomeDisplay').innerText = `${res.income || 0} ₽`;
-        document.getElementById('totalHoursMonthDisplay').innerText = `Отработано: ${Math.floor(totalMin / 60)} ч. ${totalMin % 60} мин.`;
-        document.getElementById('currentRateBadge').innerText = `Ставка: ${currentRate} ₽/ч`;
-
-        document.getElementById('rateStep1').className = currentRate === 100 ? 'font-black text-[#e20613]' : '';
-        document.getElementById('rateStep2').className = currentRate === 120 ? 'font-black text-[#e20613]' : '';
-        document.getElementById('rateStep3').className = currentRate === 150 ? 'font-black text-[#e20613]' : '';
-
-        if (notice) {
-          if (hrs < 80) {
-            const hoursLeft = (80 - hrs).toFixed(1);
-            notice.innerHTML = `💡 Отработайте ещё <strong>${hoursLeft} ч.</strong> для перехода на ставку <strong>120 ₽/час</strong>!`;
-          } else if (hrs < 90) {
-            const hoursLeft = (90 - hrs).toFixed(1);
-            notice.innerHTML = `🔥 Отличный результат! Ещё <strong>${hoursLeft} ч.</strong> до максимальной ставки <strong>150 ₽/час</strong>!`;
-          } else {
-            notice.innerHTML = `🎉 У вас максимальная ставка <strong>150 ₽/час</strong>!`;
-          }
-        }
-      }
-    }
-
-    function openStatsModal() {
-      document.getElementById('statsCallsCount').innerText = currentShift?.callsCount || 0;
-      let callsPerHour = 0;
-      if (currentShift && currentShift.startTime) {
-        const elapsedMins = (Date.now() - currentShift.startTime) / 60000;
-        if (elapsedMins > 0) callsPerHour = ((currentShift.callsCount || 0) / (elapsedMins / 60)).toFixed(1);
-      }
-      document.getElementById('statsCallsPerHour').innerText = callsPerHour;
-      document.getElementById('statsModal').classList.remove('hidden');
-    }
-
-    function closeStatsModal() { document.getElementById('statsModal').classList.add('hidden'); }
-    function openFaqModal() { document.getElementById('faqModal').classList.remove('hidden'); }
-    function closeFaqModal() { document.getElementById('faqModal').classList.add('hidden'); }
-    function openServerModal() { document.getElementById('serverUrlInput').value = getServerUrl(); document.getElementById('serverModal').classList.remove('hidden'); }
-    function closeServerModal() { document.getElementById('serverModal').classList.add('hidden'); }
-
     function saveServerUrl() {
-      const val = document.getElementById('serverUrlInput').value.trim();
+      const input = document.getElementById('serverUrlInput');
+      const val = input ? input.value.trim() : '';
       if (val) { safeSet('ttk_server_url', val); showToast('URL Сервера сохранен!', 'success'); closeServerModal(); }
     }
-
-    function openAdminModal() { updateAdminSheetUI(); document.getElementById('adminModal').classList.remove('hidden'); switchAdminTab('sheets'); }
-    function closeAdminModal() { document.getElementById('adminModal').classList.add('hidden'); }
 
     function switchAdminTab(tab) {
       ['Sheets', 'Users', 'Stats'].forEach(t => {
@@ -1202,10 +1262,10 @@
               <div class="text-[10px] text-gray-400 font-mono">@${u.login} • ${u.role}</div>
             </div>
             <div class="flex items-center space-x-1">
-              <button onclick="changeUserRole('${u.login}', '${u.role === 'Админ' ? 'Агент' : 'Админ'}')" class="px-2.5 py-1 bg-white hover:bg-gray-100 border border-gray-300 rounded-lg text-[10px] font-bold text-gray-700">
+              <button type="button" onclick="changeUserRole('${u.login}', '${u.role === 'Админ' ? 'Агент' : 'Админ'}')" class="px-2.5 py-1 bg-white hover:bg-gray-100 border border-gray-300 rounded-lg text-[10px] font-bold text-gray-700">
                 ${u.role === 'Админ' ? '⬇️ В Агенты' : '👑 В Админы'}
               </button>
-              <button onclick="fireUser('${u.login}')" class="px-2.5 py-1 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg text-[10px] font-bold text-red-600">
+              <button type="button" onclick="fireUser('${u.login}')" class="px-2.5 py-1 bg-red-50 hover:bg-red-100 border border-red-200 rounded-lg text-[10px] font-bold text-red-600">
                 🚫 Уволить
               </button>
             </div>
